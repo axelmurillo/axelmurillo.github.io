@@ -1,0 +1,25 @@
+# Domain-root rules. HTML stays crawlable so search engines can read noindex.
+# These preferences are voluntary, not authentication or access control.
+User-agent: *
+Disallow: /feltworld-play/*.png
+Disallow: /feltworld-play/*.jpg
+Disallow: /feltworld-play/*.jpeg
+Disallow: /feltworld-play/*.webp
+Disallow: /feltworld-play/*.avif
+Disallow: /feltworld-play/*.gif
+Disallow: /feltworld-play/*.svg
+Disallow: /feltworld-play/*.ico
+
+# Opt out of known AI search, training, and retrieval agents.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+Disallow: /feltworld-play
