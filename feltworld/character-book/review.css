@@ -99,3 +99,8 @@ body.dialog-open { overflow: hidden; }
 #lumi-sheet img {display:block;width:100%;height:auto;margin:12px 0}
 #lumi-sheet a {color:inherit}
 @media(max-width:600px){.single-character .image-button img {height:52vh}.single-character .angle-button img{height:140px}}
+
+[hidden] {display:none !important}
+.appearances {margin-top:16px}
+.dressed-character .image-button img {height:min(70vh,740px)}
+@media(max-width:600px){.dressed-character .image-button img {height:auto;aspect-ratio:1}}
