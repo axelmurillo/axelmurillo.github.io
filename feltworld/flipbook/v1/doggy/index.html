@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex,nofollow,noimageindex,nosnippet">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#17191c">
-<meta name="author" content="Laurence Whitcombe">
+<meta name="author" content="Arthur Whitcombe">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <title>A World of Felt — Vol. I: Doggy!</title>
 <style>
@@ -16,8 +16,8 @@
 .book.cover-mode{background:transparent;box-shadow:none;width:min(100%,calc((100svh - 150px)*.75));aspect-ratio:3/4}
 .book.cover-mode .crease{display:none}
 .book.cover-mode .spread{overflow:visible;transform-origin:center}
-.cover{position:relative;width:100%;height:100%;margin:auto;box-shadow:0 0 0 1px #ffffff16,0 12px 28px #0006,0 28px 52px -18px #000a;border-radius:2px;overflow:hidden;background:#17191c}
-.cover img{width:100%;height:100%;object-fit:cover}
+.cover{position:relative;width:100%;height:100%;margin:auto;overflow:visible;background:transparent;box-shadow:none}
+.cover img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 2px #0005) drop-shadow(0 14px 18px #0008)}
 .cover:after{content:none}
 .cover.front:before{content:"";position:absolute;inset:0 auto 0 0;width:3%;background:linear-gradient(90deg,#0004,#fff2,transparent);z-index:2}
 .cover.back:before{content:"";position:absolute;inset:0 0 0 auto;width:3%;background:linear-gradient(270deg,#0004,#fff2,transparent);z-index:2}
@@ -43,10 +43,11 @@
 #text-settings{border-radius:5px;width:auto;height:36px;padding:0 12px;font-size:13px}
 dialog{background:#24272c;color:#dedbd3;border:1px solid #ffffff26;border-radius:8px;width:min(92vw,440px);padding:22px;box-shadow:0 16px 60px #0008}
 dialog::backdrop{background:#0008}dialog h2{margin:0 0 16px;font-size:18px;font-weight:500}dialog label{display:grid;gap:6px;font-size:13px;margin:14px 0}dialog textarea,dialog select{width:100%;font:14px/1.5 system-ui;color:#eee;background:#17191c;border:1px solid #ffffff26;border-radius:4px;padding:9px}dialog textarea{height:150px;resize:vertical}dialog button{border-radius:4px;width:auto;height:36px;font-size:14px;padding:0 15px}dialog p{font-size:12px;color:#bbb}
+.cover.front:before,.cover.back:before{content:none}
 </style>
 <link rel="canonical" href="https://axelmurillo.github.io/feltworld/flipbook/v1/doggy/">
 <meta property="og:title" content="A World of Felt · Vol. I: Doggy!">
-<meta property="og:description" content="A little dog, a snowy adventure, and the warmth of finding home. An illustrated story by Laurence Whitcombe.">
+<meta property="og:description" content="A little dog, a snowy adventure, and the warmth of finding home. An illustrated story by Arthur Whitcombe.">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://axelmurillo.github.io/feltworld/flipbook/v1/doggy/">
 <meta property="og:site_name" content="feltWorld">
@@ -59,7 +60,7 @@ dialog::backdrop{background:#0008}dialog h2{margin:0 0 16px;font-size:18px;font-
 <meta property="og:image:alt" content="Lumi, Kitty, Doggy, Nomie and Jack safe and happy together in their cosy felt home.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="A World of Felt · Vol. I: Doggy!">
-<meta name="twitter:description" content="A little dog, a snowy adventure, and the warmth of finding home. An illustrated story by Laurence Whitcombe.">
+<meta name="twitter:description" content="A little dog, a snowy adventure, and the warmth of finding home. An illustrated story by Arthur Whitcombe.">
 <meta name="twitter:image" content="https://axelmurillo.github.io/feltworld/flipbook/v1/doggy/masters/02-manor-interior-master.png?v=share-1">
 <meta name="twitter:image:alt" content="Lumi, Kitty, Doggy, Nomie and Jack safe and happy together in their cosy felt home.">
 </head>
@@ -78,9 +79,9 @@ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 let index=0,turn=null,pointer=null,animating=false;
 const revision='20261002-mansion-home-fresh-v1';
 const isCover=i=>scenes[i][0].startsWith('cover-');
-const coverPath=i=>'covers/'+(i===0?'front-cover-v1.png':'back-cover-v1.png')+'?v=laurence-whitcombe-20261003';
+const coverPath=i=>'covers/'+(i===0?'front-cover-v1.png':'back-cover-v1.png')+'?v=arthur-weathered-20261003';
 const path=(i,side)=>`${scenes[i][0]}-part-${side==='left'?1:2}-${side}.png?v=${revision}`;
-const img=(i,side)=>{const e=new Image();e.src=isCover(i)?coverPath(i):path(i,side);e.alt=isCover(i)?(i===0?'A World of Felt. Vol. I: Doggy! By Laurence Whitcombe.':'Copyright Laurence Whitcombe, 2026.'):`${scenes[i][1]}, ${side} page`;e.draggable=false;return e};
+const img=(i,side)=>{const e=new Image();e.src=isCover(i)?coverPath(i):path(i,side);e.alt=isCover(i)?(i===0?'A World of Felt. Vol. I: Doggy! By Arthur Whitcombe.':'Copyright Arthur Whitcombe, 2026.'):`${scenes[i][1]}, ${side} page`;e.draggable=false;return e};
 const storageKey='felt-story-tape-draft-v2';
 let draftEdits={};
 try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))draftEdits=saved;}catch{}
