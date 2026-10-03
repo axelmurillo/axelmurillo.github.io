@@ -22,22 +22,33 @@ const zoomButton = byId('zoom-button');
 let currentIndex = 0;
 let enlarged = false;
 
-const imageRevision = '20261002-detail-v4';
-const imageURL = view => `images/${view.id}.png?v=${imageRevision}`;
-const imageAlt = view => `Lumi, Kitty, Doggy, Nomie and Jack together, viewed ${view.description}, in their current default outfits.`;
+const isLumi = new URLSearchParams(location.search).get('character') === 'lumi';
+const imageRevision = isLumi ? '20261004-lumi-v22' : '20261002-detail-v4';
+const characterName = isLumi ? 'Lumi' : 'all five characters';
+const imageSize = isLumi ? [362, 543] : [1536, 1024];
+for (const link of document.querySelectorAll('[data-character]')) {
+  if (link.dataset.character === (isLumi ? 'lumi' : 'all')) link.setAttribute('aria-current', 'page');
+  else link.removeAttribute('aria-current');
+}
+document.body.classList.toggle('single-character', isLumi);
+byId('character-caption').textContent = isLumi ? 'Lumi · Plain blue · No clothing or accessories' : 'Kitty, Lumi, Doggy, Nomie and Jack';
+byId('lumi-sheet').hidden = !isLumi;
+for (const img of [mainImage, dialogImage]) { img.width = imageSize[0]; img.height = imageSize[1]; }
+const imageURL = view => `images/${isLumi ? "lumi-plain-v22/" : ""}${view.id}.png?v=${imageRevision}`;
+const imageAlt = view => isLumi ? `Plain blue Lumi, viewed ${view.description}, without clothing or accessories.` : `Lumi, Kitty, Doggy, Nomie and Jack together, viewed ${view.description}, in their current default outfits.`;
 
 for (const [index, view] of views.entries()) {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'angle-button';
   button.dataset.index = String(index);
-  button.setAttribute('aria-label', `Show ${view.label.toLowerCase()} view of all five characters`);
+  button.setAttribute('aria-label', `Show ${view.label.toLowerCase()} view of ${characterName}`);
   button.setAttribute('aria-pressed', 'false');
   const thumbnail = document.createElement('img');
   thumbnail.src = imageURL(view);
   thumbnail.alt = '';
-  thumbnail.width = 1536;
-  thumbnail.height = 1024;
+  thumbnail.width = imageSize[0];
+  thumbnail.height = imageSize[1];
   thumbnail.loading = 'lazy';
   thumbnail.decoding = 'async';
   const label = document.createElement('span');
@@ -64,10 +75,10 @@ function showView(index, updateHash = true) {
   byId('view-count').textContent = `${currentIndex + 1} / ${views.length}`;
   byId('view-count').setAttribute('aria-label', `Image ${currentIndex + 1} of ${views.length}`);
   byId('dialog-title').textContent = view.label;
-  byId('enlarge-button').setAttribute('aria-label', `Enlarge ${view.label.toLowerCase()} view of all five characters`);
+  byId('enlarge-button').setAttribute('aria-label', `Enlarge ${view.label.toLowerCase()} view of ${characterName}`);
   byId('original-link').href = src;
   byId('download-link').href = src;
-  byId('download-link').download = `${view.id}.png`;
+  byId('download-link').download = `${isLumi ? "lumi-plain-" : ""}${view.id}.png`;
   byId('image-status').textContent = '';
   mainImage.alt = alt;
   mainImage.src = src;
@@ -77,7 +88,7 @@ function showView(index, updateHash = true) {
   for (const button of angleButtons.children) {
     button.setAttribute('aria-pressed', String(Number(button.dataset.index) === currentIndex));
   }
-  document.title = `${view.label} · Character review`;
+  document.title = `${isLumi ? "Lumi · " : ""}${view.label} · Character book`;
   setZoom(false);
   if (updateHash && location.hash !== `#${view.id}`) {
     history.replaceState(null, '', `#${view.id}`);
