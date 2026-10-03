@@ -300,6 +300,7 @@ function loadEditor(){
 }
 document.querySelector('#text-settings').onclick=()=>{if(isCover(index)||turn||animating)return;editingSide=copyFor(index,'right').text.trim()?'right':'left';loadEditor();editor.showModal();};
 document.querySelector('#close-editor').onclick=()=>editor.close();
+editor.addEventListener('close',()=>{const trigger=document.querySelector('#text-settings');try{trigger.focus({preventScroll:true});}catch(_){trigger.focus();}});
 document.querySelector('#copy-page').onchange=e=>{editingSide=e.target.value;loadEditor();};
 function saveEdits(){try{localStorage.setItem(storageKey,JSON.stringify(draftEdits));document.querySelector('#save-note').textContent='Saved privately in this browser.';}catch{document.querySelector('#save-note').textContent='Changes work for this visit; browser storage is unavailable.';}}
 function updateCopy(){
