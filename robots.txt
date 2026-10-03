@@ -2,13 +2,21 @@
 # These preferences are voluntary, not authentication or access control.
 User-agent: *
 Disallow: /feltworld-play/*.png
+Disallow: /feltworld/*.png
 Disallow: /feltworld-play/*.jpg
+Disallow: /feltworld/*.jpg
 Disallow: /feltworld-play/*.jpeg
+Disallow: /feltworld/*.jpeg
 Disallow: /feltworld-play/*.webp
+Disallow: /feltworld/*.webp
 Disallow: /feltworld-play/*.avif
+Disallow: /feltworld/*.avif
 Disallow: /feltworld-play/*.gif
+Disallow: /feltworld/*.gif
 Disallow: /feltworld-play/*.svg
+Disallow: /feltworld/*.svg
 Disallow: /feltworld-play/*.ico
+Disallow: /feltworld/*.ico
 
 # Opt out of known AI search, training, and retrieval agents.
 User-agent: GPTBot
@@ -23,3 +31,4 @@ User-agent: Google-Extended
 User-agent: Applebot-Extended
 User-agent: CCBot
 Disallow: /feltworld-play
+Disallow: /feltworld/

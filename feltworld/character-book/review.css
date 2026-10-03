@@ -1,0 +1,89 @@
+:root {
+  color-scheme: dark;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #ececec;
+  background: #202020;
+  font-synthesis: none;
+  --panel: #2b2b2b;
+  --line: #626262;
+  --muted: #bdbdbd;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, select, a { -webkit-tap-highlight-color: transparent; }
+button, select { font: inherit; }
+button, select, .actions a {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  color: inherit;
+  background: var(--panel);
+}
+button, select { cursor: pointer; }
+button:hover, .actions a:hover { background: #3c3c3c; }
+button:focus-visible, select:focus-visible, a:focus-visible, .zoom-area:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+.review { width: min(100% - 32px, 1200px); margin: 24px auto; }
+.toolbar, .heading, .actions, .dialog-toolbar, .dialog-actions { display: flex; align-items: center; }
+.toolbar { gap: 12px; justify-content: space-between; flex-wrap: wrap; margin-bottom: 14px; }
+.heading { gap: 14px; min-width: 0; }
+h1, h2 { margin: 0; font-size: 1.15rem; font-weight: 600; line-height: 1.35; }
+.count { flex-shrink: 0; color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums; }
+.actions { gap: 8px; flex-wrap: wrap; }
+.actions a { display: inline-flex; align-items: center; padding: 9px 13px; font-size: .9rem; text-decoration: none; }
+.image-button { display: block; position: relative; width: 100%; padding: 0; overflow: hidden; border-color: var(--line); background: #777; }
+.image-button:hover { background: #777; }
+.image-button img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: contain; }
+.image-hint { position: absolute; right: 10px; bottom: 10px; padding: 6px 10px; border-radius: 4px; background: #202020e8; font-size: .8rem; }
+.status { min-height: 1.35em; margin: 6px 0; color: var(--muted); font-size: .85rem; }
+.navigation { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+.navigation button { padding: 8px 14px; white-space: nowrap; }
+.angle-picker { min-width: 0; }
+.angle-picker select { width: 100%; padding: 8px 32px 8px 12px; }
+.angles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
+.angle-button { min-width: 0; padding: 0; overflow: hidden; text-align: left; }
+.angle-button img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: contain; background: #777; }
+.angle-button span { display: block; padding: 8px; font-size: .8rem; line-height: 1.35; overflow-wrap: anywhere; }
+.angle-button[aria-pressed="true"] { border-color: #fff; outline: 2px solid #fff; outline-offset: 1px; }
+.help { margin: 16px 0 0; font-size: .8rem; line-height: 1.5; color: var(--muted); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+dialog { width: calc(100% - 24px); max-width: 1600px; max-height: calc(100dvh - 24px); padding: 0; border: 1px solid var(--line); border-radius: 6px; color: inherit; background: #202020; }
+dialog::backdrop { background: #000b; }
+.dialog-content { display: flex; flex-direction: column; max-height: calc(100dvh - 26px); }
+.dialog-toolbar { flex-shrink: 0; justify-content: space-between; gap: 12px; padding: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--line); }
+.dialog-toolbar h2 { font-size: 1rem; }
+.dialog-actions { gap: 8px; }
+.dialog-actions button { padding: 8px 12px; }
+.zoom-area { min-height: 0; overflow: auto; overscroll-behavior: contain; background: #777; }
+.zoom-area img { display: block; width: 100%; height: auto; max-height: calc(100dvh - 110px); object-fit: contain; }
+.zoom-area.is-zoomed img { width: 200%; max-width: none; max-height: none; }
+body.dialog-open { overflow: hidden; }
+
+@media (max-width: 600px) {
+  .review { width: calc(100% - 20px); margin: 14px auto; }
+  .toolbar { gap: 10px; }
+  .heading { flex: 1 0 100%; justify-content: space-between; }
+  h1 { font-size: 1.05rem; }
+  .actions { width: 100%; }
+  .actions a { flex: 1; justify-content: center; }
+  .navigation { gap: 6px; }
+  .navigation button { padding: 8px 10px; }
+  .navigation button span { display: none; }
+  .angles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .angle-button span { min-height: 38px; display: flex; align-items: center; }
+  dialog { width: calc(100% - 12px); max-height: calc(100dvh - 12px); }
+  .dialog-content { max-height: calc(100dvh - 14px); }
+  .dialog-toolbar { padding: 8px; gap: 8px; }
+  .dialog-toolbar h2 { flex: 1 0 100%; }
+  .dialog-actions { width: 100%; }
+  .dialog-actions button { flex: 1; }
+  .zoom-area img { max-height: calc(100dvh - 130px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,111 @@
+{
+  "version": 8,
+  "title": "Feltworld creature catalogue",
+  "created": "2026-10-01",
+  "generator": "built-in image_gen",
+  "original_scene": "source-scene.png",
+  "reference_sheet_maximum_edge_px": 2048,
+  "reference_sheet_native_size_px": "See individual PNG headers and prompt records",
+  "usage": "Current cast: v7 Lumi, Doggy and Nomie; approved v8 Kitty portrait, full-body and transparent cut-out override his earlier sheets and atlas cell. Matte loose wool, fuzzy edges and handmade irregularity apply to all four. Kitty’s natural-fur v7 study is historical and awaits a matching update. Originals guide relative scene scale. Maximum 2048 pixels per edge.",
+  "prompt_template": "Use catalogue character [CR-001 / CR-002 / CR-003 / CR-004] and the attached matching reference sheet. Preserve the character's exact facial design, proportions, colours and tactile handcrafted material style. Wardrobe: [original outfit / natural fur for a creature / specified new outfit]. Scene: [describe scene]. Pose and expression: [describe]. Maximum 2K resolution.",
+  "characters": [
+    {
+      "id": "CR-001",
+      "name": "Lumi",
+      "slug": "blue-creature",
+      "identity": "Soft cloudlike brushed blue fluff, oversized round head, huge glossy multicoloured starry irises, rosy cheeks, tiny dark nose, stubby pink-padded feet. No tight curls, ringlets, loops, horns, antennae or tail.",
+      "outfit": "Multicoloured floppy crochet hat with gold star and pompom; braided scarf with gold stars; crystal-topped microphone.",
+      "without": true,
+      "references": {
+        "with_clothes": "lumi-clothed-v7.png",
+        "without_clothes": "lumi-natural-v7.png"
+      },
+      "name_confirmed_by_user": false,
+      "material": "Matte needle-felted wool, loose fine fibres, fuzzy edges, slightly uneven stitching and subtle handmade irregularity."
+    },
+    {
+      "id": "CR-002",
+      "name": "Kitty",
+      "slug": "cat",
+      "identity": "Male near-black felt cat with subtle salt-and-pepper fibres, soft dusty-rose cheeks, pink ears and tongue, rounded paws and curled tail. His anatomical right iris gradually fades from yellow nearest his ear to emerald nearest his nose; uniformly dark pupil, no hard dividing seam. Other iris emerald with holographic glints. Black non-felt nose with fine sanded texture and tiny glittering highlights.",
+      "outfit": "Soft worn hand-me-down knitted brick-red/navy/off-white scarf, colours echoing the Union Jack without a flag pattern. No star, pendant or hat.",
+      "without": true,
+      "references": {
+        "with_clothes": "kitty-full-body-v8.png",
+        "portrait": "kitty-portrait-v8.png",
+        "transparent_cutout": "../assets/kitty-cutout-v8.png",
+        "historical_without_clothes": "kitty-natural-v7.png"
+      },
+      "name_confirmed_by_user": true,
+      "material": "Matte needle-felted wool, loose fine fibres, fuzzy edges, slightly uneven stitching and subtle handmade irregularity.",
+      "pronouns": "he/him",
+      "natural_fur_reference_status": "Earlier design; current nose and iris treatment not yet applied."
+    },
+    {
+      "id": "CR-003",
+      "name": "Doggy",
+      "slug": "puppy",
+      "identity": "Tiny ivory/cream puppy with soft fluffy fur, soft floppy wool ears, unmistakably BLUE irises, black button nose, short muzzle, rosy cheeks, rounded paws and small fluffy tail.",
+      "outfit": "Multicoloured braided scarf with prominent gold star. No hat.",
+      "without": true,
+      "references": {
+        "with_clothes": "doggy-clothed-v7.png",
+        "without_clothes": "doggy-natural-v7.png"
+      },
+      "name_confirmed_by_user": true,
+      "material": "Matte needle-felted wool, loose fine fibres, fuzzy edges, slightly uneven stitching and subtle handmade irregularity.",
+      "pronouns": "she/her"
+    },
+    {
+      "id": "CR-004",
+      "name": "Nomie",
+      "slug": "gnome-girl",
+      "identity": "Petite fantasy gnome girl, warm honey-beige skin slightly deeper than the original, subtly mixed facial features, rosy cheeks, crystal-faceted GREY irises with restrained silver/white iridescence; never purple. Cool mushroom/ash-brown hair balayaged to platinum/silver in two braids. Only her front fringe magically changes silver, lavender, rose or aqua.",
+      "outfit": "Comically colossal, tall upward-pointed red wool gnome hat with floral appliqués and snowflakes, much bigger than her body; face prominent and unobscured. Floral sage-grey dress/coat, braided scarf, brown satchel and boots; star-window lantern.",
+      "without": false,
+      "references": {
+        "with_clothes": "nomie-sheet-v7.png"
+      },
+      "name_confirmed_by_user": true,
+      "material": "Matte needle-felted wool, loose fine fibres, fuzzy edges, slightly uneven stitching and subtle handmade irregularity."
+    }
+  ],
+  "original_composites": [
+    "../assets/references/original-trio.png",
+    "../assets/references/original-four.png",
+    "../assets/references/original-pottery-scale.png"
+  ],
+  "source_priority": "Latest approved Kitty v8 references take priority over his older v7 sheets and atlas cell. Other friends retain approved v7 references. Original concepts remain historical references for spirit and relative world scale.",
+  "corrected_character_atlas": "../assets/characters-v7.png",
+  "world_characters": [
+    {
+      "id": "WR-001",
+      "name": "Teacup Cottage",
+      "material": "Real glazed porcelain cup and saucer",
+      "reference": "../assets/scenes-v3/village-lit.png"
+    },
+    {
+      "id": "WR-002",
+      "name": "Teapot Manor",
+      "material": "Real glazed porcelain teapot mansion",
+      "reference": "../assets/scenes-v3/village-lit.png"
+    },
+    {
+      "id": "WR-003",
+      "name": "The Felt World",
+      "material": "Needle-felted wool, stitches and rounded flowers",
+      "reference": "../assets/felt-world.png"
+    }
+  ],
+  "world_scene_catalogue": "../assets/scenes-v3/index.html",
+  "world_scene_prompts": "../assets/scene-prompts-v3.json",
+  "updated": "2026-10-02",
+  "nomie_fringe_atlas": "../assets/nomie-fringes-v7.png",
+  "current_prompts": "../assets/revision-prompts-v7.json",
+  "approved_design_history": "../comparisons/handmade-review-v1/index.html",
+  "natural_character_atlas": "../assets/characters-natural-v7.png",
+  "character_sprite_overrides": {
+    "cat": "../assets/kitty-cutout-v8.png"
+  },
+  "atlas_note": "The v7 clothed atlas and natural-fur atlas are preserved. Render Kitty using the standalone override; his natural-fur v7 appearance is historical."
+}

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head><meta name="author" content="Laurence Whitcombe">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noimageindex,nosnippet">
+  <meta name="googlebot" content="noindex,nofollow,noimageindex,nosnippet">
+  <meta name="color-scheme" content="dark light">
+  <title>Character review</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="review.css">
+  <script src="review.js?v=20261002-detail-v4" defer></script>
+</head>
+<body>
+  <main class="review">
+    <header class="toolbar">
+      <div class="heading">
+        <h1 id="view-title">Front</h1>
+        <span class="count" id="view-count" aria-label="Image 1 of 8" aria-live="polite" aria-atomic="true">1 / 8</span>
+      </div>
+      <div class="actions">
+        <a href="../">feltWorld</a><a href="../flipbook/v1/doggy/">Flipbook</a>
+        <a id="original-link" href="images/front.png?v=20261002-detail-v4" target="_blank" rel="noopener">Original image</a>
+        <a id="download-link" href="images/front.png?v=20261002-detail-v4" download="front.png">Download</a>
+      </div>
+    </header>
+
+    <button class="image-button" id="enlarge-button" type="button" aria-label="Enlarge front view of all five characters" aria-haspopup="dialog">
+      <img id="main-image" src="images/front.png?v=20261002-detail-v4" width="1536" height="1024" alt="Lumi, Kitty, Doggy, Nomie and Jack together, viewed from the front, in their current default outfits." fetchpriority="high">
+      <span class="image-hint">Enlarge</span>
+    </button>
+    <p id="image-status" class="status" role="status" aria-live="polite"></p>
+
+    <div class="navigation">
+      <button id="previous-button" type="button" aria-label="Previous angle">← <span>Previous</span></button>
+      <label class="angle-picker" for="angle-select">
+        <span class="sr-only">Choose a viewing angle</span>
+        <select id="angle-select">
+          <option value="front">Front</option>
+          <option value="front-left">Left three-quarter</option>
+          <option value="left">Left side</option>
+          <option value="back-left">Left rear three-quarter</option>
+          <option value="back">Back</option>
+          <option value="back-right">Right rear three-quarter</option>
+          <option value="right">Right side</option>
+          <option value="front-right">Right three-quarter</option>
+        </select>
+      </label>
+      <button id="next-button" type="button" aria-label="Next angle"><span>Next</span> →</button>
+    </div>
+
+    <nav class="angles" id="angle-buttons" aria-label="All viewing angles"></nav>
+    <p class="help">Use the arrows or choose an angle. Tap the image to enlarge.</p>
+
+    <noscript><p class="help">Enable JavaScript to switch between the eight angles. You can still open or download the front view above.</p></noscript>
+  </main>
+
+  <dialog id="image-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-content">
+      <header class="dialog-toolbar">
+        <h2 id="dialog-title">Front</h2>
+        <div class="dialog-actions">
+          <button id="zoom-button" type="button" aria-pressed="false">Zoom in</button>
+          <button id="close-button" type="button" autofocus>Close</button>
+        </div>
+      </header>
+      <div class="zoom-area" id="zoom-area" tabindex="0" aria-label="Enlarged image. When zoomed, scroll to inspect it.">
+        <img id="dialog-image" src="images/front.png?v=20261002-detail-v4" width="1536" height="1024" alt="Lumi, Kitty, Doggy, Nomie and Jack together, viewed from the front, in their current default outfits.">
+      </div>
+    </div>
+  </dialog>
+</body>
+</html>

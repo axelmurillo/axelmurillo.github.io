@@ -1,0 +1,6 @@
+/* Scene variations and a small atlas gutter keep the cast inside their slots. */
+.sprite.cat{clip-path:inset(0 0 2.5% 0)}
+.art.forest .landscape{background-position:4% center}
+.art.garden .landscape{background-position:68% 78%}
+.art.village .landscape{background-position:88% center}
+.art.storm .landscape{background-position:14% center}

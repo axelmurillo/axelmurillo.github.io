@@ -1,0 +1,17 @@
+{
+  "brand": "feltWorld",
+  "reader_version": "v1",
+  "book": "doggy",
+  "routes": [
+    "flipbook/v1/doggy/",
+    "game-2d/",
+    "character-book/"
+  ],
+  "legacy_redirects": {
+    "index.html": "game-2d/",
+    "flipbook/index.html": "flipbook/v1/doggy/",
+    "character-review/index.html": "character-book/",
+    "picture-book.html": "game-2d/picture-book.html",
+    "catalogue/catalogue.html": "game-2d/catalogue/catalogue.html"
+  }
+}
