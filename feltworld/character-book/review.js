@@ -24,7 +24,7 @@ let enlarged = false;
 
 const query = new URLSearchParams(location.search);
 const isNomie = ['nomie', 'nami'].includes(query.get('character'));
-// Jack's usual views preserve the approved Group artwork at native scale.
+// Jack's approved bagless views retain their native image dimensions.
 const isJack = query.get('character') === 'jack';
 const isLumi = query.get('character') === 'lumi';
 const nomieAppearance = isNomie && ['hat', 'magic-hat', 'magic'].includes(query.get('appearance')) ? query.get('appearance') : 'natural';
@@ -38,9 +38,9 @@ for (const option of [...angleSelect.options]) { if (!views.some(view => view.id
 const isDressed = isLumi && appearance === 'hat-scarf';
 const isOriginal = isLumi && appearance === 'original';
 const viewCount = views.length;
-const imageRevision = isJack ? '20261004-jack-usual-v1' : nomieCasting ? '20261004-nomie-casting-v4-cropfix' : isMerkabah ? '20261004-lumi-merkabah-v4' : nomieHat ? '20261004-nomie-hat-v1' : isNomie ? '20261004-nomie-v6' : isDressed ? '20261004-lumi-v35-aligned' : isOriginal ? '20261004-lumi-original-v4' : isLumi ? '20261004-lumi-v22' : '20261004-group-cast-v7';
+const imageRevision = isJack ? '20261004-jack-bagless-v1' : nomieCasting ? '20261004-nomie-casting-v4-cropfix' : isMerkabah ? '20261004-lumi-merkabah-v4' : nomieHat ? '20261004-nomie-hat-v1' : isNomie ? '20261004-nomie-v6' : isDressed ? '20261004-lumi-v35-aligned' : isOriginal ? '20261004-lumi-original-v4' : isLumi ? '20261004-lumi-v22' : '20261004-group-cast-v7';
 const characterName = isJack ? 'Jack' : isNomie ? 'Nomie' : isLumi ? 'Lumi' : 'all five characters';
-const imageSize = isJack ? [340, 830] : nomieCasting ? [384, 600] : isMerkabah ? [400, 560] : nomieHat ? [400, 660] : isNomie ? [314, 600] : isDressed ? [480, 600] : isOriginal ? null : isLumi ? [362, 543] : [1536, 1024];
+const imageSize = isJack ? null : nomieCasting ? [384, 600] : isMerkabah ? [400, 560] : nomieHat ? [400, 660] : isNomie ? [314, 600] : isDressed ? [480, 600] : isOriginal ? null : isLumi ? [362, 543] : [1536, 1024];
 for (const link of document.querySelectorAll('[data-character]')) {
   if (link.dataset.character === (isJack ? 'jack' : isNomie ? 'nomie' : isLumi ? 'lumi' : 'all')) link.setAttribute('aria-current', 'page');
   else link.removeAttribute('aria-current');
@@ -59,12 +59,12 @@ for (const link of document.querySelectorAll('[data-appearance]')) {
 document.querySelector('.navigation').hidden = false;
 angleButtons.hidden = false;
 byId('view-help').textContent = 'Use the arrows or choose an angle. Tap the image to enlarge.';
-byId('character-caption').textContent = isJack ? 'Jack · Usual appearance' : nomieCasting ? 'Nomie · Rainbow magic' : isMerkabah ? 'Lumi · Rainbow & crystal merkabah' : nomieMagic ? 'Nomie · Rainbow magic & hat' : nomieHat ? 'Nomie · Natural braids & hat' : isNomie ? 'Nomie · Natural hair · Floral scarf' : isDressed ? 'Lumi · Hat & scarf' : isOriginal ? 'Lumi · Original' : isLumi ? 'Lumi · Plain · No clothing or accessories' : 'Kitty, Lumi, Doggy, Nomie and Jack';
+byId('character-caption').textContent = isJack ? 'Jack · Crossed arms' : nomieCasting ? 'Nomie · Rainbow magic' : isMerkabah ? 'Lumi · Rainbow & crystal merkabah' : nomieMagic ? 'Nomie · Rainbow magic & hat' : nomieHat ? 'Nomie · Natural braids & hat' : isNomie ? 'Nomie · Natural hair · Floral scarf' : isDressed ? 'Lumi · Hat & scarf' : isOriginal ? 'Lumi · Original' : isLumi ? 'Lumi · Plain · No clothing or accessories' : 'Kitty, Lumi, Doggy, Nomie and Jack';
 byId('merkabah-sheet').hidden = !isMerkabah;
 byId('lumi-sheet').hidden = !isLumi || appearance !== 'plain';
-const imageFolder = isJack ? 'jack-usual-v1/' : nomieCasting ? 'nomie-magic-casting-v4/' : isMerkabah ? 'lumi-merkabah-v4/' : nomieMagic ? 'nomie-magic-hat-v1/' : nomieHat ? 'nomie-natural-hat-v1/' : isNomie ? 'nomie-natural-v6/' : isDressed ? 'lumi-hat-scarf-v35/' : isOriginal ? 'lumi-original-v4/' : isLumi ? 'lumi-plain-v22/' : 'group-cast-v7/';
+const imageFolder = isJack ? 'jack-bagless-v1/' : nomieCasting ? 'nomie-magic-casting-v4/' : isMerkabah ? 'lumi-merkabah-v4/' : nomieMagic ? 'nomie-magic-hat-v1/' : nomieHat ? 'nomie-natural-hat-v1/' : isNomie ? 'nomie-natural-v6/' : isDressed ? 'lumi-hat-scarf-v35/' : isOriginal ? 'lumi-original-v4/' : isLumi ? 'lumi-plain-v22/' : 'group-cast-v7/';
 const imageURL = view => `images/${imageFolder}${view.id}.png?v=${imageRevision}`;
-const imageAlt = view => isJack ? `Jack, viewed ${view.description}, in his usual green-and-orange gnome hat, woodland outfit, knapsack and boots, with his orange pendant where visible.` : nomieCasting ? `Nomie, viewed ${view.description}, gently casting magic with open palms and long luminous flowing pastel rainbow hair; sage-grey floral dress and brown boots, no scarf, hat or handheld accessories.` : isMerkabah ? `Rainbow Lumi, viewed ${view.description}, gently glowing with a glass-crystal merkabah floating above his head across a clear air gap.` : nomieHat ? `Nomie, viewed ${view.description}, wearing her tall red floral gnome hat, red floral scarf, sage-grey dress and brown boots, with ${nomieMagic ? 'long loose pastel rainbow hair and gentle loving magical shimmer' : 'natural brown-blonde hair and two rear braids'}.` : isNomie ? `Nomie, viewed ${view.description}, with natural brown-to-blonde hair, two rear braids, red floral scarf, sage-grey floral dress and brown boots; no hat or handheld accessories.` : isDressed ? `Blue Lumi, viewed ${view.description}, wearing the multicoloured floppy hat with coral pompom and matching scarf with one golden star centred on the scarf front; swept hairstyle visible.` : isOriginal ? `Original Lumi, viewed ${view.description}, cropped from the original full-cast artwork.` : isLumi ? `Plain Lumi, viewed ${view.description}, without clothing or accessories.` : `Lumi, Kitty, Doggy, Nomie and Jack together, viewed ${view.description}, in their current default outfits.`;
+const imageAlt = view => isJack ? `Jack, viewed ${view.description}, in his green-and-orange gnome hat, woodland outfit and boots, with crossed arms, brown knee patches and no bag; his orange pendant is visible from the front.` : nomieCasting ? `Nomie, viewed ${view.description}, gently casting magic with open palms and long luminous flowing pastel rainbow hair; sage-grey floral dress and brown boots, no scarf, hat or handheld accessories.` : isMerkabah ? `Rainbow Lumi, viewed ${view.description}, gently glowing with a glass-crystal merkabah floating above his head across a clear air gap.` : nomieHat ? `Nomie, viewed ${view.description}, wearing her tall red floral gnome hat, red floral scarf, sage-grey dress and brown boots, with ${nomieMagic ? 'long loose pastel rainbow hair and gentle loving magical shimmer' : 'natural brown-blonde hair and two rear braids'}.` : isNomie ? `Nomie, viewed ${view.description}, with natural brown-to-blonde hair, two rear braids, red floral scarf, sage-grey floral dress and brown boots; no hat or handheld accessories.` : isDressed ? `Blue Lumi, viewed ${view.description}, wearing the multicoloured floppy hat with coral pompom and matching scarf with one golden star centred on the scarf front; swept hairstyle visible.` : isOriginal ? `Original Lumi, viewed ${view.description}, cropped from the original full-cast artwork.` : isLumi ? `Plain Lumi, viewed ${view.description}, without clothing or accessories.` : `Lumi, Kitty, Doggy, Nomie and Jack together, viewed ${view.description}, in their current default outfits.`;
 
 function setImageSize(img) {
   const size = imageSize || [img.naturalWidth, img.naturalHeight];
@@ -116,7 +116,7 @@ function showView(index, updateHash = true) {
   byId('enlarge-button').setAttribute('aria-label', `Enlarge ${view.label.toLowerCase()} view of ${characterName}`);
   byId('original-link').href = src;
   byId('download-link').href = src;
-  byId('download-link').download = `${isJack ? "jack-usual-" : nomieCasting ? "nomie-rainbow-magic-" : isMerkabah ? "lumi-merkabah-" : nomieMagic ? "nomie-magic-hat-" : nomieHat ? "nomie-natural-hat-" : isNomie ? "nomie-natural-" : isDressed ? "lumi-hat-scarf-" : isOriginal ? "lumi-original-" : isLumi ? "lumi-plain-" : ""}${view.id}.png`;
+  byId('download-link').download = `${isJack ? "jack-bagless-" : nomieCasting ? "nomie-rainbow-magic-" : isMerkabah ? "lumi-merkabah-" : nomieMagic ? "nomie-magic-hat-" : nomieHat ? "nomie-natural-hat-" : isNomie ? "nomie-natural-" : isDressed ? "lumi-hat-scarf-" : isOriginal ? "lumi-original-" : isLumi ? "lumi-plain-" : ""}${view.id}.png`;
   byId('image-status').textContent = '';
   mainImage.alt = alt;
   mainImage.src = src;
