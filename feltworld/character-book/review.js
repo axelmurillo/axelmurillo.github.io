@@ -36,7 +36,7 @@ for (const option of [...angleSelect.options]) { if (!views.some(view => view.id
 const isDressed = isLumi && appearance === 'hat-scarf';
 const isOriginal = isLumi && appearance === 'original';
 const viewCount = views.length;
-const imageRevision = nomieCasting ? '20261004-nomie-casting-v4' : isMerkabah ? '20261004-lumi-merkabah-v4' : nomieHat ? '20261004-nomie-hat-v1' : isNomie ? '20261004-nomie-v6' : isDressed ? '20261004-lumi-v35-aligned' : isOriginal ? '20261004-lumi-original-v4' : isLumi ? '20261004-lumi-v22' : '20261002-detail-v4';
+const imageRevision = nomieCasting ? '20261004-nomie-casting-v4-cropfix' : isMerkabah ? '20261004-lumi-merkabah-v4' : nomieHat ? '20261004-nomie-hat-v1' : isNomie ? '20261004-nomie-v6' : isDressed ? '20261004-lumi-v35-aligned' : isOriginal ? '20261004-lumi-original-v4' : isLumi ? '20261004-lumi-v22' : '20261002-detail-v4';
 const characterName = isNomie ? 'Nomie' : isLumi ? 'Lumi' : 'all five characters';
 const imageSize = nomieCasting ? [384, 600] : isMerkabah ? [400, 560] : nomieHat ? [400, 660] : isNomie ? [314, 600] : isDressed ? [480, 600] : isOriginal ? null : isLumi ? [362, 543] : [1536, 1024];
 for (const link of document.querySelectorAll('[data-character]')) {
