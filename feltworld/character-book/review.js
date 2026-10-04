@@ -23,19 +23,20 @@ let currentIndex = 0;
 let enlarged = false;
 
 const query = new URLSearchParams(location.search);
+const isNomie = ['nomie', 'nami'].includes(query.get('character'));
 const isLumi = query.get('character') === 'lumi';
 const appearance = isLumi && ['hat-scarf', 'original'].includes(query.get('appearance')) ? query.get('appearance') : 'plain';
 const isDressed = isLumi && appearance === 'hat-scarf';
 const isOriginal = isLumi && appearance === 'original';
 const viewCount = views.length;
-const imageRevision = isDressed ? '20261004-lumi-v35-aligned' : isOriginal ? '20261004-lumi-original-v4' : isLumi ? '20261004-lumi-v22' : '20261002-detail-v4';
-const characterName = isLumi ? 'Lumi' : 'all five characters';
-const imageSize = isDressed ? [480, 600] : isOriginal ? null : isLumi ? [362, 543] : [1536, 1024];
+const imageRevision = isNomie ? '20261004-nomie-v6' : isDressed ? '20261004-lumi-v35-aligned' : isOriginal ? '20261004-lumi-original-v4' : isLumi ? '20261004-lumi-v22' : '20261002-detail-v4';
+const characterName = isNomie ? 'Nomie' : isLumi ? 'Lumi' : 'all five characters';
+const imageSize = isNomie ? [314, 600] : isDressed ? [480, 600] : isOriginal ? null : isLumi ? [362, 543] : [1536, 1024];
 for (const link of document.querySelectorAll('[data-character]')) {
-  if (link.dataset.character === (isLumi ? 'lumi' : 'all')) link.setAttribute('aria-current', 'page');
+  if (link.dataset.character === (isNomie ? 'nomie' : isLumi ? 'lumi' : 'all')) link.setAttribute('aria-current', 'page');
   else link.removeAttribute('aria-current');
 }
-document.body.classList.toggle('single-character', isLumi);
+document.body.classList.toggle('single-character', isLumi || isNomie);
 document.body.classList.toggle('dressed-character', isDressed);
 byId('appearance-nav').hidden = !isLumi;
 for (const link of document.querySelectorAll('[data-appearance]')) {
@@ -45,11 +46,11 @@ for (const link of document.querySelectorAll('[data-appearance]')) {
 document.querySelector('.navigation').hidden = false;
 angleButtons.hidden = false;
 byId('view-help').textContent = 'Use the arrows or choose an angle. Tap the image to enlarge.';
-byId('character-caption').textContent = isDressed ? 'Lumi · Hat & scarf' : isOriginal ? 'Lumi · Original' : isLumi ? 'Lumi · Plain · No clothing or accessories' : 'Kitty, Lumi, Doggy, Nomie and Jack';
+byId('character-caption').textContent = isNomie ? 'Nomie · Natural hair · Floral scarf' : isDressed ? 'Lumi · Hat & scarf' : isOriginal ? 'Lumi · Original' : isLumi ? 'Lumi · Plain · No clothing or accessories' : 'Kitty, Lumi, Doggy, Nomie and Jack';
 byId('lumi-sheet').hidden = !isLumi || appearance !== 'plain';
-const imageFolder = isDressed ? 'lumi-hat-scarf-v35/' : isOriginal ? 'lumi-original-v4/' : isLumi ? 'lumi-plain-v22/' : '';
+const imageFolder = isNomie ? 'nomie-natural-v6/' : isDressed ? 'lumi-hat-scarf-v35/' : isOriginal ? 'lumi-original-v4/' : isLumi ? 'lumi-plain-v22/' : '';
 const imageURL = view => `images/${imageFolder}${view.id}.png?v=${imageRevision}`;
-const imageAlt = view => isDressed ? `Blue Lumi, viewed ${view.description}, wearing the multicoloured floppy hat with coral pompom and matching scarf with one golden star centred on the scarf front; swept hairstyle visible.` : isOriginal ? `Original Lumi, viewed ${view.description}, cropped from the original full-cast artwork.` : isLumi ? `Plain Lumi, viewed ${view.description}, without clothing or accessories.` : `Lumi, Kitty, Doggy, Nomie and Jack together, viewed ${view.description}, in their current default outfits.`;
+const imageAlt = view => isNomie ? `Nomie, viewed ${view.description}, with natural brown-to-blonde hair, two rear braids, red floral scarf, sage-grey floral dress and brown boots; no hat or handheld accessories.` : isDressed ? `Blue Lumi, viewed ${view.description}, wearing the multicoloured floppy hat with coral pompom and matching scarf with one golden star centred on the scarf front; swept hairstyle visible.` : isOriginal ? `Original Lumi, viewed ${view.description}, cropped from the original full-cast artwork.` : isLumi ? `Plain Lumi, viewed ${view.description}, without clothing or accessories.` : `Lumi, Kitty, Doggy, Nomie and Jack together, viewed ${view.description}, in their current default outfits.`;
 
 function setImageSize(img) {
   const size = imageSize || [img.naturalWidth, img.naturalHeight];
@@ -101,7 +102,7 @@ function showView(index, updateHash = true) {
   byId('enlarge-button').setAttribute('aria-label', `Enlarge ${view.label.toLowerCase()} view of ${characterName}`);
   byId('original-link').href = src;
   byId('download-link').href = src;
-  byId('download-link').download = `${isDressed ? "lumi-hat-scarf-" : isOriginal ? "lumi-original-" : isLumi ? "lumi-plain-" : ""}${view.id}.png`;
+  byId('download-link').download = `${isNomie ? "nomie-natural-" : isDressed ? "lumi-hat-scarf-" : isOriginal ? "lumi-original-" : isLumi ? "lumi-plain-" : ""}${view.id}.png`;
   byId('image-status').textContent = '';
   mainImage.alt = alt;
   mainImage.src = src;
@@ -111,7 +112,7 @@ function showView(index, updateHash = true) {
   for (const button of angleButtons.children) {
     button.setAttribute('aria-pressed', String(Number(button.dataset.index) === currentIndex));
   }
-  document.title = `${isLumi ? "Lumi · " : ""}${view.label} · Character book`;
+  document.title = `${isNomie ? "Nomie · " : isLumi ? "Lumi · " : ""}${view.label} · Character book`;
   setZoom(false);
   if (updateHash && location.hash !== `#${view.id}`) {
     history.replaceState(null, '', `#${view.id}`);
