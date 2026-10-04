@@ -102,3 +102,6 @@ body.dialog-open { overflow: hidden; }
 
 [hidden] {display:none !important}
 .appearances {margin-top:16px}
+
+#merkabah-sheet { margin-top: 18px; }
+#merkabah-sheet img { display: block; width: 100%; height: auto; margin: 12px 0; }
