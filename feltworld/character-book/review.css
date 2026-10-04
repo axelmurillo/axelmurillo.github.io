@@ -102,5 +102,4 @@ body.dialog-open { overflow: hidden; }
 
 [hidden] {display:none !important}
 .appearances {margin-top:16px}
-.dressed-character .image-button img {height:min(70vh,740px)}
-@media(max-width:600px){.dressed-character .image-button img {height:auto;aspect-ratio:1}}
+
