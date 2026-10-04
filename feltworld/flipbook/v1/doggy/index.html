@@ -75,15 +75,15 @@ dialog::backdrop{background:#0008}dialog h2{margin:0 0 16px;font-size:18px;font-
 <body>
 <main>
 <header><h1 id="scene">Front cover</h1><div class="header-links"><a href="../../../">feltWorld</a><p class="hint">Scroll, tap or swipe to turn</p><a href="../../../character-book/">Characters</a></div></header>
-<div class="stage"><div class="book" id="book" tabindex="0" role="group" aria-label="Illustrated book, front cover, 1 of 11"><div class="spread" id="spread"></div><div class="crease"></div></div></div>
-<footer><div class="controls"><button id="first" aria-label="First spread" title="First spread" disabled>⇤</button><button id="previous" aria-label="Previous spread" disabled>‹</button><span id="position">1 / 14</span><button id="next" aria-label="Next spread">›</button><button id="last" aria-label="Last spread" title="Last spread">⇥</button></div><div class="reader-options"><button id="motion-settings" aria-label="Page-turn animation" aria-pressed="true">Motion on</button><button id="text-settings">Edit words</button></div><details><summary>Download this scene</summary><div class="links"><a id="left-download" download>Left page</a><a id="right-download" download>Right page</a><a id="master-download" download>Full spread</a></div></details></footer>
+<div class="stage"><div class="book" id="book" tabindex="0" role="group" aria-label="Illustrated book, front cover, 1 of 15"><div class="spread" id="spread"></div><div class="crease"></div></div></div>
+<footer><div class="controls"><button id="first" aria-label="First spread" title="First spread" disabled>⇤</button><button id="previous" aria-label="Previous spread" disabled>‹</button><span id="position">1 / 15</span><button id="next" aria-label="Next spread">›</button><button id="last" aria-label="Last spread" title="Last spread">⇥</button></div><div class="reader-options"><button id="motion-settings" aria-label="Page-turn animation" aria-pressed="true">Motion on</button><button id="text-settings">Edit words</button></div><details><summary>Download this scene</summary><div class="links"><a id="left-download" download>Left page</a><a id="right-download" download>Right page</a><a id="master-download" download>Full spread</a></div></details></footer>
 <p id="reader-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
 </main>
 <dialog id="editor" aria-labelledby="editor-heading"><h2 id="editor-heading">Edit this spread</h2><label>Page<select id="copy-page"><option value="left">Left page</option><option value="right">Right page</option></select></label><label>Words · leave empty for a quiet page<textarea id="copy-input" maxlength="320"></textarea></label><label>Lettering<select id="copy-style"><option value="tape">Printed serif</option><option value="tape-hand">Handwritten</option></select></label><label>Type size<input id="copy-size" type="range" min="1.5" max="3" step=".05" value="2.15"></label><label>Vertical position<input id="copy-top" type="range" min="15" max="85" step="1" value="50"></label><p id="save-note">Your edits are private to this browser.</p><button id="reset-copy">Restore this page’s draft</button> <button id="close-editor">Done</button></dialog>
 <script src="paper-turn.js?v=paper-20261003"></script>
-<script src="story.js?v=story-opening-words-20261003"></script>
+<script src="story.js?v=story-awakening-20261004"></script>
 <script>
-const scenes=[['cover-front','Front cover'],['10-wide-felt-world','A wide world of felt'],['11-peaceful-tree-home','A peaceful tree home'],['06-tree-fortress-sanctuary','Inside their sanctuary'],['05-tree-fortress-exterior','Lumi and Kitty’s tree-fortress'],['08-jack-search','Jack searches for Doggy'],['09-nomie-search-mansion','Nomie searches outside her mansion'],['07-doggy-alone','Doggy waits in the snow'],['12-first-small-kindness','The first small kindness'],['04-trio-lake','The quiet lake'],['01-woodland-bridge','Woodland bridge'],['03-manor-welcome','A welcome at the mansion'],['02-manor-interior','Inside the mansion'],['cover-back','Back cover']];
+const scenes=[['cover-front','Front cover'],['10-wide-felt-world','A wide world of felt'],['11-peaceful-tree-home','A peaceful tree home'],['06-tree-fortress-sanctuary','Inside their sanctuary'],['05-tree-fortress-exterior','Lumi and Kitty’s tree-fortress'],['08-jack-search','Jack searches for Doggy'],['09-nomie-search-mansion','Nomie searches outside her mansion'],['07-doggy-alone','Doggy waits in the snow'],['12-first-small-kindness','The first small kindness'],['13-lumi-awakening','Lumi awakens'],['04-trio-lake','The quiet lake'],['01-woodland-bridge','Woodland bridge'],['03-manor-welcome','A welcome at the mansion'],['02-manor-interior','Inside the mansion'],['cover-back','Back cover']];
 const book=document.querySelector('#book'),spread=document.querySelector('#spread'),previous=document.querySelector('#previous'),next=document.querySelector('#next');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 let index=0,turn=null,pointer=null,animating=false,frameId=0,loadEpoch=0;
@@ -102,7 +102,7 @@ const isMagnified=()=>!!window.visualViewport&&window.visualViewport.scale>1.05;
 function updateZoom(){book.classList.toggle('zoomed',isMagnified());if(isMagnified()&&pointer)interruptTurn();}
 if(window.visualViewport)window.visualViewport.addEventListener('resize',updateZoom);
 updateZoom();
-const revision='20261004-bridge-merkabah-v3';
+const revision='20261004-awakening-v2';
 const isCover=i=>scenes[i][0].startsWith('cover-');
 const coverPath=i=>'covers/'+(i===0?'front-cover-v1.png':'back-cover-v1.png')+'?v=arthur-weathered-20261003';
 const path=(i,side)=>`${scenes[i][0]}-part-${side==='left'?1:2}-${side}.png?v=${revision}`;

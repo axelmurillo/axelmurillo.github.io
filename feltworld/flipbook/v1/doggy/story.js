@@ -9,6 +9,7 @@ const storyDraft={
  "09-nomie-search-mansion:left":{top:29,text:"Nomie called from the bridge.\nThe wind hurried past."},
  "07-doggy-alone:left":{top:23,text:"Snow had hidden the way home.\nDoggy waited and listened."},
  "12-first-small-kindness:right":{top:22,text:"Lumi sat down and waited.\nDoggy took one small step."},
+ "13-lumi-awakening:right":{top:22,text:"A little light stirred inside Lumi.\nHis magic was waking up."},
  "04-trio-lake:right":{top:26,text:"“Come with us,” said Lumi.\nNow there were three."},
  "01-woodland-bridge:left":{top:81,text:"A little light waited ahead.\n“Doggy! There you are!”"},
  "03-manor-welcome:left":{top:23,text:"The door opened.\n“Everyone in.”"},
