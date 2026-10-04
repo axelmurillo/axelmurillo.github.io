@@ -24,6 +24,7 @@ let enlarged = false;
 
 const query = new URLSearchParams(location.search);
 const isNomie = ['nomie', 'nami'].includes(query.get('character'));
+// Jack's usual views preserve the approved Group artwork at native scale.
 const isJack = query.get('character') === 'jack';
 const isLumi = query.get('character') === 'lumi';
 const nomieAppearance = isNomie && ['hat', 'magic-hat', 'magic'].includes(query.get('appearance')) ? query.get('appearance') : 'natural';
