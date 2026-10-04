@@ -7,7 +7,6 @@
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#17191c">
 <meta name="author" content="Arthur Whitcombe">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <title>A World of Felt — Vol. I: Doggy!</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;height:100%;background:#17191c;color:#dedbd3;font:15px/1.4 system-ui}main{height:100svh;min-height:280px;display:flex;flex-direction:column;padding:16px;gap:10px}header,footer{width:100%;max-width:1300px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}h1{font-size:16px;font-weight:500;margin:0}.hint{color:#a5a7aa;font-size:13px;margin:0}.stage{position:relative;overflow:hidden;flex:1;min-height:0;display:flex;justify-content:center;align-items:center;perspective:2300px}.book{position:relative;width:min(100%,calc((100svh - 150px)*1.5));max-width:1300px;aspect-ratio:3/2;touch-action:pan-y;touch-action:pan-y pinch-zoom;user-select:none;cursor:pointer;isolation:isolate;box-shadow:0 0 0 1px #ffffff0d,0 0 22px #0004,0 12px 28px #0005,0 28px 52px -18px #0008;background:#17191c;border-radius:2px}.book.dragging{cursor:grabbing}.book.zoomed{touch-action:auto;cursor:default}.spread{position:absolute;inset:0;display:flex;overflow:hidden;border-radius:2px}.spread img,.stationary img{width:50%;height:100%;display:block;object-fit:fill;pointer-events:none}.crease{position:absolute;z-index:8;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 46%,#20190b05 48.2%,#20190b30 49.8%,#fff4 50.05%,#20190b20 50.2%,#20190b06 52%,transparent 54%)}.crease:after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:#211c1760;box-shadow:-1px 0 1px #fff3}.stationary{position:absolute;top:0;bottom:0;width:50%;z-index:2;overflow:hidden}.stationary img{width:100%}.leaf{position:absolute;top:0;bottom:0;width:50%;z-index:5;transform-style:preserve-3d;will-change:transform;pointer-events:none}.leaf.forward{right:0;transform-origin:left center}.leaf.backward{left:0;transform-origin:right center}.face{position:absolute;inset:0;backface-visibility:hidden;overflow:hidden;background:#17191c}.face img{width:100%;height:100%;display:block;pointer-events:none}.face.back{transform:rotateY(180deg)}.face:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#251c1240,transparent 25%,#fff1 80%,#251c1220);opacity:var(--shade,0)}.leaf.forward .front{box-shadow:-8px 0 18px #20180c20}.leaf.backward .front{box-shadow:8px 0 18px #20180c20}button,a,summary{-webkit-tap-highlight-color:transparent}button{border:1px solid #ffffff26;background:#ffffff06;color:inherit;border-radius:50%;width:42px;height:42px;font-size:22px;cursor:pointer}button:disabled{opacity:.25;cursor:default}button:focus-visible,a:focus-visible,summary:focus-visible,.book:focus-visible{outline:2px solid #d2b782;outline-offset:4px}.controls{display:flex;align-items:center;gap:16px}#position{font-size:13px;font-variant-numeric:tabular-nums;min-width:36px;text-align:center}#scene{font-size:14px;margin:0}details{position:relative;font-size:12px}summary{cursor:pointer;list-style:none}details[open] .links{position:absolute;bottom:28px;right:0;padding:14px;background:#24272c;box-shadow:0 6px 24px #0007;border-radius:5px;width:170px;display:grid;gap:12px;z-index:20}.links a{color:#d2b782}button:hover:not(:disabled){background:#ffffff10} [hidden]{display:none!important}@media(max-width:600px){main{padding:10px}header{align-items:flex-start;flex-direction:column;gap:3px}.stage{perspective:1300px}footer{flex-wrap:wrap}#scene{font-size:12px}.controls{gap:9px}button{width:38px;height:38px}.hint{font-size:12px}}@media(prefers-reduced-motion:reduce){.leaf{will-change:auto}}
@@ -68,6 +67,10 @@ dialog::backdrop{background:#0008}dialog h2{margin:0 0 16px;font-size:18px;font-
 <meta name="twitter:description" content="A little dog, a snowy adventure, and the warmth of finding home. An illustrated story by Arthur Whitcombe.">
 <meta name="twitter:image" content="https://axelmurillo.github.io/feltworld/flipbook/v1/doggy/masters/02-manor-interior-master.png?v=share-1">
 <meta name="twitter:image:alt" content="Lumi, Kitty, Doggy, Nomie and Jack safe and happy together in their cosy felt home.">
+<link rel="icon" href="../../../icons/v1/book.ico" sizes="any">
+<link rel="icon" href="../../../icons/v1/book-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../../../icons/v1/book.svg" type="image/svg+xml" sizes="any">
+<link rel="apple-touch-icon" href="../../../icons/v1/book-180.png" sizes="180x180">
 </head>
 <body>
 <main>
@@ -314,3 +317,4 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)interruptTu
 render();
 </script>
 </body></html>
+
