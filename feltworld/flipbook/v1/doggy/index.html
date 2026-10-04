@@ -48,6 +48,7 @@ dialog::backdrop{background:#0008}dialog h2{margin:0 0 16px;font-size:18px;font-
 .book{perspective:2400px}.paper-turn{position:absolute;inset:0;transform-style:preserve-3d;pointer-events:none;z-index:6}.paper-underlay{position:absolute;inset:0;display:flex;overflow:hidden}.paper-leaf{will-change:auto}.paper-strip{position:absolute;top:0;bottom:0;left:0;transform-style:preserve-3d;will-change:transform}.paper-strip .face{background:#17191c}.paper-strip .face:after{background:#171008;opacity:var(--shade,0)}.leaf.paper-leaf .front{box-shadow:none}.paper-shadow{position:absolute;top:0;bottom:0;z-index:3;background:linear-gradient(90deg,#130e0799,#130e0750,transparent);pointer-events:none}.book.turning>.crease{z-index:1}
 #motion-settings{border-radius:5px;width:auto;height:36px;padding:0 10px;font-size:12px}.reader-options{display:flex;gap:8px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
 @media(max-width:600px){.reader-options{gap:5px}#text-settings,#motion-settings{padding:0 8px}}
+.book.wide-tree-home{aspect-ratio:2/1;width:min(100%,calc((100svh - 150px)*2));}
 </style>
 <link rel="canonical" href="https://axelmurillo.github.io/feltworld/flipbook/v1/doggy/">
 <meta property="og:title" content="A World of Felt · Vol. I: Doggy!">
@@ -102,7 +103,7 @@ const isMagnified=()=>!!window.visualViewport&&window.visualViewport.scale>1.05;
 function updateZoom(){book.classList.toggle('zoomed',isMagnified());if(isMagnified()&&pointer)interruptTurn();}
 if(window.visualViewport)window.visualViewport.addEventListener('resize',updateZoom);
 updateZoom();
-const revision='20261004-atlas-opening-v6';
+const revision='20261004-atlas-tree-home-v3';
 const isCover=i=>scenes[i][0].startsWith('cover-');
 const coverPath=i=>'covers/'+(i===0?'front-cover-v1.png':'back-cover-v1.png')+'?v=arthur-weathered-20261003';
 const path=(i,side)=>`${scenes[i][0]}-part-${side==='left'?1:2}-${side}.png?v=${revision}`;
@@ -188,10 +189,12 @@ const resources=i=>isCover(i)?[coverPath(i)]:[path(i,'left'),path(i,'right')];
 const canTurn=i=>resources(i).every(key=>ready.get(key)?.loaded);
 const waitForArt=i=>Promise.all(resources(i).map(key=>ready.get(key).promise));
 function coverElement(i){const e=document.createElement('div');e.className='cover '+(i===0?'front':'back');e.append(img(i,'right'));return e;}
-function geometry(cover){const probe=book.cloneNode(false);probe.removeAttribute('id');probe.removeAttribute('tabindex');probe.setAttribute('aria-hidden','true');probe.classList.toggle('cover-mode',cover);Object.assign(probe.style,{position:'absolute',visibility:'hidden',left:'50%',top:'50%',transform:'translate(-50%,-50%)'});book.parentElement.append(probe);const rect=probe.getBoundingClientRect(),stage=book.parentElement.getBoundingClientRect();probe.remove();return {x:rect.left-stage.left,y:rect.top-stage.top,w:rect.width,h:rect.height};}
+function geometry(cover,wide=false){const probe=book.cloneNode(false);probe.removeAttribute('id');probe.removeAttribute('tabindex');probe.setAttribute('aria-hidden','true');probe.classList.toggle('cover-mode',cover);probe.classList.toggle('wide-tree-home',wide);Object.assign(probe.style,{position:'absolute',visibility:'hidden',left:'50%',top:'50%',transform:'translate(-50%,-50%)'});book.parentElement.append(probe);const rect=probe.getBoundingClientRect(),stage=book.parentElement.getBoundingClientRect();probe.remove();return {x:rect.left-stage.left,y:rect.top-stage.top,w:rect.width,h:rect.height};}
 function beginBoundary(direction,target){
  const layer=document.createElement('div');layer.className='boundary';layer.setAttribute('aria-hidden','true');book.parentElement.append(layer);
- if(isCover(index)&&isCover(target)){
+ if(scenes[index][0]==='11-peaceful-tree-home'||scenes[target][0]==='11-peaceful-tree-home'){
+ const panels=[index,target].map(i=>{const g=geometry(isCover(i),scenes[i][0]==='11-peaceful-tree-home'),e=document.createElement('div');e.className='boundary-sheet';Object.assign(e.style,{left:g.x+'px',top:g.y+'px',width:g.w+'px',height:g.h+'px'});if(isCover(i))e.append(coverElement(i));else e.append(page(i,'left'),page(i,'right'));layer.append(e);return e;});turn={direction,target,boundary:true,layer,panels,progress:0};
+ }else if(isCover(index)&&isCover(target)){
   const g=geometry(true),panels=[index,target].map(i=>{const e=document.createElement('div');e.className='boundary-cover';Object.assign(e.style,{left:g.x+'px',top:g.y+'px',width:g.w+'px',height:g.h+'px'});e.append(coverElement(i));layer.append(e);return e;});
   turn={direction,target,boundary:true,layer,panels,progress:0};
  }else{
@@ -206,10 +209,10 @@ function beginBoundary(direction,target){
  }
  spread.style.opacity='0';book.classList.add('turning');setProgress(0);return true;
 }
-function render(){book.classList.toggle('cover-mode',isCover(index));spread.style.transform='';spread.style.opacity='';if(isCover(index)){const cover=document.createElement('div');cover.className='cover '+(index===0?'front':'back');cover.append(img(index,'right'));spread.replaceChildren(cover);}else spread.replaceChildren(page(index,'left'),page(index,'right'));previous.disabled=index===0;next.disabled=index===scenes.length-1;document.querySelector('#first').disabled=index===0;document.querySelector('#last').disabled=index===scenes.length-1;document.querySelector('#position').textContent=`${index+1} / ${scenes.length}`;document.querySelector('#scene').textContent=scenes[index][1];book.setAttribute('aria-label',`Illustrated book, ${scenes[index][1]}, spread ${index+1} of ${scenes.length}`);document.querySelector('#left-download').href=path(index,'left');document.querySelector('#right-download').href=path(index,'right');document.querySelector('#master-download').href=`masters/${scenes[index][0]}-master.png?v=${revision}`;document.querySelector('details').hidden=isCover(index);document.querySelector('#text-settings').disabled=isCover(index);}
+function render(){book.classList.toggle('wide-tree-home',scenes[index][0]==='11-peaceful-tree-home');book.classList.toggle('cover-mode',isCover(index));spread.style.transform='';spread.style.opacity='';if(isCover(index)){const cover=document.createElement('div');cover.className='cover '+(index===0?'front':'back');cover.append(img(index,'right'));spread.replaceChildren(cover);}else spread.replaceChildren(page(index,'left'),page(index,'right'));previous.disabled=index===0;next.disabled=index===scenes.length-1;document.querySelector('#first').disabled=index===0;document.querySelector('#last').disabled=index===scenes.length-1;document.querySelector('#position').textContent=`${index+1} / ${scenes.length}`;document.querySelector('#scene').textContent=scenes[index][1];book.setAttribute('aria-label',`Illustrated book, ${scenes[index][1]}, spread ${index+1} of ${scenes.length}`);document.querySelector('#left-download').href=path(index,'left');document.querySelector('#right-download').href=path(index,'right');document.querySelector('#master-download').href=`masters/${scenes[index][0]}-master.png?v=${revision}`;document.querySelector('details').hidden=isCover(index);document.querySelector('#text-settings').disabled=isCover(index);}
 function begin(direction,target=index+direction){
  if(target<0||target>=scenes.length||!canTurn(index)||!canTurn(target))return false;
- if(isCover(index)||isCover(target))return beginBoundary(direction,target);
+ if(isCover(index)||isCover(target)||scenes[index][0]==='11-peaceful-tree-home'||scenes[target][0]==='11-peaceful-tree-home')return beginBoundary(direction,target);
  const underlay=document.createElement('div');underlay.append(page(target,'left'),page(target,'right'));
  const stationary=document.createElement('div');stationary.append(page(index,direction===1?'left':'right'));
  const paper=FeltPaperTurn.create({host:book,direction,underlay,stationary,front:page(index,direction===1?'right':'left'),back:page(target,direction===1?'left':'right')});
