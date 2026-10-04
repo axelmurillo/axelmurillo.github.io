@@ -4,8 +4,8 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Arthur Whitcombe"><meta name="robots" content="noindex,nofollow,noimageindex,nosnippet">
   <meta name="color-scheme" content="light dark"><title>Character book</title>
-  <link rel="icon" href="../icons/v1/characters.svg"><link rel="stylesheet" href="review.css?v=quiet-20261004">
-  <script src="review.js?v=quiet-20261004" defer></script><script src="gallery.js?v=quiet-20261004" defer></script>
+  <link rel="icon" href="../icons/v1/characters.svg"><link rel="stylesheet" href="review.css?v=loading-20261004">
+  <script src="review.js?v=loading-20261004" defer></script><script src="gallery.js?v=loading-20261004" defer></script>
 <meta name="googlebot" content="noindex,nofollow,noimageindex,nosnippet">
 <link rel="canonical" href="https://axelmurillo.github.io/feltworld/character-book/">
 <meta property="og:title" content="Meet the feltWorld friends">
@@ -38,13 +38,13 @@
     <nav class="appearances" id="jack-appearance-nav" aria-label="Jack appearance" hidden><a href="?character=jack" data-jack-appearance="bagless">Crossed arms</a><a href="?character=jack&amp;appearance=tinkerer" data-jack-appearance="tinkerer">Magical tinkerer</a></nav>
     <nav class="appearances" id="nomie-appearance-nav" aria-label="Nomie appearance" hidden><a href="?character=nomie" data-nomie-appearance="natural">Natural</a><a href="?character=nomie&amp;appearance=hat" data-nomie-appearance="hat">Natural braids &amp; hat</a><a href="?character=nomie&amp;appearance=magic" data-nomie-appearance="magic">Rainbow magic</a><a href="?character=nomie&amp;appearance=magic-hat" data-nomie-appearance="magic-hat">Rainbow magic &amp; hat</a></nav>
     <main id="gallery" tabindex="-1">
-      <button class="image-button" id="enlarge-button" type="button" aria-label="Enlarge front view of all five characters" aria-haspopup="dialog"><img id="main-image" src="images/group-cast-v7/front.png" width="1536" height="1024" alt="Kitty, Lumi, Doggy, Nomie and Jack together, viewed from the front." fetchpriority="high"></button>
+      <button class="image-button" id="enlarge-button" type="button" aria-label="Enlarge front view of all five characters" aria-haspopup="dialog"><span id="image-loader" class="image-loader" aria-hidden="true">Loading image…</span><img id="main-image" hidden src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="1536" height="1024" alt="Kitty, Lumi, Doggy, Nomie and Jack together, viewed from the front." fetchpriority="high"></button>
       <p class="character-caption" id="character-caption">Kitty, Lumi, Doggy, Nomie and Jack</p>
       <p id="image-status" class="status" role="status"></p>
       <h1 id="view-title" class="sr-only">Front</h1>
       <div class="navigation">
         <button id="previous-button" type="button" aria-label="Previous angle">← <span>Previous</span></button>
-        <div class="angle-picker"><label class="sr-only" for="angle-select">Choose a viewing angle</label><select id="angle-select"><option value="front">Front</option><option value="front-left">Left three-quarter</option><option value="left">Left side</option><option value="back-left">Left rear three-quarter</option><option value="back">Back</option><option value="back-right">Right rear three-quarter</option><option value="right">Right side</option><option value="front-right">Right three-quarter</option></select><span id="view-count" class="count" aria-label="Image 1 of 8">1 / 8</span></div>
+        <div class="angle-picker"><label class="sr-only" for="angle-select">Choose a viewing angle</label><select id="angle-select"><option value="front">Front</option><option value="front-left">Front left</option><option value="left">Left side</option><option value="back-left">Rear left</option><option value="back">Back</option><option value="back-right">Rear right</option><option value="right">Right side</option><option value="front-right">Front right</option></select><span id="view-count" class="count" aria-label="Image 1 of 8">1 / 8</span></div>
         <button id="next-button" type="button" aria-label="Next angle"><span>Next</span> →</button>
       </div>
       <p class="sr-only" id="angle-announcement" role="status" aria-atomic="true"></p>
@@ -56,6 +56,6 @@
     </main>
 
   </div>
-  <dialog id="image-dialog" aria-labelledby="dialog-title"><div class="dialog-content"><header class="dialog-toolbar"><h2 id="dialog-title">Front</h2><div class="dialog-actions"><button id="dialog-previous" type="button" aria-label="Previous angle in enlarged view">←</button><button id="dialog-next" type="button" aria-label="Next angle in enlarged view">→</button><button id="zoom-button" type="button" aria-pressed="false">Zoom in</button><button id="close-button" type="button" autofocus>Close</button></div></header><div class="zoom-area" id="zoom-area" tabindex="0" aria-label="Enlarged image. When zoomed, drag to move around, or use arrow keys to pan."><img id="dialog-image" src="images/group-cast-v7/front.png" width="1536" height="1024" alt="Kitty, Lumi, Doggy, Nomie and Jack together, viewed from the front."></div></div></dialog>
+  <dialog id="image-dialog" aria-labelledby="dialog-title"><div class="dialog-content"><header class="dialog-toolbar"><h2 id="dialog-title">Front</h2><div class="dialog-actions"><button id="dialog-previous" type="button" aria-label="Previous angle in enlarged view">←</button><button id="dialog-next" type="button" aria-label="Next angle in enlarged view">→</button><button id="zoom-button" type="button" aria-pressed="false">Zoom in</button><button id="close-button" type="button" autofocus>Close</button></div></header><div class="zoom-area" id="zoom-area" tabindex="0" aria-label="Enlarged image. When zoomed, drag to move around, or use arrow keys to pan."><p id="detail-status" role="status">Loading full-resolution image…</p><img id="dialog-image" hidden src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="1536" height="1024" alt="Kitty, Lumi, Doggy, Nomie and Jack together, viewed from the front."></div></div></dialog>
 </body>
 </html>

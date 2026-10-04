@@ -13,3 +13,5 @@ dialog{width:calc(100% - 24px);max-width:1400px;max-height:calc(100dvh - 24px);p
 @media(max-width:600px){.angle-picker select{white-space:nowrap;font-size:.9rem}.angle-picker{gap:0}}
 
 @media(max-width:600px){.characters{gap:4px 20px}}
+
+.image-button{position:relative;min-height:320px;aspect-ratio:3/2}.single-character .image-button{height:430px;aspect-ratio:auto}.image-loader{display:grid;place-content:center;position:absolute;inset:0;color:var(--muted);font-size:.9rem}.image-button:disabled{cursor:progress}.zoom-area #detail-status{min-height:240px;display:grid;place-content:center;padding:24px;color:var(--muted);text-align:center}.angle-picker select{white-space:nowrap}@media(max-width:600px){.image-button{min-height:200px}.single-character .image-button{height:340px}}
