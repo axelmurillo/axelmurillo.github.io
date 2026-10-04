@@ -30,14 +30,14 @@ const nomieHat = isNomie && nomieAppearance !== 'natural';
 const nomieMagic = isNomie && nomieAppearance === 'magic-hat';
 const appearance = isLumi && ['hat-scarf', 'original', 'merkabah'].includes(query.get('appearance')) ? query.get('appearance') : 'plain';
 const isMerkabah = isLumi && appearance === 'merkabah';
-const views = isMerkabah ? allViews.filter(view => ['front', 'left'].includes(view.id)) : allViews;
+const views = allViews;
 for (const option of [...angleSelect.options]) { if (!views.some(view => view.id === option.value)) option.remove(); }
 const isDressed = isLumi && appearance === 'hat-scarf';
 const isOriginal = isLumi && appearance === 'original';
 const viewCount = views.length;
-const imageRevision = isMerkabah ? '20261004-lumi-merkabah-v2' : nomieHat ? '20261004-nomie-hat-v1' : isNomie ? '20261004-nomie-v6' : isDressed ? '20261004-lumi-v35-aligned' : isOriginal ? '20261004-lumi-original-v4' : isLumi ? '20261004-lumi-v22' : '20261002-detail-v4';
+const imageRevision = isMerkabah ? '20261004-lumi-merkabah-v4' : nomieHat ? '20261004-nomie-hat-v1' : isNomie ? '20261004-nomie-v6' : isDressed ? '20261004-lumi-v35-aligned' : isOriginal ? '20261004-lumi-original-v4' : isLumi ? '20261004-lumi-v22' : '20261002-detail-v4';
 const characterName = isNomie ? 'Nomie' : isLumi ? 'Lumi' : 'all five characters';
-const imageSize = isMerkabah ? [768, 1100] : nomieHat ? [400, 660] : isNomie ? [314, 600] : isDressed ? [480, 600] : isOriginal ? null : isLumi ? [362, 543] : [1536, 1024];
+const imageSize = isMerkabah ? [400, 560] : nomieHat ? [400, 660] : isNomie ? [314, 600] : isDressed ? [480, 600] : isOriginal ? null : isLumi ? [362, 543] : [1536, 1024];
 for (const link of document.querySelectorAll('[data-character]')) {
   if (link.dataset.character === (isNomie ? 'nomie' : isLumi ? 'lumi' : 'all')) link.setAttribute('aria-current', 'page');
   else link.removeAttribute('aria-current');
@@ -59,7 +59,7 @@ byId('view-help').textContent = 'Use the arrows or choose an angle. Tap the imag
 byId('character-caption').textContent = isMerkabah ? 'Lumi · Rainbow & crystal merkabah' : nomieMagic ? 'Nomie · Rainbow magic & hat' : nomieHat ? 'Nomie · Natural braids & hat' : isNomie ? 'Nomie · Natural hair · Floral scarf' : isDressed ? 'Lumi · Hat & scarf' : isOriginal ? 'Lumi · Original' : isLumi ? 'Lumi · Plain · No clothing or accessories' : 'Kitty, Lumi, Doggy, Nomie and Jack';
 byId('merkabah-sheet').hidden = !isMerkabah;
 byId('lumi-sheet').hidden = !isLumi || appearance !== 'plain';
-const imageFolder = isMerkabah ? 'lumi-merkabah-v2/' : nomieMagic ? 'nomie-magic-hat-v1/' : nomieHat ? 'nomie-natural-hat-v1/' : isNomie ? 'nomie-natural-v6/' : isDressed ? 'lumi-hat-scarf-v35/' : isOriginal ? 'lumi-original-v4/' : isLumi ? 'lumi-plain-v22/' : '';
+const imageFolder = isMerkabah ? 'lumi-merkabah-v4/' : nomieMagic ? 'nomie-magic-hat-v1/' : nomieHat ? 'nomie-natural-hat-v1/' : isNomie ? 'nomie-natural-v6/' : isDressed ? 'lumi-hat-scarf-v35/' : isOriginal ? 'lumi-original-v4/' : isLumi ? 'lumi-plain-v22/' : '';
 const imageURL = view => `images/${imageFolder}${view.id}.png?v=${imageRevision}`;
 const imageAlt = view => isMerkabah ? `Rainbow Lumi, viewed ${view.description}, gently glowing with a glass-crystal merkabah floating above his head across a clear air gap.` : nomieHat ? `Nomie, viewed ${view.description}, wearing her tall red floral gnome hat, red floral scarf, sage-grey dress and brown boots, with ${nomieMagic ? 'long loose pastel rainbow hair and gentle loving magical shimmer' : 'natural brown-blonde hair and two rear braids'}.` : isNomie ? `Nomie, viewed ${view.description}, with natural brown-to-blonde hair, two rear braids, red floral scarf, sage-grey floral dress and brown boots; no hat or handheld accessories.` : isDressed ? `Blue Lumi, viewed ${view.description}, wearing the multicoloured floppy hat with coral pompom and matching scarf with one golden star centred on the scarf front; swept hairstyle visible.` : isOriginal ? `Original Lumi, viewed ${view.description}, cropped from the original full-cast artwork.` : isLumi ? `Plain Lumi, viewed ${view.description}, without clothing or accessories.` : `Lumi, Kitty, Doggy, Nomie and Jack together, viewed ${view.description}, in their current default outfits.`;
 
