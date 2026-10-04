@@ -102,7 +102,7 @@ const isMagnified=()=>!!window.visualViewport&&window.visualViewport.scale>1.05;
 function updateZoom(){book.classList.toggle('zoomed',isMagnified());if(isMagnified()&&pointer)interruptTurn();}
 if(window.visualViewport)window.visualViewport.addEventListener('resize',updateZoom);
 updateZoom();
-const revision='20261004-awakening-closeup-v1';
+const revision='20261004-atlas-opening-v6';
 const isCover=i=>scenes[i][0].startsWith('cover-');
 const coverPath=i=>'covers/'+(i===0?'front-cover-v1.png':'back-cover-v1.png')+'?v=arthur-weathered-20261003';
 const path=(i,side)=>`${scenes[i][0]}-part-${side==='left'?1:2}-${side}.png?v=${revision}`;
