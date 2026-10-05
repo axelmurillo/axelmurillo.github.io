@@ -1,0 +1,45 @@
+html,body{background:#101923;color:#eee9df}main{padding:20px clamp(14px,3vw,44px);gap:12px;min-height:100svh;height:auto}header,footer{max-width:1180px}header{min-height:62px}h1,#scene{font:clamp(18px,2.2vw,27px)/1.25 Georgia,serif}.volume{font-size:10px;letter-spacing:.2em;color:#d8c397;margin:0 0 8px;text-transform:uppercase}.hint{color:#b8bdc5}.header-links a,.links a{color:#ead09c}.stage{height:calc(100svh - 240px);min-height:260px;flex:none;overflow:clip;padding:28px;isolation:isolate;perspective:1800px;background:radial-gradient(ellipse at 50% 60%,#3d557540,transparent 73%)}.book{z-index:2;width:min(100%,calc((100svh - 320px)*1.5));max-width:1180px;transform-origin:center;will-change:transform;box-shadow:0 26px 45px #0008;background:#eee1c7;overflow:visible}.book.cover-mode{width:min(100%,calc((100svh - 320px)*.75))}.book:before{content:'';position:absolute;inset:-7px -8px -16px;background:#30465b;z-index:-2;border-radius:4px}.page-stack{position:absolute;top:0;width:50%;z-index:-1;background:repeating-linear-gradient(0deg,#baac91 0 1px,#eee2c8 1px 3px);bottom:-10px}.page-stack.left{left:-3px}.page-stack.right{right:-3px}.book.cover-mode .page-stack{display:none}.three-book-ready .book:before,.three-book-ready .page-stack{display:none}.three-book-ready .book{box-shadow:none}.three-book-body{position:absolute;left:-48px;top:-48px;z-index:-1;pointer-events:none}.three-leaf{position:absolute;pointer-events:none;z-index:6}.turn-start-page{position:absolute;top:0;bottom:0;pointer-events:none;z-index:7}.crease,.book.turning>.crease{z-index:4;pointer-events:none;background:linear-gradient(90deg,transparent 48.6%,#1b110a20 49.5%,#1b110a48 49.94%,#fff2 50.04%,#1b110a24 50.45%,transparent 51.4%);opacity:1;transition:none}.crease:after{content:none}.spread .page:after,.paper-underlay .page:after,.stationary .page:after,.turn-start-page:after{content:'';position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 2px 3px #fff2,inset 0 -3px 6px #271a1030;background:linear-gradient(90deg,#20160b16,transparent 3%,transparent 97%,#20160b16)}.ambient{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}.ambient canvas{position:absolute;inset:0;pointer-events:none}.mote{display:none}button{width:46px;height:46px;border-color:#8794a2;background:#1b2631}button:hover:not(:disabled){background:#304151}button:disabled{opacity:.45}button:focus-visible,a:focus-visible,summary:focus-visible,.book:focus-visible{outline:3px solid #ffe0a0;outline-offset:4px}.controls{gap:10px}#position{min-width:48px;color:#cfc6b4}.reader-options{gap:6px;flex-wrap:wrap}#motion-settings,#effects-settings,#depth-settings,#text-settings{height:44px;width:auto;border-radius:22px;padding:0 12px;font-size:12px}.reading-copy{max-width:780px;width:100%;margin:0 auto;color:#eee9df;font:18px/1.65 Georgia,serif}.reading-copy summary{font:14px/1.5 system-ui;min-height:44px;display:flex;align-items:center;color:#ead09c}.reading-copy p{white-space:pre-line}.stage.effects-off .ambient{display:none}@media(max-width:600px){main{padding:12px;gap:10px}header{min-height:75px}.stage{height:calc(100svh - 340px);padding:22px;min-height:250px}.book{width:100%}.book.cover-mode{width:min(100%,calc((100svh - 380px)*.75))}footer{justify-content:center;gap:12px}.header-links{gap:12px}.reading-copy{font-size:17px}.hint{font-size:11px}}@media(max-height:550px){.stage{height:450px}.book{width:min(100%,600px)}.book.cover-mode{width:300px}}@media(prefers-reduced-motion:reduce){.book{will-change:auto}.ambient{display:none}}
+
+.load-notice{min-height:24px;text-align:center;color:#ead09c;font-size:13px}.load-notice:empty{display:none}.book{box-shadow:0 20px 38px #0005}
+
+.three-book-ready .book{box-shadow:0 20px 38px #0005}.turn-crease{z-index:4}
+
+.book.cover-mode{width:min(50%,calc((100svh - 320px)*.75))}.book.boundary-turn{background:transparent;box-shadow:none}.book.boundary-turn>.three-book-body{visibility:hidden}.boundary-leaf .face{border:0;outline:3px solid #344559;box-shadow:0 14px 28px #0004}.boundary-sheet{background:#e8dcc6;box-shadow:0 20px 38px #0005!important;border:0;outline:3px solid #344559}@media(max-width:600px){.book.cover-mode{width:50%}}@media(max-height:550px){.book.cover-mode{width:min(50%,300px)}}
+/* Dust leaves the book perimeter and drifts in front of its surroundings. */
+.ambient{z-index:8}
+
+/* Preserve alpha around the original cover silhouette; no rectangular support behind it. */
+.book.cover-mode{background:transparent!important;box-shadow:none!important}
+.book.cover-mode>.three-book-body{visibility:hidden}
+.boundary-leaf:has(.cover) .face{background:transparent;outline:0;box-shadow:none}
+.boundary-cover{background:transparent;box-shadow:none}
+
+.page:has(.tree-fill-image){overflow:hidden}
+.page>img.tree-fill-image{width:200%!important;max-width:none;object-fit:cover!important;background:transparent}
+.page>img.tree-fill-image.right{transform:translateX(-50%)}
+.stage{background:radial-gradient(ellipse at 30% 30%,#50486022,transparent 55%),radial-gradient(ellipse at 75% 70%,#395d7426,transparent 65%),url('./cosmos.svg') center/cover,#101923}
+
+/* V8: actual silhouettes occlude desk dust; no rectangular backing behind a half sheet. */
+.boundary-sheet{background:transparent;outline:0;box-shadow:none!important}
+.boundary-sheet>.crease{display:none}
+.stage{background:transparent}
+.stage::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 45% 45%,#283e5540,transparent 70%),url('./cosmos.svg') center/cover,#070c16;mask-image:radial-gradient(ellipse at center,#000 36%,transparent 83%)}
+.desk-dust{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.desk-dust canvas{position:absolute;inset:0;pointer-events:none}
+.stage.effects-off .desk-dust{display:none}
+
+/* Floating air and lifted grains also pass in front of the cover hinge (z10). */
+.ambient{z-index:12}
+
+/* Viewport air never intercepts navigation, scrolling or zoom. */
+.interface-dust{position:fixed;inset:0;width:100%;height:100%;pointer-events:none!important;z-index:100;contain:strict}
+@media(prefers-reduced-motion:reduce){.interface-dust{display:none!important}}
+
+/* V11: one continuous viewport cosmos and dust field, never a clipped stage panel. */
+body{isolation:isolate;background:#101923}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 52%,#070c1660,transparent 78%),url('./cosmos.svg') center/cover,#101923}
+main{position:relative;z-index:1;background:transparent}
+.stage,.stage::before{background:transparent!important}
+.stage::before{display:none}
+.desk-dust,.ambient{position:fixed;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.desk-dust{z-index:0}.ambient{z-index:12}
