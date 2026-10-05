@@ -1,9 +1,9 @@
 'use strict';
 // A preview-only preference key leaves every existing reader/gallery preference alone.
 const themeSelect = document.getElementById('theme-select');
-const themeKey = 'felt-character-theme-v1';
-let preferredTheme = 'system';
-try { preferredTheme = localStorage.getItem(themeKey) || 'system'; } catch {}
+const themeKey = 'felt-character-cosmos-theme-v1';
+let preferredTheme = 'dark';
+try { preferredTheme = localStorage.getItem(themeKey) || 'dark'; } catch {}
 function applyTheme(value) {
   const theme = ['system', 'light', 'dark'].includes(value) ? value : 'system';
   document.documentElement.dataset.theme = theme;
@@ -18,14 +18,14 @@ let enlargementInvoker = document.getElementById('enlarge-button');
 document.getElementById('enlarge-button').addEventListener('click', () => {
   if (document.activeElement !== document.getElementById('enlarge-secondary')) enlargementInvoker = document.getElementById('enlarge-button');
 });
-document.getElementById('image-dialog').addEventListener('close', () => enlargementInvoker.focus());
+document.getElementById('image-dialog').addEventListener('close', () => enlargementInvoker.focus({preventScroll:true}));
 document.getElementById('enlarge-secondary').addEventListener('click', () => {
   document.getElementById('enlarge-button').click();
   enlargementInvoker = document.getElementById('enlarge-secondary');
 });
 document.querySelector('.skip').addEventListener('click', event => {
   event.preventDefault();
-  document.getElementById('gallery').focus();
+  document.getElementById('gallery').focus({preventScroll:true});
 });
 document.getElementById('dialog-previous').addEventListener('click', () => showView(currentIndex - 1));
 document.getElementById('dialog-next').addEventListener('click', () => showView(currentIndex + 1));

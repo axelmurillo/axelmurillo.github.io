@@ -78,7 +78,10 @@ byId('lumi-sheet').hidden = !isLumi || appearance !== 'plain';
 const imageFolder = jackCasual ? 'jack-casual-v1/' : jackTinkerer ? 'jack-tinkerer-v2/' : isJack ? 'jack-crossed-arms-v2/' : nomieCasting ? 'nomie-magic-v5/' : isMerkabah ? 'lumi-merkabah-v4/' : nomieHat ? 'nomie-natural-hat-v2/' : isNomie ? 'nomie-natural-v7/' : isDressed ? 'lumi-hat-scarf-v35/' : isOriginal ? 'lumi-original-v4/' : isLumi ? 'lumi-plain-v22/' : 'group-cast-v7/';
 const placeholderURL = view => 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600"><rect x="50" y="50" width="500" height="500" rx="8" fill="#888888" fill-opacity=".08" stroke="#888888" stroke-opacity=".5" stroke-dasharray="5 8"/><text x="300" y="275" text-anchor="middle" font-family="system-ui,sans-serif" font-size="30" fill="#888888">${placeholderName}</text><text x="300" y="320" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" fill="#888888">${view.label}</text><text x="300" y="355" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" fill="#888888">Image placeholder</text></svg>`);
 const imageURL = view => placeholderCharacter ? placeholderURL(view) : `images/${imageFolder}${view.id}.png?v=${imageRevision}`;
-const displayURL = view => (jackTinkerer || nomieCasting || nomieNatural || nomieHat || (isJack && !jackCasual && !jackTinkerer)) ? imageURL(view) : `display-images/${imageFolder}${view.id}.webp?v=display-20261004`;
+const nativeLossless = jackTinkerer || nomieCasting || nomieNatural || nomieHat || (isJack && !jackCasual && !jackTinkerer);
+const displayURL = view => placeholderCharacter ? placeholderURL(view) : nativeLossless ? `display-lossless/${imageFolder}${view.id}.webp?v=royal-20261006` : `display-images/${imageFolder}${view.id}.webp?v=display-20261004`;
+const thumbnailURL = view => placeholderCharacter ? placeholderURL(view) : `thumbnails/${imageFolder}${view.id}.webp?v=royal-20261006`;
+const detailURL = view => nativeLossless ? displayURL(view) : imageURL(view);
 const imageAlt = view => placeholderCharacter ? `${placeholderName}, ${view.label.toLowerCase()} image placeholder. Character artwork has not been added yet.` : jackCasual ? `Jack, ${view.label.toLowerCase()} view, in a cream T-shirt, short green gnome cap, grey jersey sweatpants with a charcoal right-knee patch and oatmeal left-knee patch, and knitted socks; one dark band on his right middle finger where visible, orange pendant at the front.` : jackTinkerer ? `Jack, ${view.label.toLowerCase()} view, wearing his green-and-orange felt outfit and brass goggles, holding a large steampunk archery bow in his left hand, with one right-hip leather foraging bag, human-sized sewing finds and a tied closed safety pin; one dark right-middle-finger ring where visible, no active magic.` : isJack ? `Jack, viewed ${view.description}, in his green-and-orange gnome hat, woodland outfit and boots, with crossed arms, brown knee patches and no bag; his orange pendant is visible from the front.` : nomieCasting ? `Nomie, ${view.label.toLowerCase()} view, gently casting magic with open palms and long loose rainbow wool hair fading from a light pastel crown to richer coloured lengths with opalescent holographic highlights; mature longer-legged proportions, sage-grey floral dress and brown boots, no scarf, hat or handheld accessories.` : isMerkabah ? `Rainbow Lumi, viewed ${view.description}, gently glowing with a glass-crystal merkabah floating above his head across a clear air gap.` : nomieHat ? `Nomie, ${view.label.toLowerCase()} view, wearing her tall red floral felt hat, red floral scarf, sage-grey floral dress, cream knitted socks and fitted brown boots; natural brown-blonde hair, exactly two rear braids, longer legs and slimmer empty hands.` : isNomie ? `Nomie, ${view.label.toLowerCase()} view, with natural brown-to-blonde hair, two rear braids, red floral scarf, sage-grey floral dress and brown boots; no hat or handheld accessories.` : isDressed ? `Blue Lumi, viewed ${view.description}, wearing the multicoloured floppy hat with coral pompom and matching scarf with one golden star centred on the scarf front; swept hairstyle visible.` : isOriginal ? `Original Lumi, viewed ${view.description}, cropped from the original full-cast artwork.` : isLumi ? `Plain Lumi, viewed ${view.description}, without clothing or accessories.` : `Lumi, Kitty, Doggy, Nomie and Jack together, viewed ${view.description}, in their current default outfits.`;
 
 function setImageSize(img) {
@@ -98,7 +101,7 @@ for (const [index, view] of views.entries()) {
   button.setAttribute('aria-label', `Show ${view.label.toLowerCase()} view of ${characterName}`);
   button.setAttribute('aria-pressed', 'false');
   const thumbnail = document.createElement('img');
-  thumbnail.src = displayURL(view);
+  thumbnail.dataset.src = thumbnailURL(view);
   thumbnail.alt = '';
   setImageSize(thumbnail);
   thumbnail.addEventListener('load', () => setImageSize(thumbnail));
@@ -111,6 +114,8 @@ for (const [index, view] of views.entries()) {
   angleButtons.append(button);
 }
 
+byId('all-angles').addEventListener('toggle',()=>{if(byId('all-angles').open)for(const img of angleButtons.querySelectorAll('img[data-src]')){img.src=img.dataset.src;delete img.dataset.src;}});
+
 function setZoom(value) {
   enlarged = value;
   zoomArea.classList.toggle('is-zoomed', enlarged);
@@ -119,59 +124,45 @@ function setZoom(value) {
   zoomArea.scrollTo(0, 0);
 }
 
-let mainLoadVersion = 0;
-let detailLoadVersion = 0;
-function loadMain(view) {
-  const version = ++mainLoadVersion;
-  mainImage.hidden = true;
-  byId('enlarge-button').disabled = true;
-  byId('enlarge-button').setAttribute('aria-busy', 'true');
-  byId('image-loader').hidden = false;
-  byId('image-loader').textContent = 'Loading image…';
-  byId('image-status').textContent = `Loading ${characterName} · ${view.label.toLowerCase()}…`;
-  const pending = new Image();
-  pending.onload = async () => {
-    try { await pending.decode(); } catch {}
-    if (version !== mainLoadVersion) return;
-    mainImage.src = pending.src;
-    mainImage.hidden = false;
-    byId('image-loader').hidden = true;
-    byId('enlarge-button').disabled = false;
-    byId('enlarge-button').setAttribute('aria-busy', 'false');
-    byId('image-status').textContent = '';
-    // Only the two neighbouring small display files are warmed in the background.
-    if (!navigator.connection?.saveData) for (const offset of [-1,1]) {
-      const nearby = new Image(); nearby.src = displayURL(views[(currentIndex + offset + views.length) % views.length]);
-    }
-  };
-  pending.onerror = () => {
-    if (version !== mainLoadVersion) return;
-    byId('image-loader').textContent = 'Image unavailable';
-    byId('enlarge-button').setAttribute('aria-busy', 'false');
-    byId('image-status').textContent = 'This image could not be loaded. Try another angle or refresh.';
-  };
-  pending.src = displayURL(view);
+let mainLoadVersion = 0, detailLoadVersion = 0, warmTimer;
+const decodedImages = new Map();
+function decodedImage(url,priority='high') {
+  if(decodedImages.has(url)) return decodedImages.get(url);
+  const promise=new Promise((resolve,reject)=>{const img=new Image();img.decoding='async';img.fetchPriority=priority;img.onload=async()=>{try{await img.decode();resolve(img);}catch(e){reject(e);}};img.onerror=()=>reject(Error('Image unavailable'));img.src=url;});
+  decodedImages.set(url,promise);promise.catch(()=>decodedImages.delete(url));
+  while(decodedImages.size>4)decodedImages.delete(decodedImages.keys().next().value);
+  return promise;
 }
-function loadDetail(view) {
-  const version = ++detailLoadVersion;
-  dialogImage.hidden = true;
-  byId('detail-status').hidden = false;
-  byId('detail-status').textContent = 'Loading full-resolution image…';
-  zoomButton.disabled = true;
-  const pending = new Image();
-  pending.onload = async () => {
-    try { await pending.decode(); } catch {}
-    if (version !== detailLoadVersion || !dialog.open) return;
-    dialogImage.src = pending.src;
-    dialogImage.hidden = false;
-    byId('detail-status').hidden = true;
-    zoomButton.disabled = false;
-  };
-  pending.onerror = () => {
-    if (version !== detailLoadVersion) return;
-    byId('detail-status').textContent = 'The full-resolution image could not be loaded. Close and try again.';
-  };
-  pending.src = imageURL(view);
+function loadingFeedback(stage,status,message,hasImage){
+  const timer=setTimeout(()=>{stage.classList.add('is-loading');status.textContent=message;status.hidden=false;},hasImage?180:0);
+  const slow=setTimeout(()=>{status.textContent='Still bringing this view into focus…';},4000);
+  return ()=>{clearTimeout(timer);clearTimeout(slow);stage.classList.remove('is-loading');status.hidden=true;};
+}
+let stopMainFeedback=()=>{}, stopDetailFeedback=()=>{};
+async function loadMain(view) {
+  const version=++mainLoadVersion,stage=byId('enlarge-button'),loader=byId('image-loader');
+  clearTimeout(warmTimer);stopMainFeedback();stage.disabled=true;stage.setAttribute('aria-busy','true');
+  stopMainFeedback=loadingFeedback(stage,loader,`Bringing ${view.label.toLowerCase()} into focus…`,!mainImage.hidden);
+  byId('image-status').textContent=`Loading ${characterName} · ${view.label.toLowerCase()}…`;
+  try {
+    let pending;try{pending=await decodedImage(displayURL(view));}catch{pending=await decodedImage(imageURL(view));}
+    if(version!==mainLoadVersion)return;
+    stopMainFeedback();mainImage.src=pending.src;mainImage.alt=imageAlt(view);mainImage.hidden=false;
+    stage.disabled=false;stage.setAttribute('aria-busy','false');byId('image-status').textContent='';
+    warmTimer=setTimeout(()=>{if(!navigator.connection?.saveData)for(const offset of [-1,1])decodedImage(displayURL(views[(currentIndex+offset+views.length)%views.length]),'low').catch(()=>{});},350);
+  } catch {
+    if(version!==mainLoadVersion)return;stopMainFeedback();loader.hidden=false;loader.textContent='This view could not be loaded. Choose another angle or try again.';stage.setAttribute('aria-busy','false');byId('image-status').textContent=loader.textContent;
+  }
+}
+async function loadDetail(view) {
+  const version=++detailLoadVersion,loader=byId('detail-status');stopDetailFeedback();
+  zoomButton.disabled=true;zoomArea.setAttribute('aria-busy','true');
+  stopDetailFeedback=loadingFeedback(zoomArea,loader,`Bringing ${view.label.toLowerCase()} closer…`,!dialogImage.hidden);
+  try {
+    let pending;try{pending=await decodedImage(detailURL(view));}catch{pending=await decodedImage(imageURL(view));}
+    if(version!==detailLoadVersion||!dialog.open)return;
+    stopDetailFeedback();dialogImage.src=pending.src;dialogImage.alt=imageAlt(view);dialogImage.hidden=false;zoomButton.disabled=false;zoomArea.setAttribute('aria-busy','false');
+  }catch{if(version!==detailLoadVersion)return;stopDetailFeedback();loader.hidden=false;loader.textContent='This view is unavailable. Choose another angle or close and try again.';zoomArea.setAttribute('aria-busy','false');}
 }
 
 function showView(index, updateHash = true) {
@@ -188,9 +179,9 @@ function showView(index, updateHash = true) {
   byId('download-link').href = src;
   byId('download-link').download = `${jackCasual ? "jack-casual-" : jackTinkerer ? "jack-tinkerer-" : isJack ? "jack-bagless-" : nomieCasting ? "nomie-rainbow-magic-" : isMerkabah ? "lumi-merkabah-" : nomieHat ? "nomie-natural-hat-" : isNomie ? "nomie-natural-" : isDressed ? "lumi-hat-scarf-" : isOriginal ? "lumi-original-" : isLumi ? "lumi-plain-" : ""}${view.id}.png`;
   byId('image-status').textContent = '';
-  mainImage.alt = alt;
+
   loadMain(view);
-  dialogImage.alt = alt;
+
   if (dialog.open) loadDetail(view);
   angleSelect.value = view.id;
   for (const button of angleButtons.children) {
@@ -229,10 +220,10 @@ byId('enlarge-button').addEventListener('click', () => {
 });
 byId('close-button').addEventListener('click', () => dialog.close());
 dialog.addEventListener('close', () => {
-  ++detailLoadVersion;
+  ++detailLoadVersion;stopDetailFeedback();dialogImage.hidden=true;zoomArea.setAttribute('aria-busy','false');
   document.body.classList.remove('dialog-open');
   setZoom(false);
-  byId('enlarge-button').focus();
+  byId('enlarge-button').focus({preventScroll:true});
 });
 dialog.addEventListener('click', event => {
   if (event.target === dialog) {
@@ -256,5 +247,3 @@ document.addEventListener('keydown', event => {
 readHash();
 
 if (placeholderCharacter) { byId('original-link').hidden = true; byId('download-link').hidden = true; }
-
-
