@@ -1,0 +1,10 @@
+/* Approved exact light/dark logo assets, estate release 20261006. */
+.fw-brand{display:inline-flex!important;align-items:center;line-height:1!important;max-width:100%;text-decoration:none!important;flex-shrink:0;min-width:0;background:none!important;border:0;border-radius:0!important;padding:0!important}
+.fw-brand img.fw-logo{display:block!important;width:220px!important;max-width:100%!important;height:auto!important;aspect-ratio:auto!important;object-fit:contain!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;filter:none!important}
+.fw-brand img.fw-logo-light{display:none!important}.fw-brand img.fw-logo-dark{display:block!important}
+html[data-theme="light"] .fw-brand img.fw-logo-light{display:block!important}html[data-theme="light"] .fw-brand img.fw-logo-dark{display:none!important}
+@media(prefers-color-scheme:light){html[data-theme="system"] .fw-brand img.fw-logo-light{display:block!important}html[data-theme="system"] .fw-brand img.fw-logo-dark{display:none!important}}
+.fw-home-logo img.fw-logo{width:440px!important}.fw-brand:focus-visible{outline:3px solid #b99458!important;outline-offset:6px!important}
+.fw-estate-header{margin:0 0 24px;display:block}
+@media(max-width:700px){.fw-brand img.fw-logo{width:165px!important}.fw-home-logo img.fw-logo{width:320px!important}.topbar{flex-wrap:wrap;gap:12px}.site-header{flex-wrap:wrap;gap:16px}.fw-estate-header{margin-bottom:18px}}
+@media print{.fw-brand img.fw-logo-light{display:block!important}.fw-brand img.fw-logo-dark{display:none!important}}
