@@ -127,8 +127,8 @@ updateZoom();
 const revision='20261005-nomie-search-v4';
 const isCover=i=>scenes[i][0].startsWith('cover-');
 const coverPath=i=>'covers/'+(i===0?'front-cover-v1.png':'back-cover-v1.png')+'?v=arthur-weathered-20261003';
-const path=(i,side)=>`${scenes[i][0]}-part-${side==='left'?1:2}-${side}.png`;
-const img=(i,side)=>{const e=new Image();const key=isCover(i)?coverPath(i):scenes[i][0]==='11-peaceful-tree-home'?'masters/11-peaceful-tree-home-master.png':path(i,side);e.src=ready.get(key)?.loaded?ready.get(key).image.src:key;e.alt=isCover(i)?(i===0?'A World of Felt. Vol. I: Doggy! By Arthur Whitcombe.':'Copyright Arthur Whitcombe, 2026.'):`${scenes[i][1]}, ${side} page`;if(scenes[i][0]==='11-peaceful-tree-home')e.classList.add('tree-fill-image',side);e.draggable=false;return e};
+const path=(i,side)=>`${scenes[i][0]}-part-${side==='left'?1:2}-${side}.png`+(scenes[i][0]==='11-peaceful-tree-home'?'?v=tree-home-v2-20261006':'');
+const img=(i,side)=>{const e=new Image();const key=isCover(i)?coverPath(i):path(i,side);e.src=ready.get(key)?.loaded?ready.get(key).image.src:key;e.alt=isCover(i)?(i===0?'A World of Felt. Vol. I: Doggy! By Arthur Whitcombe.':'Copyright Arthur Whitcombe, 2026.'):`${scenes[i][1]}, ${side} page`;e.draggable=false;return e};
 const storageKey='felt-story-tape-draft-v2';
 let draftEdits={};
 try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))draftEdits=saved;}catch{}
@@ -201,7 +201,7 @@ function page(i,side){
 }
 
 const ready=new Map();
-const resources=i=>isCover(i)?[coverPath(i)]:scenes[i][0]==='11-peaceful-tree-home'?['masters/11-peaceful-tree-home-master.png']:[path(i,'left'),path(i,'right')];
+const resources=i=>isCover(i)?[coverPath(i)]:[path(i,'left'),path(i,'right')];
 function loadArt(key,retry=false){let record=ready.get(key);if(record?.loaded)return record.promise;if(record?.pending)return record.promise;if(!record){record={loaded:false,pending:false};ready.set(key,record);}record.pending=true;record.promise=new Promise(resolve=>{const image=new Image();record.image=image;let done=false;const end=()=>{if(done)return;done=true;clearTimeout(timer);record.loaded=image.complete&&image.naturalWidth>0;record.pending=false;resolve();};const timer=setTimeout(end,6000);image.onload=end;image.onerror=end;image.src=key+(retry?(key.includes('?')?'&':'?')+'retry='+Date.now():'');if(image.complete&&image.naturalWidth)end();});return record.promise;}
 for(let i=0;i<scenes.length;i++)for(const key of resources(i))loadArt(key);
 const canTurn=i=>resources(i).every(key=>ready.get(key)?.loaded);
