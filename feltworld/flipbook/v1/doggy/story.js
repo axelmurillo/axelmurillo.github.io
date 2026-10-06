@@ -1,8 +1,8 @@
 // Approved 3 October 2026; each line remains editable masking-tape text.
 // Omitted pages are deliberately quiet. Browser edits remain private drafts.
 const storyDraft={
- "10-wide-felt-world:right":{top:80,tapeOpacity:.54,text:"A world of wonder."},
- "11-peaceful-tree-home:right":{top:80,tapeOpacity:.54,text:"A place to call home."},
+ "10-wide-felt-world:right":{top:80,tapeOpacity:.72,text:"A world of wonder."},
+ "11-peaceful-tree-home:right":{top:80,tapeOpacity:.72,text:"A place to call home."},
  "06-tree-fortress-sanctuary:right":{top:50,text:"One winter evening,\nLumi and Kitty were warm inside."},
  "05-tree-fortress-exterior:left":{top:81,text:"Then they heard a distant call.\nThey went to look."},
  "08-jack-search:left":{top:29,text:"Their neighbour Jack was searching.\n“Doggy!” he called."},

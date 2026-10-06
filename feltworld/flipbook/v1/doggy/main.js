@@ -1,10 +1,10 @@
 import {setupInterfaceDust} from './interface-dust.js';
-import './graphics.js';
+import './graphics.js?v=8937d063d2e0';
 import { setupAtmosphere } from './atmosphere.js';
 const book=document.querySelector('#book'),stage=document.querySelector('.stage'),depth=document.querySelector('#depth-settings'),motion=document.querySelector('#motion-settings'),reduced=matchMedia('(prefers-reduced-motion:reduce)');
 const magic=setupAtmosphere();
 setupInterfaceDust();
-function sync(){const title=document.querySelector('#scene').textContent;document.querySelector('#plain-words').textContent=[...document.querySelectorAll('#spread .story-copy')].map(x=>x.getAttribute('aria-label')||x.textContent).filter(Boolean).join('\n\n')||'This is a quiet illustrated page.';magic.scene(title);}
+function sync(){const title=document.querySelector('#scene').textContent;document.querySelector('#plain-words').textContent=[...document.querySelectorAll('#spread .story-copy')].map(x=>x.getAttribute('aria-label')||x.textContent).filter(Boolean).join('\n\n')||'This is a quiet illustrated page.';document.querySelector('#picture-description').textContent=document.querySelector('#spread img')?.alt||title;magic.scene(title);}
 new MutationObserver(sync).observe(document.querySelector('#spread'),{childList:true,subtree:true,characterData:true});sync();
 let depthOff=false;try{depthOff=localStorage.getItem('felt-reader-depth-v2')==='off';}catch{}
 let frame=0,x=0,y=0,tx=0,ty=0,inside=false;
@@ -17,3 +17,6 @@ depth.onclick=()=>{depthOff=!depthOff;try{localStorage.setItem('felt-reader-dept
 // Use actual pointer events instead of relying on hover media-query reporting in embedded browsers.
 window.addEventListener('pointermove',event=>{if(event.pointerType==='touch'||!enabled()||book.classList.contains('turning'))return;const r=stage.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom){if(inside)centre();return;}inside=true;const b=book.getBoundingClientRect();tx=Math.max(-2.5,Math.min(2.5,(.5-(event.clientY-b.top)/b.height)*5));ty=Math.max(-3,Math.min(3,((event.clientX-b.left)/b.width-.5)*6));wake();},{passive:true});stage.addEventListener('pointerleave',centre);window.addEventListener('blur',centre);
 new MutationObserver(()=>{if(book.classList.contains('turning')){cancelAnimationFrame(frame);frame=0;}else if(enabled())wake();}).observe(book,{attributes:true,attributeFilter:['class']});
+
+const readingSize=document.querySelector('#reading-size');
+readingSize.addEventListener('change',()=>{document.querySelector('.reading-panel').style.setProperty('--reading-scale',readingSize.value);});
