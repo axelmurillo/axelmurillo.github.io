@@ -10,6 +10,7 @@ window.FeltPictureDescriptions={
   "12-first-small-kindness": "Lumi sits low in the snow facing Doggy, with Kitty close beside him. Doggy stands a short distance away, looking towards Lumi beneath the pink evening sky.",
   "13-lumi-awakening": "Lumi glows with rainbow light against a snowy sunset. Bright curling threads of light surround his blue wool body, and a golden geometric star shines above his head.",
   "04-trio-lake": "Kitty, rainbow-glowing Lumi and Doggy sit side by side on a snowy bank beside a still lake. Northern lights, a crescent moon and a glowing star fill the sky.",
+  "14-quiet-journey": "Rainbow-coloured Lumi, scarf-wearing Kitty and green-collared Doggy take gentle steps together along a snowy path beside a lake. A small golden crystal floats above Lumi. A wooden bridge lies ahead beneath wool-like northern lights and a crescent moon.",
   "01-woodland-bridge": "Lumi, Kitty and Doggy meet Nomie at a wooden bridge over a snowy stream. Nomie holds a warm glowing lantern beneath northern lights and a crescent moon.",
   "03-manor-welcome": "Lumi, Kitty and Doggy wait outside a tall teapot-shaped home with blue flower patterns. Nomie stands beside its open, warmly lit doorway; snow blankets the steps and garden.",
   "02-manor-interior": "Inside the warm home, Lumi, Jack and Nomie sit together on a sofa with cups. Doggy and Kitty play on the rug with a glowing ball, surrounded by warm lamps and blue-flowered walls."
