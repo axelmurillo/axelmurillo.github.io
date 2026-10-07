@@ -48,7 +48,7 @@ for (const option of [...angleSelect.options]) { if (!views.some(view => view.id
 const isDressed = isLumi && appearance === 'hat-scarf';
 const isOriginal = isLumi && appearance === 'original';
 const viewCount = views.length;
-const imageRevision = jackCasual ? '20261004-jack-casual-v1' : jackTinkerer ? '20261005-jack-tinkerer-v2-approved' : isJack ? '20261006-jack-front-left-approved' : nomieCasting ? '20261004-nomie-magic-v5-approved' : isMerkabah ? '20261004-lumi-merkabah-v4' : nomieHat ? '20261004-nomie-hat-v2-approved' : isNomie ? '20261004-nomie-natural-v7' : isDressed ? '20261004-lumi-v35-aligned' : isOriginal ? '20261004-lumi-original-v4' : isLumi ? '20261004-lumi-v22' : '20261004-group-cast-v7';
+const imageRevision = jackCasual ? '20261004-jack-casual-v1' : jackTinkerer ? '20261005-jack-tinkerer-v2-approved' : isJack ? '20261007-jack-temporary-alpha' : nomieCasting ? '20261004-nomie-magic-v5-approved' : isMerkabah ? '20261004-lumi-merkabah-v4' : nomieHat ? '20261004-nomie-hat-v2-approved' : isNomie ? '20261004-nomie-natural-v7' : isDressed ? '20261004-lumi-v35-aligned' : isOriginal ? '20261004-lumi-original-v4' : isLumi ? '20261004-lumi-v22' : '20261004-group-cast-v7';
 const characterName = placeholderCharacter ? placeholderName : isJack ? 'Jack' : isNomie ? 'Nomie' : isLumi ? 'Lumi' : 'all five characters';
 const imageSize = placeholderCharacter ? [600,600] : isJack ? null : nomieCasting ? null : isMerkabah ? [400, 560] : nomieHat ? null : isNomie ? null : isDressed ? [480, 600] : isOriginal ? null : isLumi ? [362, 543] : [1536, 1024];
 for (const link of document.querySelectorAll('[data-character]')) {
