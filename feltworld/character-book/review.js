@@ -27,7 +27,8 @@ const isNomie = ['nomie', 'nami'].includes(query.get('character'));
 // Jack's approved bagless views retain their native image dimensions.
 const isJack = query.get('character') === 'jack';
 const jackTinkerer = isJack && query.get('appearance') === 'tinkerer';
-const jackCasual = isJack && query.get('appearance') === 'casual';
+// Casual withdrawn by Axel, 7 October 2026. Old links use Crossed arms.
+const jackCasual = false;
 const placeholderCharacter = ['doggy','kitty'].includes(query.get('character')) ? query.get('character') : null;
 const placeholderName = placeholderCharacter === 'doggy' ? 'Doggy' : 'Kitty';
 const isLumi = query.get('character') === 'lumi';
