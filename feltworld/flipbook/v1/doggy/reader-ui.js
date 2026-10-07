@@ -1,0 +1,2 @@
+// Native details supplies keyboard activation; explicit state supports assistive technology.
+(()=>{const tools=document.querySelector('.reader-tools'),summary=tools.querySelector('summary'),menu=tools.querySelector('.tool-menu');menu.id='reader-options-menu';summary.setAttribute('aria-controls',menu.id);const sync=()=>summary.setAttribute('aria-expanded',String(tools.open));tools.addEventListener('toggle',sync);sync();})();

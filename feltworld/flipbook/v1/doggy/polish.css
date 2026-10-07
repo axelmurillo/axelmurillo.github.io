@@ -1,0 +1,33 @@
+/* Single strokes: colour changes without overlapping or offset segments. */
+.site-header,.reading-copy{border:0}.site-header::before,.site-header::after,.reading-copy::before,.reading-copy::after{display:none}.reader-rule{position:absolute;left:0;right:0;bottom:-.5px;width:100%;height:9px;overflow:visible;pointer-events:none}.reading-copy .reader-rule{top:-.5px;bottom:auto;transform:scaleY(-1)}.reader-rule path{fill:none;stroke-width:1;vector-effect:non-scaling-stroke}.reader-tools{margin-left:8px}.reader-tools>summary{border:1px solid color-mix(in srgb,var(--line) 48%,transparent);font:15px var(--serif);padding:12px 18px;min-height:48px}.reader-footer{gap:12px}.download-heading{grid-column:1/-1;font:16px var(--serif);margin:0}.menu-downloads a{font-size:13px}.reader-options{grid-template-columns:1fr!important}.reader-options button{font-size:14px!important;min-height:44px}.reader-loading .stage{visibility:hidden}#opening-loader{position:fixed;inset:0;z-index:250;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#101923;color:#eee8d8;font:22px Baskerville,Georgia,serif}#opening-loader p{margin:12px 0 22px}.opening-star{color:#e6ca8d;font-size:34px}#opening-progress{width:min(220px,60vw);height:3px;appearance:none;border:0;background:#73838e44;color:#e6ca8d;border-radius:3px;overflow:hidden}#opening-progress::-webkit-progress-bar{background:#73838e44}#opening-progress::-webkit-progress-value{background:#e6ca8d;transition:width .2s}#opening-progress::-moz-progress-bar{background:#e6ca8d}#opening-loader button{width:auto;border-radius:16px;font:16px Georgia;padding:8px 20px;margin-top:20px}@media(prefers-reduced-motion:reduce){#opening-progress::-webkit-progress-value{transition:none}}@media(forced-colors:active){.reader-rule path{stroke:CanvasText}.reader-tools>summary{border-color:CanvasText}}
+
+/* A closed cover never needs the blue CSS fallback binding. */
+.book.cover-mode::before{content:none!important;display:none!important}
+/* One shared gap between book, caption and navigation. */
+:root{--book-caption-gap:16px}.stage{padding-bottom:0!important}.scene-caption{min-height:0;margin:var(--book-caption-gap) auto 0;padding:0 8px}.reader-footer{margin-top:var(--book-caption-gap)}
+
+/* Reserve the visible lower binding, not just the image rectangle. */
+.stage:has(.book:not(.cover-mode)){padding-bottom:10px!important}
+.reader-footer{column-gap:12px;row-gap:12px;align-items:flex-start}.reader-tools{margin-left:0}.reader-tools>summary{min-height:58px}
+.site-header{flex-direction:row!important;flex-wrap:wrap;gap:8px 16px;padding:10px 0 14px}.site-header nav{margin-left:auto}.site-header nav a{font:15px var(--serif);min-height:44px;white-space:nowrap}
+@media(max-width:650px){.reader-footer{flex-direction:column;align-items:center;gap:12px}.reader-tools>summary{min-height:48px}.site-header .fw-logo{max-width:170px!important;width:170px!important}.site-header nav a{font-size:14px}}
+@media(max-width:360px){.site-header{justify-content:center}.site-header nav{margin-left:0;width:100%;justify-content:center}.site-header nav a{padding:0 16px;border:1px solid color-mix(in srgb,var(--line) 35%,transparent);border-radius:24px}}
+html:not(.three-book-ready) .stage:has(.book:not(.cover-mode)){padding-bottom:16px!important}.reader-footer{margin:16px auto 0}
+
+/* Shared top anchor and reserved binding space across cover boundaries. */
+.stage{align-items:flex-start;padding-bottom:16px!important}.stage:has(.book:not(.cover-mode)){padding-bottom:16px!important}
+
+
+
+
+
+
+
+.stage{overflow:visible!important;isolation:auto;z-index:2}.reader-header{position:relative;z-index:1}.book.physical-crease>.crease{visibility:hidden!important}.turn-crease,.boundary-sheet>.crease{display:none!important}
+.book.shared-crease>.crease::after{display:none}
+
+/* Discreet options share the brand row; the complete native disclosure is retained. */
+.reader-header{z-index:1}.reader-header:has(.reader-tools[open]){z-index:120}.site-header{display:grid;grid-template-columns:minmax(0,1fr) auto 44px;align-items:center;gap:8px 18px}.site-header nav{margin-left:0}.reader-tools{margin:0;justify-self:end}.reader-tools>summary{width:44px;height:44px;min-height:44px;padding:0;justify-content:center;border:0;background:transparent;color:var(--muted);border-radius:50%}.reader-tools>summary svg{fill:none;stroke:currentColor;stroke-width:1.4;stroke-linejoin:round}.reader-tools[open]>summary{color:var(--gold);background:var(--hover)}.reader-tools .tool-menu{top:calc(100% + 10px);bottom:auto;right:0;max-height:calc(100dvh - 110px);overflow:auto}.reader-legal{margin:20px auto 0;text-align:center;font:12px/1.5 var(--serif);color:var(--muted);max-width:100%;overflow-wrap:anywhere}.reader-footer{margin:16px auto 0}.site-header nav a{border:0!important;padding:0!important;border-radius:0!important}
+@media(max-width:650px){.site-header{grid-template-columns:minmax(0,1fr) 44px;gap:2px 12px;padding:6px 0 10px}.site-header .fw-brand{grid-column:1;grid-row:1;justify-self:start}.site-header .reader-tools{grid-column:2;grid-row:1}.site-header nav{grid-column:1/-1;grid-row:2;justify-content:center;width:100%;margin:0}.site-header nav a{font-size:14px;min-height:44px}.reader-tools .tool-menu{position:fixed;top:78px;bottom:auto;left:18px;right:18px;width:auto;max-width:none;max-height:calc(100dvh - 96px)}}
+@media(max-height:550px){.reader-tools .tool-menu{position:fixed;top:12px;bottom:auto;left:18px;right:18px;max-height:calc(100dvh - 24px)}}
+@media(forced-colors:active){.reader-tools>summary{border:1px solid CanvasText}}

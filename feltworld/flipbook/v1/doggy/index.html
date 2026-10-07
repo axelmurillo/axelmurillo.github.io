@@ -51,7 +51,7 @@ dialog::backdrop{background:#0008}dialog h2{margin:0 0 16px;font-size:18px;font-
 img.wide-art{object-fit:contain!important;background:#17191c;}
 </style>
 <link rel="stylesheet" href="reader.css?v=ddf16fe9aee4">
-<link rel="stylesheet" href="royal.css?v=46c179cad368"><script src="royal.js?v=717231b0bf72" defer></script>
+<link rel="stylesheet" href="royal.css?v=d4941ab3456e"><script src="royal.js?v=8647b79806e6" defer></script>
 <link rel="canonical" href="https://axelmurillo.github.io/feltworld/flipbook/v1/doggy/">
 <meta property="og:title" content="A World of Felt · Vol. I: Doggy!">
 <meta property="og:description" content="A little dog, a snowy adventure, and the warmth of finding home. An illustrated story by Arthur Whitcombe.">
@@ -74,23 +74,24 @@ img.wide-art{object-fit:contain!important;background:#17191c;}
 <link rel="icon" href="https://axelmurillo.github.io/feltworld/icons/v1/book-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="https://axelmurillo.github.io/feltworld/icons/v1/book.svg" type="image/svg+xml" sizes="any">
 <link rel="apple-touch-icon" href="https://axelmurillo.github.io/feltworld/icons/v1/book-180.png" sizes="180x180">
-<link rel="stylesheet" href="../../../brand/logo.css"></head>
-<body>
+<link rel="stylesheet" href="../../../brand/logo.css"><link rel="preload" as="image" crossorigin="anonymous" fetchpriority="high" href="covers/front-cover-v1.png?v=arthur-weathered-20261003"><link rel="stylesheet" href="polish.css?v=b3ea4af03c64"><script src="divider.js?v=6bbb46c61f12" defer></script><script src="reader-ui.js?v=760e5bd12994" defer></script></head>
+<body class="reader-loading">
+<div id="opening-loader" role="status" aria-live="polite"><span class="opening-star" aria-hidden="true">✦</span><p id="opening-label">Opening your book…</p><progress id="opening-progress" max="2" value="0" aria-label="Preparing the front cover"></progress></div><noscript><style>#opening-loader{display:none}.reader-loading .stage{visibility:visible}</style><p>This book needs JavaScript to turn its pages.</p></noscript>
 <main>
 <a class="skip-reader" href="#book">Skip to the book</a>
-<header class="reader-header"><div class="site-header"><a class="fw-brand " href="../../../" aria-label="feltWorld home"><img class="fw-logo fw-logo-light" src="../../../brand/logo-light.png" alt="" width="2054" height="766"><img class="fw-logo fw-logo-dark" src="../../../brand/logo-dark.png" alt="" width="2053" height="766"></a><nav aria-label="World navigation"><a href="https://axelmurillo.github.io/feltworld/">World</a><a href="https://axelmurillo.github.io/feltworld/character-book/">Characters <span aria-hidden="true">↗</span></a></nav></div><div class="reader-intro"><p class="volume">A WORLD OF FELT · THE STORYBOOK</p><h1>Vol. I: <em>Doggy!</em></h1><p class="hint">A snowy adventure. A place to belong.</p></div></header>
+<header class="reader-header"><div class="site-header"><a class="fw-brand " href="../../../" aria-label="feltWorld home"><img class="fw-logo fw-logo-light" src="../../../brand/logo-light.png" alt="" width="2054" height="766"><img class="fw-logo fw-logo-dark" src="../../../brand/logo-dark.png" alt="" width="2053" height="766"></a><nav aria-label="Felt World navigation"><a href="https://axelmurillo.github.io/feltworld/character-book/">Meet the characters <span aria-hidden="true">↗</span></a></nav><details class="reader-tools"><summary aria-label="Reading options" title="Reading options"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m9.5 3-.5 2-2 .9-1.8-.6L3 9l1.5 1.4v3.2L3 15l2.2 3.7 1.8-.6 2 .9.5 2h5l.5-2 2-.9 1.8.6L21 15l-1.5-1.4v-3.2L21 9l-2.2-3.7-1.8.6-2-.9-.5-2z"/><circle cx="12" cy="12" r="3.2"/></svg><span class="sr-only">Reading options</span></summary><div class="tool-menu"><p class="menu-eyebrow">Make it comfortable</p><label for="theme-select">Background</label><select id="theme-select" aria-label="Background — colour theme"><option value="system">Match my device</option><option value="light">Day sky</option><option value="dark">Night sky</option></select><div class="reader-options"><button id="motion-settings" aria-label="Page turns" aria-pressed="true">Page turns on</button><button id="depth-settings" aria-label="Book tilt" aria-pressed="true">Book tilt on</button><button id="effects-settings" aria-label="Effects" aria-pressed="true">Effects on</button></div><p class="menu-note">Choose how the book moves and looks.</p><div class="edit-row"><button id="text-settings">Make a private draft</button><span>Saved only in this browser.</span></div><div id="scene-downloads" class="menu-downloads"><p class="download-heading">Save the pictures</p><a id="left-download" download>Save left page</a><a id="right-download" download>Save right page</a><a id="master-download" download>Save both pages</a></div></div></details></div><div class="reader-intro"><p class="volume">A WORLD OF FELT · THE STORYBOOK</p><h1>Vol. I: <em>Doggy!</em></h1><p class="hint">A snowy adventure. A place to belong.</p></div></header>
 <div class="stage"><div class="ambient" aria-hidden="true"></div><div class="book" id="book" tabindex="0" role="group" aria-label="Illustrated book, front cover, 1 of 15"><div class="page-stack left" aria-hidden="true"></div><div class="page-stack right" aria-hidden="true"></div><div class="spread" id="spread"></div><div class="crease"></div></div></div>
 <div class="scene-caption"><p id="scene">Front cover</p></div>
-<footer class="reader-footer"><div class="controls" aria-label="Book navigation"><button id="first" aria-label="First spread" title="First spread" disabled>⇤</button><button id="previous" aria-label="Previous spread" disabled><span aria-hidden="true">←</span><span class="control-word"> Previous</span></button><span id="position">1 / 15</span><button id="next" aria-label="Next spread"><span class="control-word">Next </span><span aria-hidden="true">→</span></button><button id="last" aria-label="Last spread" title="Last spread">⇥</button></div>
-<details class="reader-tools"><summary>Settings &amp; downloads <span aria-hidden="true">⌄</span></summary><div class="tool-menu"><p class="menu-eyebrow">Make yourself at home</p><label for="theme-select">Your sky</label><select id="theme-select" aria-label="Your sky — colour theme"><option value="system">Follow my device</option><option value="light">Morning space</option><option value="dark">Night sky</option></select><div class="reader-options"><button id="motion-settings" aria-label="Page-turn animation" aria-pressed="true">Motion on</button><button id="depth-settings" aria-label="Book depth effect" aria-pressed="true">Depth on</button><button id="effects-settings" aria-label="Magic particles" aria-pressed="true">Magic on</button></div><p class="menu-note">A little atmosphere, at your pace.</p><div class="edit-row"><button id="text-settings">Edit words</button><span>Your edits stay in this browser.</span></div><div id="scene-downloads" class="menu-downloads"><a id="left-download" download>Left page ↓</a><a id="right-download" download>Right page ↓</a><a id="master-download" download>Full spread ↓</a></div></div></details></footer>
+<footer class="reader-footer"><div class="controls" aria-label="Book navigation"><button id="first" aria-label="Go to the front cover" title="Go to the front cover" disabled>⇤</button><button id="previous" aria-label="Previous pages" disabled><span aria-hidden="true">←</span><span class="control-word"> Previous</span></button><span id="position">1 / 15</span><button id="next" aria-label="Next pages"><span class="control-word">Next </span><span aria-hidden="true">→</span></button><button id="last" aria-label="Go to the back cover" title="Go to the back cover">⇥</button></div>
+</footer>
 <p class="reader-help">Tap, swipe or use the arrows to turn. Take your time.</p>
-<details class="reading-copy"><summary>Read the words &amp; picture description</summary><div class="reading-panel"><label for="reading-size">Reading text size</label> <select id="reading-size"><option value="1">Normal</option><option value="1.5">Large</option><option value="2">Extra large (200%)</option></select><h2>Story words</h2><p id="plain-words"></p><h2>Picture description</h2><p id="picture-description"></p></div></details>
+<details class="reading-copy"><summary>Read the story text</summary><div class="reading-panel"><label for="reading-size">Text size</label> <select id="reading-size"><option value="1">Standard</option><option value="1.5">Large</option><option value="2">Extra large (200%)</option></select><h2>Story text</h2><p id="plain-words"></p><h2>About the picture</h2><p id="picture-description"></p></div></details>
 <p id="load-notice" class="load-notice" role="status"></p>
 <p id="reader-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
-</main>
-<dialog id="editor" aria-labelledby="editor-heading"><h2 id="editor-heading">Edit this spread</h2><label>Page<select id="copy-page"><option value="left">Left page</option><option value="right">Right page</option></select></label><label>Words · leave empty for a quiet page<textarea id="copy-input" maxlength="320"></textarea></label><label>Lettering<select id="copy-style"><option value="tape">Printed serif</option><option value="tape-hand">Handwritten</option></select></label><label>Type size<input id="copy-size" type="range" min="1.5" max="3" step=".05" value="2.15"></label><label>Vertical position<input id="copy-top" type="range" min="15" max="85" step="1" value="50"></label><p id="save-note">Your edits are private to this browser.</p><button id="reset-copy">Restore this page’s draft</button> <button id="close-editor">Done</button></dialog>
+<p class="reader-legal">© MMXXVI A World of Felt · feltWorld™</p></main>
+<dialog id="editor" aria-labelledby="editor-heading"><h2 id="editor-heading">Edit this spread</h2><label>Page<select id="copy-page"><option value="left">Left page</option><option value="right">Right page</option></select></label><label>Words · leave blank for a page without words<textarea id="copy-input" maxlength="320"></textarea></label><label>Lettering<select id="copy-style"><option value="tape">Printed serif</option><option value="tape-hand">Handwritten</option></select></label><label>Text size<input id="copy-size" type="range" min="1.5" max="3" step=".05" value="2.15"></label><label>Position on the page<input id="copy-top" type="range" min="15" max="85" step="1" value="50"></label><p id="save-note">Your edits are private to this browser.</p><button id="reset-copy">Reset this page</button> <button id="close-editor">Done</button></dialog>
 <script src="paper-turn.js?v=18efab23088e"></script>
-<script src="story.js?v=9aa113760c2d"></script>
+<script src="story.js?v=e97d23ff76d2"></script>
 <script src="descriptions.js?v=0e05aa85b53c"></script>
 <script>
 const scenes=[['cover-front','Front cover'],['10-wide-felt-world','A wide world of felt'],['11-peaceful-tree-home','A peaceful tree home'],['06-tree-fortress-sanctuary','Inside their sanctuary'],['05-tree-fortress-exterior','Lumi and Kitty’s tree-fortress'],['08-jack-search','Jack searches for Doggy'],['09-nomie-search-mansion','Nomie searches outside her home'],['07-doggy-alone','Doggy waits in the snow'],['12-first-small-kindness','The first small kindness'],['13-lumi-awakening','Lumi awakens'],['04-trio-lake','The quiet lake'],['01-woodland-bridge','Woodland bridge'],['03-manor-welcome','A welcome at the home'],['02-manor-interior','Inside the home'],['cover-back','Back cover']];
@@ -101,7 +102,7 @@ const motionButton=document.querySelector('#motion-settings');
 let manualMotionOff=false;
 try{manualMotionOff=localStorage.getItem('felt-reader-motion-v1')==='off';}catch{}
 const motionAllowed=()=>!reduced.matches&&!manualMotionOff&&!!window.FeltPaperTurn?.supported();
-function updateMotionControl(){const on=motionAllowed();motionButton.textContent=on?'Motion on':'Motion off';motionButton.setAttribute('aria-pressed',String(on));motionButton.disabled=reduced.matches||!window.FeltPaperTurn?.supported();motionButton.title=reduced.matches?'Your device requests reduced motion':(!window.FeltPaperTurn?.supported()?'Instant page turns in this browser':'Turn page animation on or off');}
+function updateMotionControl(){const on=motionAllowed();motionButton.textContent=on?'Page turns on':'Page turns off';motionButton.setAttribute('aria-pressed',String(on));motionButton.disabled=reduced.matches||!window.FeltPaperTurn?.supported();motionButton.title=reduced.matches?'Your device requests reduced motion':(!window.FeltPaperTurn?.supported()?'Instant page turns in this browser':'Turn page animation on or off');}
 function announce(){document.querySelector('#reader-status').textContent=scenes[index][1]+', '+(isCover(index)?'page':'spread')+' '+(index+1)+' of '+scenes.length;}
 function interruptTurn(){loadEpoch++;pointer=null;if(turn)finish(!!turn.commit);else{animating=false;book.removeAttribute('aria-busy');notice();render();}}
 function motionChanged(){if(!motionAllowed())interruptTurn();updateMotionControl();}
@@ -115,8 +116,8 @@ updateZoom();
 const revision='20261005-nomie-search-v4';
 const isCover=i=>scenes[i][0].startsWith('cover-');
 const coverPath=i=>'covers/'+(i===0?'front-cover-v1.png':'back-cover-v1.png')+'?v=arthur-weathered-20261003';
-const path=(i,side)=>`${scenes[i][0]}-part-${side==='left'?1:2}-${side}.png`+(scenes[i][0]==='08-jack-search'?'?v=jack-search-v5-20261007':scenes[i][0]==='11-peaceful-tree-home'?'?v=tree-home-v2-20261006':'');
-const img=(i,side)=>{const e=new Image();const key=isCover(i)?coverPath(i):path(i,side);e.src=ready.get(key)?.loaded?ready.get(key).image.src:key;e.alt=isCover(i)?(i===0?'A World of Felt. Vol. I: Doggy! By Arthur Whitcombe.':'Copyright Arthur Whitcombe, 2026.'):(side==='left'?(window.FeltPictureDescriptions[scenes[i][0]]||scenes[i][1]):'');e.draggable=false;return e};
+const path=(i,side)=>`${scenes[i][0]}-part-${side==='left'?1:2}-${side}.png`+(scenes[i][0]==='11-peaceful-tree-home'?'?v=tree-home-v2-20261006':'');
+const img=(i,side)=>{const e=new Image();e.crossOrigin="anonymous";const key=isCover(i)?coverPath(i):path(i,side);e.src=ready.get(key)?.loaded?ready.get(key).image.src:key;e.alt=isCover(i)?(i===0?'A World of Felt. Vol. I: Doggy! By Arthur Whitcombe.':'Copyright Arthur Whitcombe, 2026.'):(side==='left'?(window.FeltPictureDescriptions[scenes[i][0]]||scenes[i][1]):'');e.draggable=false;return e};
 const storageKey='felt-story-tape-draft-v2';
 let draftEdits={};
 try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))draftEdits=saved;}catch{}
@@ -194,13 +195,13 @@ function loadArt(key){
  let record=ready.get(key);if(record?.loaded||record?.pending)return record.promise;
  record={loaded:false,pending:true};ready.set(key,record);
  record.promise=new Promise(resolve=>{
-  const image=new Image();record.image=image;
+  const image=new Image();image.crossOrigin="anonymous";record.image=image;
   const end=loaded=>{record.loaded=loaded;record.pending=false;resolve();if(loaded&&!animating&&resources(index).includes(key)&&canTurn(index))notice();};
-  image.onload=()=>image.decode().then(()=>end(image.naturalWidth>0),()=>end(false));
+  image.onload=()=>{if(key===coverPath(0))document.querySelector('#opening-progress').value=1;image.decode().then(()=>end(image.naturalWidth>0),()=>end(false));};
   image.onerror=()=>end(false);image.src=key;
  });return record.promise;
 }
-function warmArt(i){for(const n of [i,i+1,i-1])if(n>=0&&n<scenes.length)for(const key of resources(n))loadArt(key);}
+function warmArt(i){Promise.all(resources(i).map(loadArt)).then(()=>{const adjacent=()=>{for(const n of [i+1,i-1])if(n>=0&&n<scenes.length)for(const key of resources(n))loadArt(key)};if('requestIdleCallback'in window)requestIdleCallback(adjacent,{timeout:1500});else setTimeout(adjacent,200);});}
 function decodedArt(url){return ready.get(url)?.image;}
 const canTurn=i=>resources(i).every(key=>ready.get(key)?.loaded);
 async function waitForArt(i){
@@ -209,7 +210,13 @@ async function waitForArt(i){
 }
 function notice(text=''){document.querySelector('#load-notice').textContent=text;}
 function coverElement(i){const e=document.createElement('div');e.className='cover '+(i===0?'front':'back');e.append(img(i,'right'));return e;}
-function geometry(cover){const probe=book.cloneNode(false);probe.removeAttribute('id');probe.removeAttribute('tabindex');probe.setAttribute('aria-hidden','true');probe.classList.toggle('cover-mode',cover);Object.assign(probe.style,{position:'absolute',visibility:'hidden',left:'50%',top:'50%',transform:'translate(-50%,-50%)'});book.parentElement.append(probe);const rect=probe.getBoundingClientRect(),stage=book.parentElement.getBoundingClientRect();probe.remove();return {x:rect.left-stage.left,y:rect.top-stage.top,w:rect.width,h:rect.height};}
+function geometry(cover){
+ const host=book.parentElement,style=getComputedStyle(host),left=parseFloat(style.paddingLeft)||0,right=parseFloat(style.paddingRight)||0;
+ // Match the in-flow book's content width; an absolute percentage includes stage padding.
+ const frame=document.createElement('div');Object.assign(frame.style,{position:'absolute',visibility:'hidden',left:left+'px',top:style.paddingTop,width:(host.clientWidth-left-right)+'px',display:'flex',justifyContent:'center',alignItems:'flex-start',pointerEvents:'none'});frame.setAttribute('aria-hidden','true');
+ const probe=book.cloneNode(false);probe.removeAttribute('id');probe.removeAttribute('tabindex');probe.classList.toggle('cover-mode',cover);Object.assign(probe.style,{position:'relative',left:'auto',top:'auto',transform:'none'});frame.append(probe);host.append(frame);
+ const rect=probe.getBoundingClientRect(),stage=host.getBoundingClientRect();frame.remove();return {x:rect.left-stage.left,y:rect.top-stage.top,w:rect.width,h:rect.height};
+}
 function beginBoundary(direction,target){
  const layer=document.createElement('div');layer.className='boundary';layer.style.transform=book.style.transform;layer.style.transformOrigin='center';layer.setAttribute('aria-hidden','true');book.parentElement.append(layer);
  if(isCover(index)&&isCover(target)){
@@ -227,13 +234,13 @@ function beginBoundary(direction,target){
  }
  spread.style.opacity='0';book.classList.add('turning','boundary-turn');setProgress(0);return true;
 }
-function render(){warmArt(index);window.dispatchEvent(new CustomEvent("felt-scene",{detail:{index,id:scenes[index][0],count:scenes.length}}));book.classList.toggle('cover-mode',isCover(index));spread.style.transform='';spread.style.opacity='';if(isCover(index)){const cover=document.createElement('div');cover.className='cover '+(index===0?'front':'back');cover.append(img(index,'right'));spread.replaceChildren(cover);}else spread.replaceChildren(page(index,'left'),page(index,'right'));previous.disabled=index===0;next.disabled=index===scenes.length-1;document.querySelector('#first').disabled=index===0;document.querySelector('#last').disabled=index===scenes.length-1;document.querySelector('#position').textContent=`${index+1} / ${scenes.length}`;document.querySelector('#scene').textContent=scenes[index][1];book.setAttribute('aria-label',`Illustrated book, ${scenes[index][1]}, spread ${index+1} of ${scenes.length}`);document.querySelector('#left-download').href=path(index,'left');document.querySelector('#right-download').href=path(index,'right');document.querySelector('#master-download').href=`masters/${scenes[index][0]}-master.png`+(scenes[index][0]==='08-jack-search'?'?v=jack-search-v5-20261007':'');document.querySelector('#scene-downloads').hidden=isCover(index);document.querySelector('#text-settings').disabled=isCover(index);}
-function begin(direction,target=index+direction){
+function render(){warmArt(index);window.dispatchEvent(new CustomEvent("felt-scene",{detail:{index,id:scenes[index][0],count:scenes.length}}));book.classList.toggle('cover-mode',isCover(index));spread.style.transform='';spread.style.opacity='';if(isCover(index)){const cover=document.createElement('div');cover.className='cover '+(index===0?'front':'back');cover.append(img(index,'right'));spread.replaceChildren(cover);}else spread.replaceChildren(page(index,'left'),page(index,'right'));previous.disabled=index===0;next.disabled=index===scenes.length-1;document.querySelector('#first').disabled=index===0;document.querySelector('#last').disabled=index===scenes.length-1;document.querySelector('#position').textContent=`${index+1} / ${scenes.length}`;document.querySelector('#scene').textContent=scenes[index][1];book.setAttribute('aria-label',`Illustrated book, ${scenes[index][1]}, spread ${index+1} of ${scenes.length}`);document.querySelector('#left-download').href=path(index,'left');document.querySelector('#right-download').href=path(index,'right');document.querySelector('#master-download').href=`masters/${scenes[index][0]}-master.png`;document.querySelector('#scene-downloads').hidden=isCover(index);document.querySelector('#text-settings').disabled=isCover(index);}
+function begin(direction,target=index+direction,grasp=pointer){
  if(target<0||target>=scenes.length||!canTurn(index)||!canTurn(target))return false;
  if(isCover(index)||isCover(target))return beginBoundary(direction,target);
  const underlay=document.createElement('div');underlay.append(page(target,'left'),page(target,'right'));
  const stationary=document.createElement('div');stationary.append(page(index,direction===1?'left':'right'));
- const paper=FeltPaperTurn.create({host:book,direction,anchorY:pointer?.anchorY??.72,underlay,stationary,front:page(index,direction===1?'right':'left'),back:page(target,direction===1?'left':'right')});
+ const paper=FeltPaperTurn.create({host:book,direction,anchorY:grasp?.anchorY??.5,underlay,stationary,front:page(index,direction===1?'right':'left'),back:page(target,direction===1?'left':'right')});
  turn={direction,target,paper,leaf:paper.leaf,stationary:paper.stationary,progress:0};spread.style.opacity='0';book.classList.add('turning');setProgress(0);return true;
 }
 function setProgress(value){if(!turn)return;turn.progress=Math.max(0,Math.min(1,value));window.dispatchEvent(new CustomEvent("felt-turn",{detail:{progress:turn.progress,direction:turn.direction,start:!turn.dustStarted,boundary:!!turn.boundary}}));turn.dustStarted=true;if(turn.boundary){
@@ -255,10 +262,10 @@ function settle(commit){
  const active=turn,from=turn.progress,to=commit?1:0;
  if(!motionAllowed()){finish(commit);return;}
  const duration=Math.max(160,(turn.boundary?850:1000)*Math.abs(to-from));let start;
- function frame(time){if(turn!==active)return;start??=time;const t=Math.min(1,(time-start)/duration),e=t*t*(3-2*t);try{setProgress(from+(to-from)*e);}catch(error){console.warn('Page turn recovered',error);finish(commit);return;}if(t<1)frameId=requestAnimationFrame(frame);else finish(commit);}
+ function frame(time){if(turn!==active)return;if(location.search.includes("shadowQA=1")&&window.__freezeShadowProgress!=null){setProgress(window.__freezeShadowProgress);start=null;frameId=requestAnimationFrame(frame);return;}start??=time;const t=Math.min(1,(time-start)/duration),e=t*t*(3-2*t);try{setProgress(from+(to-from)*e);}catch(error){console.warn('Page turn recovered',error);finish(commit);return;}if(t<1)frameId=requestAnimationFrame(frame);else finish(commit);}
  frameId=requestAnimationFrame(frame);
 }
-async function go(target,direction){
+async function go(target,direction,grasp=null){
  if(animating||pointer||editor.open||target<0||target>=scenes.length||target===index)return;
  animating=true;book.setAttribute('aria-busy','true');notice('Opening the next page…');const epoch=++loadEpoch;
  await Promise.all([waitForArt(index),waitForArt(target)]);if(epoch!==loadEpoch)return;
@@ -267,9 +274,9 @@ async function go(target,direction){
  if(!motionAllowed()){animating=false;book.removeAttribute('aria-busy');index=target;render();announce();return;}
  if(!isCover(index)&&!isCover(target)&&FeltPaperTurn.prepare)try{await FeltPaperTurn.prepare({host:book,front:page(index,direction===1?'right':'left'),back:page(target,direction===1?'left':'right')});}catch(error){console.warn('Page snapshot preparation recovered',error);}
  if(epoch!==loadEpoch)return;
- try{if(begin(direction,target))settle(true);else{animating=false;book.removeAttribute('aria-busy');}}catch(error){console.warn('Page setup recovered',error);if(turn)finish(true);else{animating=false;index=target;render();book.removeAttribute('aria-busy');}}
+ try{if(begin(direction,target,grasp))settle(true);else{animating=false;book.removeAttribute('aria-busy');}}catch(error){console.warn('Page setup recovered',error);if(turn)finish(true);else{animating=false;index=target;render();book.removeAttribute('aria-busy');}}
 }
-function navigate(direction){go(index+direction,direction);}
+function navigate(direction,grasp=null){go(index+direction,direction,grasp);}
 // Treat a wheel/trackpad burst as one gesture, including its momentum tail.
 let wheelGesture={last:0,distance:0,used:false};
 book.addEventListener('wheel',e=>{
@@ -309,10 +316,10 @@ book.addEventListener('pointermove',e=>{
  pointer.pullY=Math.max(-.5,Math.min(.5,dy/book.clientHeight));if(turn){turn.pullY=pointer.pullY;const travel=Math.max(0,-dx*turn.direction)+(pointer.corner?Math.abs(dy)*.45:0);setProgress(travel/(book.clientWidth*.48));}else pointer.instantProgress=Math.max(0,-dx*pointer.instantDirection/(book.clientWidth*.65));
 });
 function release(e,cancel){
- if(!pointer||e.pointerId!==pointer.id)return;const {velocity,moved,x,y,instantDirection,instantProgress}=pointer;pointer=null;
- if(turn)settle(!cancel&&(turn.progress>.22||(turn.progress>.04&&velocity*turn.direction<-.5)));
+ if(!pointer||e.pointerId!==pointer.id)return;const {velocity,moved,x,y,anchorY,instantDirection,instantProgress}=pointer;pointer=null;
+ if(turn){turn.releaseVelocity=-velocity*turn.direction/(book.clientWidth*.48);settle(!cancel&&(turn.progress>.22||(turn.progress>.04&&velocity*turn.direction<-.5)));}
  else if(instantDirection){if(!cancel&&(instantProgress>.22||(instantProgress>.04&&velocity*instantDirection<-.5)))navigate(instantDirection);}
- else if(!cancel&&!moved&&Math.hypot(e.clientX-x,e.clientY-y)<=8){const rect=book.getBoundingClientRect();navigate(isCover(index)?(index===0?1:-1):(e.clientX<rect.left+rect.width/2?-1:1));}
+ else if(!cancel&&!moved&&Math.hypot(e.clientX-x,e.clientY-y)<=8){const rect=book.getBoundingClientRect();navigate(isCover(index)?(index===0?1:-1):(e.clientX<rect.left+rect.width/2?-1:1),{anchorY});}
  book.classList.remove('dragging');
 }
 book.addEventListener('pointerup',e=>release(e,false));book.addEventListener('pointercancel',e=>release(e,true));book.addEventListener('lostpointercapture',e=>{if(pointer)release(e,true)});
@@ -328,7 +335,7 @@ document.querySelector('#text-settings').onclick=()=>{if(isCover(index)||turn||a
 document.querySelector('#close-editor').onclick=()=>editor.close();
 editor.addEventListener('close',()=>{const trigger=document.querySelector('#text-settings');try{trigger.focus({preventScroll:true});}catch(_){trigger.focus();}});
 document.querySelector('#copy-page').onchange=e=>{editingSide=e.target.value;loadEditor();};
-function saveEdits(){try{localStorage.setItem(storageKey,JSON.stringify(draftEdits));document.querySelector('#save-note').textContent='Saved privately in this browser.';}catch{document.querySelector('#save-note').textContent='Changes work for this visit; browser storage is unavailable.';}}
+function saveEdits(){try{localStorage.setItem(storageKey,JSON.stringify(draftEdits));document.querySelector('#save-note').textContent='Draft saved in this browser.';}catch{document.querySelector('#save-note').textContent='Your draft lasts for this visit only.';}}
 function updateCopy(){
  draftEdits[copyKey(index,editingSide)]={text:document.querySelector('#copy-input').value,style:document.querySelector('#copy-style').value,size:Number(document.querySelector('#copy-size').value),top:Number(document.querySelector('#copy-top').value)};
  saveEdits();if(!turn)render();
@@ -337,6 +344,11 @@ for(const id of ['copy-input','copy-style','copy-size','copy-top'])document.quer
 document.querySelector('#reset-copy').onclick=()=>{delete draftEdits[copyKey(index,editingSide)];saveEdits();loadEditor();render();};
 window.addEventListener('resize',interruptTurn);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)interruptTurn();});
-render();
+async function openBook(){
+ let timeout;try{await Promise.race([loadArt(coverPath(0)),new Promise(resolve=>timeout=setTimeout(resolve,12000))]);}finally{clearTimeout(timeout)}
+ if(!canTurn(0)){document.querySelector('#opening-label').textContent='The cover is taking a little longer.';document.querySelector('#opening-progress').removeAttribute('value');const retry=document.createElement('button');retry.textContent='Try again';retry.onclick=()=>{retry.remove();openBook()};document.querySelector('#opening-loader').append(retry);return;}
+ document.querySelector('#opening-progress').value=2;render();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));document.body.classList.remove('reader-loading');document.querySelector('#opening-loader').hidden=true;import('./main.js?v=bee4d28a0387').catch(error=>console.warn('Optional atmosphere unavailable',error));
+}
+openBook();
 </script>
-<script type="module" src="main.js?v=8b66d9bdd9b5"></script></body></html>
+</body></html>
