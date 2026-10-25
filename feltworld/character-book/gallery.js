@@ -1,19 +1,7 @@
 'use strict';
-// A preview-only preference key leaves every existing reader/gallery preference alone.
-const themeSelect = document.getElementById('theme-select');
-const themeKey = 'felt-character-cosmos-theme-v1';
-let preferredTheme = 'dark';
-try { preferredTheme = localStorage.getItem(themeKey) || 'dark'; } catch {}
-function applyTheme(value) {
-  const theme = ['system', 'light', 'dark'].includes(value) ? value : 'system';
-  document.documentElement.dataset.theme = theme;
-  themeSelect.value = theme;
-}
-applyTheme(preferredTheme);
-themeSelect.addEventListener('change', () => {
-  applyTheme(themeSelect.value);
-  try { localStorage.setItem(themeKey, themeSelect.value); } catch {}
-});
+// The character book always uses its night sky, including old saved preferences.
+document.documentElement.dataset.theme = 'dark';
+try { localStorage.removeItem('felt-character-cosmos-theme-v1'); } catch {}
 let enlargementInvoker = document.getElementById('enlarge-button');
 document.getElementById('enlarge-button').addEventListener('click', () => {
   if (document.activeElement !== document.getElementById('enlarge-secondary')) enlargementInvoker = document.getElementById('enlarge-button');
