@@ -26,3 +26,17 @@
  background:#c8b798;transform:translateY(1.25px);
  mask-image:var(--endpaper-alpha);mask-size:100% 100%;mask-position:center;mask-repeat:no-repeat;
 }
+
+/* Structural CSS fallback strips share the same native physical leaf mask. */
+.structural-print-face{background:transparent!important;outline:0}
+.paper-strip .face:has(.structural-print-face){background:transparent!important;box-shadow:none!important;outline:0}
+.paper-strip .face:has(.structural-print-face)::after{display:none!important}
+.paper-turn:has(.structural-print-face) .paper-shadow{display:none!important}
+/* Reveal the existing story binding geometrically as a structural leaf starts or settles. */
+.book.endpaper-story-bridge>.three-book-body{
+ display:block!important;clip-path:inset(var(--binding-bridge-inset,56px));
+}
+html:not(.three-book-ready) .book.endpaper-story-bridge::before,
+html:not(.three-book-ready) .book.endpaper-story-bridge>.page-stack{
+ display:block!important;clip-path:inset(var(--binding-bridge-inset,56px));
+}

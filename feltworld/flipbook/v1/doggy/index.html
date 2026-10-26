@@ -85,7 +85,7 @@ img.wide-art{object-fit:contain!important;background:#17191c;}
 <link rel="icon" href="https://axelmurillo.github.io/feltworld/icons/v1/book-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="https://axelmurillo.github.io/feltworld/icons/v1/book.svg" type="image/svg+xml" sizes="any">
 <link rel="apple-touch-icon" href="https://axelmurillo.github.io/feltworld/icons/v1/book-180.png" sizes="180x180">
-<link rel="stylesheet" href="../../../brand/logo.css"><link rel="preload" as="image" crossorigin="anonymous" fetchpriority="high" href="covers/front-cover-study-v3.png?v=private-cover-20261026"><link rel="stylesheet" href="polish.css?v=b3ea4af03c64"><script src="divider.js?v=6877afc43f7f" defer></script><script src="reader-ui.js?v=760e5bd12994" defer></script><link rel="stylesheet" href="board-preview.css?v=ae24e24c5a97"><link rel="stylesheet" href="reader-refinement.css?v=c82e5427c040"><script src="reader-refinement.js?v=c9aee2eb814d" defer></script><link rel="stylesheet" href="binding-polish.css?v=98c935b2068b"></head>
+<link rel="stylesheet" href="../../../brand/logo.css"><link rel="preload" as="image" crossorigin="anonymous" fetchpriority="high" href="covers/front-cover-study-v3.png?v=private-cover-20261026"><link rel="stylesheet" href="polish.css?v=b3ea4af03c64"><script src="divider.js?v=6877afc43f7f" defer></script><script src="reader-ui.js?v=760e5bd12994" defer></script><link rel="stylesheet" href="board-preview.css?v=ae24e24c5a97"><link rel="stylesheet" href="reader-refinement.css?v=c82e5427c040"><script src="reader-refinement.js?v=c9aee2eb814d" defer></script><link rel="stylesheet" href="binding-polish.css?v=9f2d856fe68a"></head>
 <body class="reader-loading">
 <div id="opening-loader" role="status" aria-live="polite"><span class="opening-star" aria-hidden="true">✦</span><p id="opening-label">Opening your book…</p><progress id="opening-progress" max="2" value="0" aria-label="Preparing the front cover"></progress></div><noscript><style>#opening-loader{display:none}.reader-loading .stage{visibility:visible}</style><p>This book needs JavaScript to turn its pages.</p></noscript>
 <main>
@@ -255,9 +255,16 @@ function begin(direction,target=index+direction,grasp=pointer){
  if(target<0||target>=scenes.length||!canTurn(index)||!canTurn(target))return false;
  book.classList.toggle('endpaper-transition',isEndpaper(index)||isEndpaper(target));
  if(isCover(index)||isCover(target))return beginBoundary(direction,target);
- const underlay=document.createElement('div');underlay.append(page(target,'left'),page(target,'right'));
+ const underlay=document.createElement('div');const underLeft=page(target,'left'),underRight=page(target,'right');
+ // Only the newly revealed half belongs under the turning leaf. The other
+ // target half arrives on its reverse face, never behind a transparent board.
+ if(isEndpaper(index)||isEndpaper(target))(direction===1?underLeft:underRight).style.visibility='hidden';
+ if(isEndpaper(index)&&!isEndpaper(target)){const revealed=direction===1?underRight:underLeft;revealed.style.maskImage=`url("${path(index,direction===1?'right':'left')}")`;revealed.style.maskSize='100% 100%';revealed.style.maskRepeat='no-repeat';}
+ underlay.append(underLeft,underRight);
  const stationary=document.createElement('div');stationary.append(page(index,direction===1?'left':'right'));
- const paper=FeltPaperTurn.create({host:book,direction,anchorY:grasp?.anchorY??.5,underlay,stationary,front:page(index,direction===1?'right':'left'),back:page(target,direction===1?'left':'right')});
+ // The old story print below the incoming blank shares that leaf's cut edge.
+ if(isEndpaper(target)&&!isEndpaper(index)){stationary.style.maskImage=`url("${path(target,direction===1?'left':'right')}")`;stationary.style.maskSize='100% 100%';stationary.style.maskRepeat='no-repeat';}
+ const paper=FeltPaperTurn.create({host:book,direction,physicalExit:isEndpaper(index)&&!isEndpaper(target),physicalEntry:!isEndpaper(index)&&isEndpaper(target),anchorY:grasp?.anchorY??.5,underlay,stationary,front:page(index,direction===1?'right':'left'),back:page(target,direction===1?'left':'right')});
  turn={direction,target,paper,leaf:paper.leaf,stationary:paper.stationary,progress:0};spread.style.opacity='0';book.classList.add('turning');setProgress(0);return true;
 }
 function setProgress(value){if(!turn)return;turn.progress=Math.max(0,Math.min(1,value));window.dispatchEvent(new CustomEvent("felt-turn",{detail:{progress:turn.progress,direction:turn.direction,start:!turn.dustStarted,boundary:!!turn.boundary}}));turn.dustStarted=true;if(turn.boundary){
@@ -364,7 +371,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)interruptTu
 async function openBook(){
  let timeout;try{await Promise.race([loadArt(coverPath(0)),new Promise(resolve=>timeout=setTimeout(resolve,12000))]);}finally{clearTimeout(timeout)}
  if(!canTurn(0)){document.querySelector('#opening-label').textContent='The cover is taking a little longer.';document.querySelector('#opening-progress').removeAttribute('value');const retry=document.createElement('button');retry.textContent='Try again';retry.onclick=()=>{retry.remove();openBook()};document.querySelector('#opening-loader').append(retry);return;}
- document.querySelector('#opening-progress').value=2;render();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));document.body.classList.remove('reader-loading');document.querySelector('#opening-loader').hidden=true;import('./main.js?v=bbb5af00ff68').catch(error=>console.warn('Optional atmosphere unavailable',error));
+ document.querySelector('#opening-progress').value=2;render();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));document.body.classList.remove('reader-loading');document.querySelector('#opening-loader').hidden=true;import('./main.js?v=c09f429f26d6').catch(error=>console.warn('Optional atmosphere unavailable',error));
 }
 openBook();
 </script>
