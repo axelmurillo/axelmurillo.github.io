@@ -32,11 +32,11 @@
 .paper-strip .face:has(.structural-print-face){background:transparent!important;box-shadow:none!important;outline:0}
 .paper-strip .face:has(.structural-print-face)::after{display:none!important}
 .paper-turn:has(.structural-print-face) .paper-shadow{display:none!important}
-/* Reveal the existing story binding geometrically as a structural leaf starts or settles. */
+/* One stable, already-painted body layer; only its compositor clip changes during a turn. */
 .book.endpaper-story-bridge>.three-book-body{
- display:block!important;clip-path:inset(var(--binding-bridge-inset,56px));
+ display:block!important;clip-path:inset(var(--binding-bridge-inset,50%));
 }
 html:not(.three-book-ready) .book.endpaper-story-bridge::before,
 html:not(.three-book-ready) .book.endpaper-story-bridge>.page-stack{
- display:block!important;clip-path:inset(var(--binding-bridge-inset,56px));
+ display:block!important;clip-path:inset(var(--binding-bridge-inset,50%));
 }

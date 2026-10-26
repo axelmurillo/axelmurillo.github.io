@@ -3,7 +3,7 @@ import * as THREE from './vendor/three.module.js';
 export function setupAtmosphere(){
  const stage=document.querySelector('.stage'),host=document.querySelector('.ambient'),book=document.querySelector('#book'),button=document.querySelector('#effects-settings'),reduced=matchMedia('(prefers-reduced-motion:reduce)');
  let off=false;try{off=localStorage.getItem('felt-reader-effects-v1')==='off';}catch{}
- let renderer,deskRenderer,deskScene,scene,camera,raf=0,last=0,title='',rect,turning=false,previous=0,budget=0,serial=0;
+ let renderer,deskRenderer,deskScene,scene,camera,raf=0,last=0,title='',rect,turning=false,previous=0,budget=0,serial=0,viewportWidth=0,viewportHeight=0;
  const DESK=1000,AIR=1500,MAX=8000,pool=Array.from({length:MAX},(_,i)=>({phase:i*.87,seed:((i*37+13)%101)/101,life:0})),position=new Float32Array(MAX*3),colour=new Float32Array(MAX*3),alpha=new Float32Array(MAX),size=new Float32Array(MAX);
  try{renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.domElement.setAttribute('aria-hidden','true');document.body.append(host);host.replaceChildren(renderer.domElement);scene=new THREE.Scene();}catch{button.disabled=true;button.textContent='Effects unavailable';return {scene(){}};}
  const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.BufferAttribute(position,3));geometry.setAttribute('dustColour',new THREE.BufferAttribute(colour,3));geometry.setAttribute('dustAlpha',new THREE.BufferAttribute(alpha,1));geometry.setAttribute('dustSize',new THREE.BufferAttribute(size,1));
@@ -11,7 +11,16 @@ export function setupAtmosphere(){
  const deskHost=document.createElement('div');deskHost.className='desk-dust';deskHost.setAttribute('aria-hidden','true');document.body.prepend(deskHost);deskRenderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});deskRenderer.setPixelRatio(renderer.getPixelRatio());deskHost.append(deskRenderer.domElement);deskScene=new THREE.Scene();const deskGeometry=new THREE.BufferGeometry();for(const [name,attr] of Object.entries(geometry.attributes))deskGeometry.setAttribute(name,attr);deskGeometry.setDrawRange(0,DESK);const deskPoints=new THREE.Points(deskGeometry,material);deskPoints.frustumCulled=false;deskScene.add(deskPoints);geometry.setDrawRange(DESK,MAX-DESK);
  const points=new THREE.Points(geometry,material);points.frustumCulled=false;scene.add(points);const c=new THREE.Color(),gold=new THREE.Color('#e8c67f'),silver=new THREE.Color('#e5e7ec'),opalBlue=new THREE.Color('#cce9ef'),opalPink=new THREE.Color('#e7d7ed');host.dataset.dustPalette='gold-silver-opal-glints';host.dataset.dustForeground='500';host.dataset.dustCoverage='surface-and-perimeter';
  function bounds(){const b=book.getBoundingClientRect(),s={left:0,top:0};rect={left:b.left-s.left,right:b.right-s.left,top:b.top-s.top,bottom:b.bottom-s.top,width:b.width,height:b.height};}
- function rebuild(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h);deskRenderer.setSize(w,h);camera=new THREE.OrthographicCamera(0,w,0,h,-10,10);camera.position.z=5;bounds();pool.slice(0,AIR).forEach((p,i)=>{p.x=8+p.seed*(w-16);p.y=8+((i*61+7)%103)/103*(h-16);p.baseX=p.x;p.baseY=p.y;});}
+ function rebuild(){
+  const w=innerWidth,h=innerHeight;bounds();if(w===viewportWidth&&h===viewportHeight)return;
+  const priorWidth=viewportWidth,priorHeight=viewportHeight;viewportWidth=w;viewportHeight=h;
+  renderer.setSize(w,h);deskRenderer.setSize(w,h);
+  if(!camera){camera=new THREE.OrthographicCamera(0,w,0,h,-10,10);camera.position.z=5;}
+  else{camera.right=w;camera.bottom=h;camera.updateProjectionMatrix();}
+  // Resize the space without restarting particle phases, lifetimes or motion.
+  if(priorWidth&&priorHeight){const sx=w/priorWidth,sy=h/priorHeight;for(const p of pool){for(const key of ['x','baseX','x0'])if(Number.isFinite(p[key]))p[key]*=sx;for(const key of ['y','baseY','y0'])if(Number.isFinite(p[key]))p[key]*=sy;}}
+  else pool.slice(0,AIR).forEach((p,i)=>{p.x=8+p.seed*(w-16);p.y=8+((i*61+7)%103)/103*(h-16);p.baseX=p.x;p.baseY=p.y;});
+ }
  function allowed(){return !off&&!reduced.matches&&!document.hidden;}
  function emit(count,progress,direction,speed){bounds();for(let k=0;k<count;k++){const i=AIR+(serial++%(MAX-AIR)),p=pool[i],f=Math.random();const edge=Math.floor(serial/2)%4,theta=Math.random()*Math.PI*2;let nx=0,ny=0;
  if(k%2===0){p.x=rect.left+Math.random()*rect.width;p.y=rect.top+Math.random()*rect.height;const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;const distance=Math.hypot(p.x-cx,p.y-cy)||1;nx=(p.x-cx)/distance;ny=(p.y-cy)/distance;}
@@ -30,6 +39,6 @@ export function setupAtmosphere(){
  for(const a of Object.values(geometry.attributes))a.needsUpdate=true;host.dataset.dustOverBook=String(overBook);host.dataset.dustActive=String(active);host.dataset.dustAmbient=String(AIR);deskRenderer.render(deskScene,camera);renderer.render(scene,camera);}
  function loop(time){raf=0;if(!allowed())return;if(time-last>=30){const dt=Math.min(.05,Math.max(0,(time-last)*.001));last=time;draw(time,dt);}raf=requestAnimationFrame(loop);}
  function state(){const on=!off&&!reduced.matches;button.textContent=on?'Effects on':'Effects off';button.setAttribute('aria-pressed',String(on));button.disabled=reduced.matches;stage.classList.toggle('effects-off',!on);host.hidden=!on;deskHost.hidden=!on;cancelAnimationFrame(raf);raf=0;host.dataset.magicVisible=String(on&&!document.hidden);if(!allowed()){pool.slice(AIR).forEach(p=>p.life=0);host.dataset.dustActive='0';turning=false;return;}rebuild();last=performance.now();draw(last,0);raf=requestAnimationFrame(loop);}
- button.onclick=()=>{off=!off;try{localStorage.setItem('felt-reader-effects-v1',off?'off':'on');}catch{}state();};reduced.addEventListener('change',state);document.addEventListener('visibilitychange',state);new ResizeObserver(rebuild).observe(stage);window.addEventListener('resize',rebuild);state();return {scene(next){if(title!==next){title=next;rebuild();}stage.dataset.atmosphere='iridescent-dust';}};
+ button.onclick=()=>{off=!off;try{localStorage.setItem('felt-reader-effects-v1',off?'off':'on');}catch{}state();};reduced.addEventListener('change',state);document.addEventListener('visibilitychange',state);new ResizeObserver(rebuild).observe(stage);window.addEventListener('resize',rebuild);state();return {scene(next){if(title!==next){title=next;bounds();}stage.dataset.atmosphere='iridescent-dust';}};
 }
 
