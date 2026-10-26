@@ -1,0 +1,28 @@
+/* Native structural scans provide their own physical outline. Story paper is untouched. */
+.book:is(.endpaper-mode,.endpaper-transition){background:transparent!important;box-shadow:none!important}
+.book:is(.endpaper-mode,.endpaper-transition)::before,
+.book:is(.endpaper-mode,.endpaper-transition)>.page-stack,
+.book:is(.endpaper-mode,.endpaper-transition)>.three-book-body,
+.book:is(.endpaper-mode,.endpaper-transition)>.crease{display:none!important}
+.endpaper-board,.endpaper-leaf{background:transparent!important;box-shadow:none!important;outline:0}
+.endpaper-board::before,.endpaper-board::after,.endpaper-leaf::before,.endpaper-leaf::after{display:none!important}
+.endpaper-boundary .boundary-sheet{background:transparent!important;box-shadow:none!important;isolation:isolate}
+.endpaper-boundary .boundary-sheet>.crease{display:none!important}
+.endpaper-boundary .face:has(.endpaper-board),.endpaper-boundary .face:has(.endpaper-leaf){background:transparent!important;box-shadow:none!important;outline:0}
+.endpaper-boundary .face:has(.endpaper-board)::after,.endpaper-boundary .face:has(.endpaper-leaf)::after{display:none!important}
+/* This narrow cloth joint belongs to the moving spread, never the stage backdrop. */
+.book:is(.endpaper-mode,.endpaper-transition):not(.boundary-turn)::after,
+.endpaper-boundary .boundary-sheet::before{
+ content:'';position:absolute;left:50%;top:1%;bottom:1.4%;width:.8%;min-width:3px;max-width:8px;
+ transform:translateX(-50%);z-index:-1;pointer-events:none;
+ background:linear-gradient(90deg,#18212d77,#34475c 30%,#6a6c66 50%,#34475c 70%,#18212d77);
+ box-shadow:-1px 0 2px #0003,1px 0 2px #0003;
+ mask-image:linear-gradient(transparent,#000 1.8%,#000 98%,transparent);
+}
+/* A single thin paper edge follows only the flyleaf's native alpha silhouette. */
+.endpaper-leaf{isolation:isolate}
+.endpaper-leaf::before{
+ content:'';display:block!important;position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background:#c8b798;transform:translateY(1.25px);
+ mask-image:var(--endpaper-alpha);mask-size:100% 100%;mask-position:center;mask-repeat:no-repeat;
+}

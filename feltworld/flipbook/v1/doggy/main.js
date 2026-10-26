@@ -1,5 +1,5 @@
 import {setupInterfaceDust} from './interface-dust.js?v=a3297fda7c70';
-import './graphics.js?v=1e813f4236d1';
+import './graphics.js?v=228a37fe7660';
 import { setupAtmosphere } from './atmosphere.js?v=7f844f4ab80e';
 const book=document.querySelector('#book'),stage=document.querySelector('.stage'),depth=document.querySelector('#depth-settings'),motion=document.querySelector('#motion-settings'),reduced=matchMedia('(prefers-reduced-motion:reduce)');
 const magic=setupAtmosphere();

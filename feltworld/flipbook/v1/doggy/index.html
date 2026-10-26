@@ -50,6 +50,16 @@ dialog::backdrop{background:#0008}dialog h2{margin:0 0 16px;font-size:18px;font-
 @media(max-width:600px){.reader-options{gap:5px}#text-settings,#motion-settings{padding:0 8px}}
 img.wide-art{object-fit:contain!important;background:#17191c;}
 .reader-tools .menu-navigation{margin:0 0 12px}.reader-tools .menu-navigation a{display:flex;align-items:center;min-height:44px;color:var(--gold,#d2b782);text-decoration:none;font-size:14px}.reader-tools .menu-navigation a:hover{text-decoration:underline}
+
+/* A direct cover-to-cover command turns one closed physical book. */
+.boundary-book-turn{position:absolute;transform-style:preserve-3d;transform-origin:50% 50%;will-change:transform}
+.boundary-book-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform-style:preserve-3d;background:transparent}
+.boundary-book-face>.cover{width:100%;height:100%}
+.boundary-book-edge{position:absolute;top:1.5%;height:97%;width:var(--book-depth);left:calc(1.1% - var(--book-depth)/2);transform:rotateY(-90deg);backface-visibility:visible;background:#344e72;box-shadow:inset 0 0 1px #121b25}
+.boundary-book-edge.right-edge{left:calc(98.9% - var(--book-depth)/2);transform:rotateY(90deg)}
+.boundary-book-edge.paper-edge{background:repeating-linear-gradient(90deg,#d8c9ae 0 1px,#e8dcc6 1px 2.3px,#c6b99f 2.3px 2.7px)}
+.boundary-book-edge.cloth-edge{background:repeating-linear-gradient(0deg,#99a3ad16 0 .7px,transparent .7px 2px),linear-gradient(90deg,#263c58,#506786 45%,#2f4666)}
+.book.closed-cover-turn>.three-book-body{visibility:hidden}
 </style>
 <link rel="stylesheet" href="reader.css?v=ddf16fe9aee4">
 <link rel="stylesheet" href="royal.css?v=08c04918b108"><script src="royal.js?v=0023d74cabfe" defer></script>
@@ -75,7 +85,7 @@ img.wide-art{object-fit:contain!important;background:#17191c;}
 <link rel="icon" href="https://axelmurillo.github.io/feltworld/icons/v1/book-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="https://axelmurillo.github.io/feltworld/icons/v1/book.svg" type="image/svg+xml" sizes="any">
 <link rel="apple-touch-icon" href="https://axelmurillo.github.io/feltworld/icons/v1/book-180.png" sizes="180x180">
-<link rel="stylesheet" href="../../../brand/logo.css"><link rel="preload" as="image" crossorigin="anonymous" fetchpriority="high" href="covers/front-cover-study-v3.png?v=private-cover-20261026"><link rel="stylesheet" href="polish.css?v=b3ea4af03c64"><script src="divider.js?v=6877afc43f7f" defer></script><script src="reader-ui.js?v=760e5bd12994" defer></script><link rel="stylesheet" href="board-preview.css?v=ae24e24c5a97"><link rel="stylesheet" href="reader-refinement.css?v=c82e5427c040"><script src="reader-refinement.js?v=c9aee2eb814d" defer></script></head>
+<link rel="stylesheet" href="../../../brand/logo.css"><link rel="preload" as="image" crossorigin="anonymous" fetchpriority="high" href="covers/front-cover-study-v3.png?v=private-cover-20261026"><link rel="stylesheet" href="polish.css?v=b3ea4af03c64"><script src="divider.js?v=6877afc43f7f" defer></script><script src="reader-ui.js?v=760e5bd12994" defer></script><link rel="stylesheet" href="board-preview.css?v=ae24e24c5a97"><link rel="stylesheet" href="reader-refinement.css?v=c82e5427c040"><script src="reader-refinement.js?v=c9aee2eb814d" defer></script><link rel="stylesheet" href="binding-polish.css?v=98c935b2068b"></head>
 <body class="reader-loading">
 <div id="opening-loader" role="status" aria-live="polite"><span class="opening-star" aria-hidden="true">✦</span><p id="opening-label">Opening your book…</p><progress id="opening-progress" max="2" value="0" aria-label="Preparing the front cover"></progress></div><noscript><style>#opening-loader{display:none}.reader-loading .stage{visibility:visible}</style><p>This book needs JavaScript to turn its pages.</p></noscript>
 <main>
@@ -152,6 +162,7 @@ function tornEdge(random){
 const measureCanvas=document.createElement('canvas'),measure=measureCanvas.getContext('2d');
 function page(i,side){
  const e=document.createElement('div');e.className='page';e.dataset.side=side;e.append(img(i,side));
+ if(isEndpaper(i)){const board=(scenes[i][0]==='00-front-endpapers')===(side==='left');e.classList.add(board?'endpaper-board':'endpaper-leaf');e.style.setProperty('--endpaper-alpha',`url("${path(i,side)}")`);}
  const copy=copyFor(i,side);
  if(copy.text.trim()){
   const text=document.createElement('div');text.className='story-copy '+copy.style;text.setAttribute('aria-label',copy.text);text.setAttribute('role','group');text.style.setProperty('--copy-top',copy.top+'%');text.style.setProperty('--tape-opacity',copy.tapeOpacity);
@@ -222,11 +233,14 @@ function geometry(cover){
 function beginBoundary(direction,target){
  const layer=document.createElement('div');layer.className='boundary';layer.style.transform=book.style.transform;layer.style.transformOrigin='center';layer.setAttribute('aria-hidden','true');book.parentElement.append(layer);
  if(isCover(index)&&isCover(target)){
-  const g=geometry(true),panels=[index,target].map(i=>{const e=document.createElement('div');e.className='boundary-cover';Object.assign(e.style,{left:g.x+'px',top:g.y+'px',width:g.w+'px',height:g.h+'px'});e.append(coverElement(i));layer.append(e);return e;});
-  turn={direction,target,boundary:true,layer,panels,progress:0};
+  const g=geometry(true),depth=Math.max(6,Math.min(12,g.w*.025)),closedBook=document.createElement('div');closedBook.className='boundary-book-turn';Object.assign(closedBook.style,{left:g.x+'px',top:g.y+'px',width:g.w+'px',height:g.h+'px'});closedBook.style.setProperty('--book-depth',depth+'px');
+  for(const [faceIndex,scene] of [index,target].entries()){const face=document.createElement('div');face.className='boundary-book-face';face.style.transform=(faceIndex?'rotateY(180deg) ':'')+`translateZ(${depth/2}px)`;face.append(coverElement(scene));closedBook.append(face);}
+  for(const right of [false,true]){const edge=document.createElement('div');const spine=right===(index!==0);edge.className='boundary-book-edge '+(right?'right-edge ':'')+(spine?'cloth-edge':'paper-edge');closedBook.append(edge);}
+  layer.dataset.transition='bound-cover-turn';layer.append(closedBook);book.classList.add('closed-cover-turn');
+  turn={direction,target,boundary:true,layer,closedBook,halfWidth:g.w/2,depth,progress:0};
  }else{
   const coverIndex=isCover(index)?index:target,interiorIndex=isCover(index)?target:index;
-  const opening=isCover(index),front=coverIndex===0,g=geometry(false),c=geometry(true),half=g.w/2;
+  const opening=isCover(index),front=coverIndex===0,g=geometry(false),c=geometry(true),half=g.w/2;if(isEndpaper(interiorIndex)){layer.classList.add('endpaper-boundary');layer.dataset.endpaperSide=front?'front':'back';}
   const sheet=document.createElement('div');sheet.className='boundary-sheet';Object.assign(sheet.style,{left:g.x+'px',top:g.y+'px',width:g.w+'px',height:g.h+'px'});const left=page(interiorIndex,'left'),right=page(interiorIndex,'right');(front?left:right).style.visibility='hidden';sheet.append(left,right);sheet.style.boxShadow='none';
   const crease=document.createElement('div');crease.className='crease';sheet.append(crease);layer.append(sheet);
   const leaf=document.createElement('div');leaf.className='boundary-leaf';Object.assign(leaf.style,{left:(g.x+(front?half:0))+'px',top:g.y+'px',width:half+'px',height:g.h+'px',transformOrigin:front?'left center':'right center'});
@@ -236,9 +250,10 @@ function beginBoundary(direction,target){
  }
  spread.style.opacity='0';book.classList.add('turning','boundary-turn');setProgress(0);return true;
 }
-function render(){warmArt(index);window.dispatchEvent(new CustomEvent("felt-scene",{detail:{index,id:scenes[index][0],count:scenes.length}}));book.classList.toggle('cover-mode',isCover(index));spread.style.transform='';spread.style.opacity='';if(isCover(index)){const cover=document.createElement('div');cover.className='cover '+(index===0?'front':'back');cover.append(img(index,'right'));spread.replaceChildren(cover);}else spread.replaceChildren(page(index,'left'),page(index,'right'));previous.disabled=index===0;next.disabled=index===scenes.length-1;document.querySelector('#first').disabled=index===0;document.querySelector('#last').disabled=index===scenes.length-1;document.querySelector('#position').textContent=`${index+1} / ${scenes.length}`;document.querySelector('#scene').textContent=scenes[index][1];book.setAttribute('aria-label',`Illustrated book, ${scenes[index][1]}, spread ${index+1} of ${scenes.length}`);document.querySelector('#left-download').href=path(index,'left');document.querySelector('#right-download').href=path(index,'right');document.querySelector('#master-download').href=`masters/${scenes[index][0]}-master.png`+(scenes[index][0]==='14-quiet-journey'?'?v=lumi-foot-20261026':scenes[index][0]==='02-manor-interior'?'?v=jack-casual-20261026':scenes[index][0]==='03-manor-welcome'?'?v=nomie-manor-20261007':scenes[index][0]==='01-woodland-bridge'?'?v=nomie-bridge-20261007':'');const masterDownload=document.querySelector('#master-download');masterDownload.hidden=isEndpaper(index);if(isEndpaper(index))masterDownload.removeAttribute('href');document.querySelector('#scene-downloads').hidden=isCover(index);document.querySelector('#text-settings').disabled=isCover(index);}
+function render(){if(!turn)book.classList.remove('endpaper-transition','closed-cover-turn');warmArt(index);book.classList.toggle('endpaper-mode',isEndpaper(index));book.dataset.endpaperSide=isEndpaper(index)?(scenes[index][0]==='00-front-endpapers'?'front':'back'):'';window.dispatchEvent(new CustomEvent("felt-scene",{detail:{index,id:scenes[index][0],count:scenes.length}}));book.classList.toggle('cover-mode',isCover(index));spread.style.transform='';spread.style.opacity='';if(isCover(index)){const cover=document.createElement('div');cover.className='cover '+(index===0?'front':'back');cover.append(img(index,'right'));spread.replaceChildren(cover);}else spread.replaceChildren(page(index,'left'),page(index,'right'));previous.disabled=index===0;next.disabled=index===scenes.length-1;document.querySelector('#first').disabled=index===0;document.querySelector('#last').disabled=index===scenes.length-1;document.querySelector('#position').textContent=`${index+1} / ${scenes.length}`;document.querySelector('#scene').textContent=scenes[index][1];book.setAttribute('aria-label',`Illustrated book, ${scenes[index][1]}, spread ${index+1} of ${scenes.length}`);document.querySelector('#left-download').href=path(index,'left');document.querySelector('#right-download').href=path(index,'right');document.querySelector('#master-download').href=`masters/${scenes[index][0]}-master.png`+(scenes[index][0]==='14-quiet-journey'?'?v=lumi-foot-20261026':scenes[index][0]==='02-manor-interior'?'?v=jack-casual-20261026':scenes[index][0]==='03-manor-welcome'?'?v=nomie-manor-20261007':scenes[index][0]==='01-woodland-bridge'?'?v=nomie-bridge-20261007':'');const masterDownload=document.querySelector('#master-download');masterDownload.hidden=isEndpaper(index);if(isEndpaper(index))masterDownload.removeAttribute('href');document.querySelector('#scene-downloads').hidden=isCover(index);document.querySelector('#text-settings').disabled=isCover(index);}
 function begin(direction,target=index+direction,grasp=pointer){
  if(target<0||target>=scenes.length||!canTurn(index)||!canTurn(target))return false;
+ book.classList.toggle('endpaper-transition',isEndpaper(index)||isEndpaper(target));
  if(isCover(index)||isCover(target))return beginBoundary(direction,target);
  const underlay=document.createElement('div');underlay.append(page(target,'left'),page(target,'right'));
  const stationary=document.createElement('div');stationary.append(page(index,direction===1?'left':'right'));
@@ -247,7 +262,7 @@ function begin(direction,target=index+direction,grasp=pointer){
 }
 function setProgress(value){if(!turn)return;turn.progress=Math.max(0,Math.min(1,value));window.dispatchEvent(new CustomEvent("felt-turn",{detail:{progress:turn.progress,direction:turn.direction,start:!turn.dustStarted,boundary:!!turn.boundary}}));turn.dustStarted=true;if(turn.boundary){
  const p=turn.progress;
- if(turn.panels){turn.panels[0].style.opacity=1-p;turn.panels[1].style.opacity=p;turn.panels[0].style.transform=`rotateY(${-turn.direction*25*p}deg)`;turn.panels[1].style.transform=`rotateY(${turn.direction*25*(1-p)}deg)`;return;}
+ if(turn.closedBook){const angle=Math.PI*p,retreat=turn.halfWidth*Math.abs(Math.sin(angle))+turn.depth/2*Math.abs(Math.cos(angle));turn.closedBook.style.transform=`translateZ(${-retreat}px) rotateY(${-turn.direction*180*p}deg)`;return;}
  const q=turn.opening?p:1-p,s=1;
  const shift=(turn.front?-1:1)*turn.coverWidth/2*(1-q);
  turn.sheet.style.transform=`translateX(${shift}px) scale(${s})`;turn.sheet.style.opacity=Math.min(1,q*4);
@@ -257,7 +272,7 @@ function setProgress(value){if(!turn)return;turn.progress=Math.max(0,Math.min(1,
 function finish(commit){
  if(!turn)return;window.dispatchEvent(new CustomEvent("felt-turn-end"));cancelAnimationFrame(frameId);frameId=0;
  if(commit)index=turn.target;if(turn.boundary)turn.layer.remove();else turn.paper.remove();
- turn=null;animating=false;book.classList.remove('dragging','turning','boundary-turn');book.removeAttribute('aria-busy');render();if(commit)announce();
+ turn=null;animating=false;book.classList.remove('dragging','turning','boundary-turn','closed-cover-turn','endpaper-transition');book.removeAttribute('aria-busy');render();if(commit)announce();
 }
 function settle(commit){
  if(!turn)return;animating=true;turn.commit=commit;book.setAttribute('aria-busy','true');
@@ -349,7 +364,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)interruptTu
 async function openBook(){
  let timeout;try{await Promise.race([loadArt(coverPath(0)),new Promise(resolve=>timeout=setTimeout(resolve,12000))]);}finally{clearTimeout(timeout)}
  if(!canTurn(0)){document.querySelector('#opening-label').textContent='The cover is taking a little longer.';document.querySelector('#opening-progress').removeAttribute('value');const retry=document.createElement('button');retry.textContent='Try again';retry.onclick=()=>{retry.remove();openBook()};document.querySelector('#opening-loader').append(retry);return;}
- document.querySelector('#opening-progress').value=2;render();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));document.body.classList.remove('reader-loading');document.querySelector('#opening-loader').hidden=true;import('./main.js?v=d196574c5f5a').catch(error=>console.warn('Optional atmosphere unavailable',error));
+ document.querySelector('#opening-progress').value=2;render();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));document.body.classList.remove('reader-loading');document.querySelector('#opening-loader').hidden=true;import('./main.js?v=bbb5af00ff68').catch(error=>console.warn('Optional atmosphere unavailable',error));
 }
 openBook();
 </script>
