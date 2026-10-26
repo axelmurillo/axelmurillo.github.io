@@ -1,5 +1,6 @@
 // Private accessibility descriptions based on inspected selected masters; no story/art replacement.
 window.FeltPictureDescriptions={
+  "00-haberdashery-before-creation": "Inside a darkened haberdashery, moonlight falls across wooden cabinets, baskets of wool, fabric, pottery and a narrow blue ribbon. A blue-flowered ceramic kettle glows softly on the worktable.",
   "10-wide-felt-world": "A snowy valley stretches beneath enormous trees at sunset. Small round homes nestle among the roots, and a wooden bridge crosses a winding blue stream.",
   "11-peaceful-tree-home": "Warm windows and a round wooden door glow in a huge snow-covered tree. A winding path leads down towards the snowy valley beneath a colourful evening sky.",
   "06-tree-fortress-sanctuary": "Inside their warm tree home, blue felt Lumi and black cat Kitty sit together on a cushioned sofa with an open book. A fire glows nearby, and snow and northern lights are visible through the window.",
