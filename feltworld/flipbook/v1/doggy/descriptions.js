@@ -1,5 +1,7 @@
 // Private accessibility descriptions based on inspected selected masters; no story/art replacement.
 window.FeltPictureDescriptions={
+  "00-front-endpapers": "Inside the front cover, an aged cream inside board is on the left and a blank cream flyleaf is on the right.",
+  "99-back-endpapers": "A blank cream flyleaf is on the left and the aged cream inside back cover is on the right.",
   "00-thread-room": "Inside a darkened thread room, moonlight falls across wooden cabinets, baskets of wool, fabric, pottery and a narrow blue ribbon. A blue-flowered ceramic kettle glows softly on the worktable.",
   "10-wide-felt-world": "A snowy valley stretches beneath enormous trees at sunset. Small round homes nestle among the roots, and a wooden bridge crosses a winding blue stream.",
   "11-peaceful-tree-home": "Warm windows and a round wooden door glow in a huge snow-covered tree. A winding path leads down towards the snowy valley beneath a colourful evening sky.",
