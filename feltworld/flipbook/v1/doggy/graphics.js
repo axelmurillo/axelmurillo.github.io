@@ -102,11 +102,57 @@ new ResizeObserver(syncRestingCrease).observe(book);syncRestingCrease();
 // Persistent Three.js book body. The DOM is the accessible printed surface; WebGL supplies its physical binding and paper below.
 let bodyRenderer;
 try{bodyRenderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});bodyRenderer.setPixelRatio(Math.min(devicePixelRatio,1.5));bodyRenderer.shadowMap.enabled=true;bodyRenderer.shadowMap.type=THREE.PCFSoftShadowMap;bodyRenderer.domElement.className='three-book-body';bodyRenderer.domElement.setAttribute('aria-hidden','true');book.prepend(bodyRenderer.domElement);document.documentElement.classList.add('three-book-ready');}catch{ /* CSS binding remains available without WebGL. */ }
+// Private material preview: a single cached cloth print, shared by every resize.
+// No cover print/lettering is sampled; only the exposed open binding changes.
+let wornBoardTexture;
+function boardCloth(){
+ if(wornBoardTexture)return wornBoardTexture;
+ const canvas=document.createElement('canvas'),w=768,h=512;canvas.width=w;canvas.height=h;
+ const ctx=canvas.getContext('2d'),pixels=ctx.createImageData(w,h),data=pixels.data;
+ const noise=(x,y)=>{let n=Math.imul(x+71,374761393)^Math.imul(y+29,668265263);n=Math.imul(n^(n>>>13),1274126177);return ((n^(n>>>16))>>>0)/4294967295;};
+ for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+  const n=noise(x,y),edge=Math.min(x,y,w-1-x,h-1-y);
+  const corner=Math.min(Math.hypot(x,y),Math.hypot(w-1-x,y),Math.hypot(x,h-1-y),Math.hypot(w-1-x,h-1-y));
+  const weave=(x%3===0?.8:-.25)+(y%3===0?.7:-.2);
+  const mottle=Math.sin(x*.027+y*.009)*1.8+Math.sin(y*.039-x*.012)*1.4;
+  const grain=(n-.5)*6+weave+mottle;
+  const rubbed=Math.max(0,1-edge/2.8)*(.12+n*.2);
+  const corners=Math.max(0,1-corner/30)*Math.max(0,1-edge/17)*(.48+n*.33);
+  const wear=Math.min(.8,rubbed+corners),i=(y*w+x)*4;
+  data[i]=(48+grain)*(1-wear)+(180+grain)*wear;
+  data[i+1]=(69+grain)*(1-wear)+(158+grain)*wear;
+  data[i+2]=(103+grain)*(1-wear)+(119+grain)*wear;data[i+3]=255;
+ }
+ ctx.putImageData(pixels,0,0);wornBoardTexture=new THREE.CanvasTexture(canvas);
+ wornBoardTexture.colorSpace=THREE.SRGBColorSpace;
+ wornBoardTexture.anisotropy=Math.min(4,bodyRenderer.capabilities.getMaxAnisotropy());
+ return wornBoardTexture;
+}
+function openWornBoard(scene,width,height,resources){
+ const w=width+12,h=height+12,x=w/2,y=h/2,r=Math.max(4,Math.min(10,height*.017));
+ const outline=new THREE.Shape();
+ // Subpixel edge wander and unequal corner radii avoid a die-cut rectangle.
+ outline.moveTo(-x+r,-y);outline.lineTo(-x*.56,-y+.35);
+ outline.quadraticCurveTo(-x*.1,-y-.35,x*.3,-y+.15);outline.lineTo(x-r,-y+.15);
+ outline.quadraticCurveTo(x,-y+.15,x,-y+r*.95);outline.lineTo(x-.3,y*.28);
+ outline.lineTo(x,y-r*1.1);outline.quadraticCurveTo(x,y-.1,x-r*1.1,y);
+ outline.lineTo(x*.48,y-.3);outline.quadraticCurveTo(-x*.12,y+.3,-x*.63,y-.15);
+ outline.lineTo(-x+r*.9,y-.15);outline.quadraticCurveTo(-x,y-.15,-x,y-r*.9);
+ outline.lineTo(-x+.35,-y*.25);outline.lineTo(-x,-y+r);
+ outline.quadraticCurveTo(-x,-y,-x+r,-y);outline.closePath();
+ const geometry=new THREE.ExtrudeGeometry(outline,{depth:4,steps:1,bevelEnabled:true,bevelThickness:.35,bevelSize:.5,bevelSegments:1,curveSegments:5});
+ geometry.translate(0,0,-2);
+ const positions=geometry.getAttribute('position'),uv=geometry.getAttribute('uv');
+ for(let i=0;i<positions.count;i++)uv.setXY(i,(positions.getX(i)+x)/w,(positions.getY(i)+y)/h);
+ const material=new THREE.MeshStandardMaterial({map:boardCloth(),color:0xffffff,roughness:1,metalness:0});
+ resources.push(geometry,material);const mesh=new THREE.Mesh(geometry,material);
+ mesh.position.set(0,-6,-16);mesh.castShadow=true;scene.add(mesh);
+}
 let bodyResources=[];
 function drawBody(){if(!bodyRenderer)return;bodyResources.forEach(x=>x.dispose());bodyResources=[];const width=book.clientWidth,height=book.clientHeight,pad=48;bodyRenderer.setSize(width+pad*2,height+pad*2);const scene=new THREE.Scene(),camera=new THREE.OrthographicCamera(-(width+pad*2)/2,(width+pad*2)/2,(height+pad*2)/2,-(height+pad*2)/2,1,4000);camera.position.set(0,0,2000);camera.lookAt(0,0,0);scene.add(new THREE.AmbientLight(0xf4f1e7,1.8));const light=new THREE.DirectionalLight(0xffe7c4,1.6);light.position.set(-width*.6,height*.8,1200);light.castShadow=true;light.shadow.mapSize.set(1024,1024);Object.assign(light.shadow.camera,{left:-width,right:width,top:height,bottom:-height,near:1,far:3000});light.shadow.normalBias=.3;scene.add(light);
  const board=new THREE.MeshStandardMaterial({roughness:1,color:0x344559}),paper=new THREE.MeshStandardMaterial({color:0xe8dcc6,roughness:1});bodyResources.push(board,paper);
  function box(w,h,d,x,y,z,material){const geometry=new THREE.BoxGeometry(w,h,d);bodyResources.push(geometry);const mesh=new THREE.Mesh(geometry,material);mesh.position.set(x,y,z);scene.add(mesh);return mesh;}
- box(width+12,height+12,4,0,-6,-16,board);
+ if(book.classList.contains('cover-mode'))box(width+12,height+12,4,0,-6,-16,board);else openWornBoard(scene,width,height,bodyResources);
  const cover=book.classList.contains('cover-mode');if(cover){box(width-4,height-4,6,2,-3,-7,paper);}else{for(const side of [-1,1])for(let j=0;j<3;j++)box(width/2-2,height-2,1.5,side*width/4,-j*1.6,-j*2-2,paper);}
  const floorGeometry=new THREE.PlaneGeometry(width+pad*2,height+pad*2),floorMaterial=new THREE.ShadowMaterial({opacity:.12});bodyResources.push(floorGeometry,floorMaterial);const floor=new THREE.Mesh(floorGeometry,floorMaterial);floor.position.z=-25;floor.receiveShadow=true;scene.add(floor);bodyRenderer.render(scene,camera);}
 new ResizeObserver(drawBody).observe(book);new MutationObserver(drawBody).observe(document.querySelector('#position'),{childList:true,subtree:true,characterData:true});drawBody();

@@ -1,10 +1,19 @@
-import {setupInterfaceDust} from './interface-dust.js?v=974a181ae732';
-import './graphics.js?v=687497c6062c';
+import {setupInterfaceDust} from './interface-dust.js?v=a3297fda7c70';
+import './graphics.js?v=1e813f4236d1';
 import { setupAtmosphere } from './atmosphere.js?v=7f844f4ab80e';
 const book=document.querySelector('#book'),stage=document.querySelector('.stage'),depth=document.querySelector('#depth-settings'),motion=document.querySelector('#motion-settings'),reduced=matchMedia('(prefers-reduced-motion:reduce)');
 const magic=setupAtmosphere();
 setupInterfaceDust();
-function sync(){const title=document.querySelector('#scene').textContent;document.querySelector('#plain-words').textContent=[...document.querySelectorAll('#spread .story-copy')].map(x=>x.getAttribute('aria-label')||x.textContent).filter(Boolean).join('\n\n')||'This is a quiet illustrated page.';document.querySelector('#picture-description').textContent=document.querySelector('#spread img')?.alt||title;magic.scene(title);}
+function sync(){
+ const title=document.querySelector('#scene').textContent;
+ const words=[...document.querySelectorAll('#spread .story-copy')].map(x=>x.getAttribute('aria-label')||x.textContent).filter(Boolean).join('\n\n');
+ const hasWords=!!words.trim();
+ const plain=document.querySelector('#plain-words');plain.textContent=words;plain.hidden=!hasWords;
+ document.querySelector('#story-words-heading').hidden=!hasWords;
+ document.querySelector('#reading-summary-label').textContent=hasWords?'Read the story':'About the picture';
+ document.querySelector('#picture-description').textContent=document.querySelector('#spread img')?.alt||title;
+ magic.scene(title);
+}
 new MutationObserver(sync).observe(document.querySelector('#spread'),{childList:true,subtree:true,characterData:true});sync();
 let depthOff=false;try{depthOff=localStorage.getItem('felt-reader-depth-v2')==='off';}catch{}
 let frame=0,x=0,y=0,tx=0,ty=0,inside=false;

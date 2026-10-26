@@ -1,0 +1,10 @@
+/* Private reader refinement. Paper and star colours are recorded in palette.json. */
+:root{--felt-paper-buff:#e8dcc6;--felt-star-gold:#c8954e;--felt-rule-gold:#e6ca8d}
+.site-header{grid-template-columns:minmax(0,1fr) 44px}
+.site-header>.fw-brand{grid-column:1;grid-row:1;justify-self:start}
+.site-header>.reader-tools{grid-column:2;grid-row:1;justify-self:end}
+.site-header .menu-navigation{grid-column:auto;grid-row:auto;width:auto;justify-content:flex-start}
+.reader-intro .volume-prefix{color:var(--felt-paper-buff)}
+/* Only the upper rule changes tone. The loved lower rule keeps its original gold. */
+.site-header>.reader-rule{--gold:var(--felt-star-gold)}
+@media(forced-colors:active){.volume-prefix{color:CanvasText!important}.reader-progress-stitch path{stroke:CanvasText}}
