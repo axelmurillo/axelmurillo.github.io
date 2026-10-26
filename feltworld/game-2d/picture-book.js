@@ -16,7 +16,7 @@ $('#gentle-turns').checked=motion.matches;
 const pageHTML=(n,side)=>{
   const p=PAGES[n-1];
   if(!p)return '<article class="page blank" aria-hidden="true"></article>';
-  return `<article class="page ${side}" data-page="${n}"><div class="page-head"><p class="eyebrow">${escape(p.chapter)}</p><h2>${escape(p.title)}</h2></div><figure class="artwork"><button class="artwork-button" data-art="${n}" aria-label="Look closer at ${escape(p.title)}"><img src="${p.src}" alt="${escape(p.title)}" draggable="false"><span class="look-closer">Look closer ↗</span></button></figure><p class="page-caption">${escape(p.caption)}</p><span class="page-number">${n}</span><button class="corner prev" data-turn="-1" aria-label="Previous pages">‹</button><button class="corner next" data-turn="1" aria-label="Next pages">›</button></article>`;
+  return `<article class="page ${side}" data-page="${n}"><div class="page-head"><p class="eyebrow">${escape(p.chapter)}</p><h2>${escape(p.title)}</h2></div><figure class="artwork"><button class="artwork-button" data-art="${n}" aria-label="Look closer at ${escape(p.title)}"><img src="${p.src}" alt="${escape(p.title)}" draggable="false"><span class="look-closer">Look closer</span></button></figure><p class="page-caption">${escape(p.caption)}</p><span class="page-number">${n}</span><button class="corner prev" data-turn="-1" aria-label="Previous pages">‹</button><button class="corner next" data-turn="1" aria-label="Next pages">›</button></article>`;
 };
 const castHTML=()=>`<div class="cover-cast" aria-hidden="true">${CUTOUTS.filter(p=>p.family==='friend').map(p=>`<span class="sprite ${p.id}" data-fringe="silver"></span>`).join('')}</div>`;
 function coverHTML(back=false){
