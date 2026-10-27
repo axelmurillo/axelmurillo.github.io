@@ -6,7 +6,7 @@
  function progress(){return count>1?Math.max(0,Math.min(1,current/(count-1))):0;}
  for(const [index,el] of [...document.querySelectorAll('.site-header,.reading-copy')].entries()){
   const svg=document.createElementNS(ns,'svg');svg.classList.add('reader-rule');svg.setAttribute('aria-hidden','true');
-  svg.innerHTML=`<defs><clipPath id="reader-gold-clip-${index}"><rect class="reader-gold-extent" x="0" y="-16" width="0" height="42"/></clipPath></defs><path class="reader-rule-base" stroke="var(--line)" stroke-opacity=".35"/><path class="reader-rule-gold" stroke="var(--gold)" clip-path="url(#reader-gold-clip-${index})"/><path class="reader-rule-corners" stroke="var(--gold)"/>${index===0?'<g class="reader-progress-stitch" visibility="hidden"><path d="M-2.5 -2.2 Q0 -.3 2.5 2.2 M-2.4 2.2 Q.2 .1 2.4 -2.2" stroke="var(--gold)" stroke-width="1.15" stroke-linecap="round"/></g>':''}`;
+  svg.innerHTML=`<defs><clipPath id="reader-gold-clip-${index}"><rect class="reader-gold-extent" x="0" y="-16" width="0" height="42"/></clipPath></defs><path class="reader-rule-base" stroke="var(--line)" stroke-opacity=".35"/><path class="reader-rule-gold" stroke="var(--gold)" clip-path="url(#reader-gold-clip-${index})"/><path class="reader-rule-corners" stroke="var(--gold)"/>${index===0?'<g class="reader-progress-stitch" visibility="hidden"><path d="M-4 -3.6 Q0 -.45 4 3.6 M-3.9 3.6 Q.3 .15 3.9 -3.6" stroke="#d65b27" stroke-width="2.2" stroke-linecap="round"/></g>':''}`;
   (el.matches('.reading-copy')?el.querySelector('summary'):el).append(svg);
   const draw=()=>{
    const w=Math.max(20,el.getBoundingClientRect().width),p=progress();
