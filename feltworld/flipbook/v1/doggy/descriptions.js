@@ -19,4 +19,4 @@ window.FeltPictureDescriptions={
 
 window.FeltPictureDescriptions['00-opening-proof']='The inside front cover is on the left, with a blank warm cream flyleaf on the right.';
 
-window.FeltPictureDescriptions['00-closing-proof']='A blank warm cream flyleaf is on the left, with the inside back cover on the right.';
+window.FeltPictureDescriptions['00-closing-proof']='The warm cream flyleaf on the left reads The End, with a fine loose thread beneath. The inside back cover is on the right.';
