@@ -16,3 +16,7 @@ window.FeltPictureDescriptions={
   "03-manor-welcome": "Lumi, Kitty and Doggy wait outside a tall teapot-shaped home with blue flower patterns. Nomie stands beside its open, warmly lit doorway; snow blankets the steps and garden.",
   "02-manor-interior": "Inside the warm home, Lumi, Jack and Nomie sit together on a sofa with cups. Doggy and Kitty play on the rug with a glowing ball, surrounded by warm lamps and blue-flowered walls."
 };
+
+window.FeltPictureDescriptions['00-opening-proof']='The inside front cover is on the left, with a blank warm cream flyleaf on the right.';
+
+window.FeltPictureDescriptions['00-closing-proof']='A blank warm cream flyleaf is on the left, with the inside back cover on the right.';

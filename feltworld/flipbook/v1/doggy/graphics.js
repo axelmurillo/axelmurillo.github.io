@@ -4,7 +4,7 @@ const fallback=window.FeltPaperTurn,book=document.querySelector('#book'),reduced
 let renderer,contextLost=false;
 try{renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();contextLost=true;});renderer.domElement.addEventListener('webglcontextrestored',()=>{contextLost=false;});}catch{document.documentElement.dataset.pageRenderer='css-fallback';}
 const printedPages=new Map();
-const printKey=(page,w,h)=>w+'|'+h+'|'+page.innerHTML;
+const printKey=(page,w,h)=>w+'|'+h+'|'+((page.classList.contains('closing-flyleaf')||page.classList.contains('opening-flyleaf'))?'opaque-flyleaf|':'')+page.innerHTML;
 async function prepare({host,front,back}) {
  const pages=[front,back];
  await Promise.all(pages.flatMap(page=>[...page.querySelectorAll('img')].map(img=>img.decode())));
@@ -42,7 +42,7 @@ function texture(page,w,h){
 }
 export function rasterPage(page,w,h,bitmap){
  document.documentElement.dataset.printedSnapshot='canvas-print';
- const canvas=document.createElement('canvas');canvas.width=Math.round(w*2);canvas.height=Math.round(h*2);const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.scale(2,2);const img=page.querySelector('img');if(!img?.complete||!img.naturalWidth)throw Error('Illustration is still loading');const art=bitmap??window.decodedArt?.(img.getAttribute('src'))??img;if(img.classList.contains('tree-fill-image')){const sh=img.naturalHeight,sw=sh*1.5,sx=(img.naturalWidth-sw)/2+(img.classList.contains('right')?sw/2:0);ctx.drawImage(art,sx,0,sw/2,sh,0,0,w,h);}else if(getComputedStyle(img).objectFit==='contain'){const scale=Math.min(w/img.naturalWidth,h/img.naturalHeight),iw=img.naturalWidth*scale,ih=img.naturalHeight*scale;ctx.fillStyle='#17191c';ctx.fillRect(0,0,w,h);ctx.drawImage(art,(w-iw)/2,(h-ih)/2,iw,ih);}else ctx.drawImage(art,0,0,w,h);
+ const canvas=document.createElement('canvas');canvas.width=Math.round(w*2);canvas.height=Math.round(h*2);const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.scale(2,2);if((page.classList.contains('closing-flyleaf')||page.classList.contains('opening-flyleaf'))){ctx.fillStyle=getComputedStyle(page).backgroundColor;ctx.fillRect(0,0,w,h);}const img=page.querySelector('img');if(!img?.complete||!img.naturalWidth)throw Error('Illustration is still loading');const art=bitmap??window.decodedArt?.(img.getAttribute('src'))??img;if(img.classList.contains('tree-fill-image')){const sh=img.naturalHeight,sw=sh*1.5,sx=(img.naturalWidth-sw)/2+(img.classList.contains('right')?sw/2:0);ctx.drawImage(art,sx,0,sw/2,sh,0,0,w,h);}else if(getComputedStyle(img).objectFit==='contain'){const scale=Math.min(w/img.naturalWidth,h/img.naturalHeight),iw=img.naturalWidth*scale,ih=img.naturalHeight*scale;ctx.fillStyle='#17191c';ctx.fillRect(0,0,w,h);ctx.drawImage(art,(w-iw)/2,(h-ih)/2,iw,ih);}else ctx.drawImage(art,0,0,w,h);
  // reader.css shades both paper edges. Preserve that existing DOM shading in
  // the print snapshot too, or the moving gutter brightens at the handoff.
  const edges=ctx.createLinearGradient(0,0,w,0);for(const [stop,color] of [[0,'#20160b16'],[.03,'#20160b00'],[.97,'#20160b00'],[1,'#20160b16']])edges.addColorStop(stop,color);ctx.fillStyle=edges;ctx.fillRect(0,0,w,h);
@@ -104,9 +104,10 @@ let bodyRenderer;
 try{bodyRenderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});bodyRenderer.setPixelRatio(Math.min(devicePixelRatio,1.5));bodyRenderer.shadowMap.enabled=true;bodyRenderer.shadowMap.type=THREE.PCFSoftShadowMap;bodyRenderer.domElement.className='three-book-body';bodyRenderer.domElement.setAttribute('aria-hidden','true');book.prepend(bodyRenderer.domElement);document.documentElement.classList.add('three-book-ready');}catch{ /* CSS binding remains available without WebGL. */ }
 // Private material preview: a single cached cloth print, shared by every resize.
 // No cover print/lettering is sampled; only the exposed open binding changes.
-let wornBoardTexture;
-function boardCloth(){
- if(wornBoardTexture)return wornBoardTexture;
+let wornBoardTexture,wornBackBoardTexture;
+function boardCloth(back=false){
+ if(back&&wornBackBoardTexture)return wornBackBoardTexture;
+ if(!back&&wornBoardTexture)return wornBoardTexture;
  const canvas=document.createElement('canvas'),w=768,h=512;canvas.width=w;canvas.height=h;
  const ctx=canvas.getContext('2d'),pixels=ctx.createImageData(w,h),data=pixels.data;
  const noise=(x,y)=>{let n=Math.imul(x+71,374761393)^Math.imul(y+29,668265263);n=Math.imul(n^(n>>>13),1274126177);return ((n^(n>>>16))>>>0)/4294967295;};
@@ -122,13 +123,40 @@ function boardCloth(){
   data[i]=(48+grain)*(1-wear)+(180+grain)*wear;
   data[i+1]=(69+grain)*(1-wear)+(158+grain)*wear;
   data[i+2]=(103+grain)*(1-wear)+(119+grain)*wear;data[i+3]=255;
+  // Mirrored lower binding wear; the approved front-half arithmetic is retained.
+  // UV v=0 is the lower board edge, corresponding to the canvas bottom.
+  if((x<w/2||back)&&y>h-18){
+   const wearX=x<w/2?x:w-1-x,wearNoise=x<w/2?n:noise(wearX,y);
+   const depth=h-1-y,fade=Math.min(1,(w/2-wearX)/14),
+    waviness=Math.sin(wearX*.043)*.7+Math.sin(wearX*.119)*.35,
+    rub=Math.exp(-Math.pow((depth-2.1-waviness)/1.45,2)),
+    patch=.24+.16*Math.sin(wearX*.071)+.13*Math.sin(wearX*.183),
+    amount=Math.max(0,rub*(patch+wearNoise*.21))*fade,
+    crease=Math.exp(-Math.pow((depth-6.2-waviness)/1.65,2))*.29*fade,
+    hinge=Math.exp(-Math.pow((wearX-w/2+17)/9,2))*Math.exp(-depth/9)*.18;
+   for(let c=0;c<3;c++)data[i+c]=(data[i+c]*(1-amount)+[181,158,116][c]*amount)*(1-crease-hinge);
+  }
+  // Pale exposed fibres at both head and foot of the spine, on both halves.
+  // Fixed noise breaks the rubbed area into worn strands without changing alpha.
+  const spineDistance=Math.abs(x-w/2),bottomDepth=Math.min(y,h-1-y),wearY=y<h/2?h-1-y:y;
+  if(spineDistance<60&&bottomDepth<18){
+   const taper=Math.pow(1-spineDistance/60,.65),
+    fringe=3+noise(x,19)*6+Math.sin(x*.63)*1.5,
+    edgeWear=Math.max(0,1-bottomDepth/fringe),
+    strands=noise(Math.floor(x/2),Math.floor(wearY/3)),
+    worn=taper*Math.min(.97,edgeWear*(.78+strands*.24)),
+    fibre=(strands>.73&&bottomDepth<fringe+3)?taper*.36:0,
+    amount=Math.max(worn,fibre);
+   for(let c=0;c<3;c++)data[i+c]=data[i+c]*(1-amount)+[239,229,207][c]*amount;
+  }
  }
- ctx.putImageData(pixels,0,0);wornBoardTexture=new THREE.CanvasTexture(canvas);
- wornBoardTexture.colorSpace=THREE.SRGBColorSpace;
- wornBoardTexture.anisotropy=Math.min(4,bodyRenderer.capabilities.getMaxAnisotropy());
- return wornBoardTexture;
+ ctx.putImageData(pixels,0,0);const texture=new THREE.CanvasTexture(canvas);
+ texture.colorSpace=THREE.SRGBColorSpace;
+ texture.anisotropy=Math.min(4,bodyRenderer.capabilities.getMaxAnisotropy());
+ if(back)wornBackBoardTexture=texture;else wornBoardTexture=texture;
+ return texture;
 }
-function openWornBoard(scene,width,height,resources){
+function openWornBoard(scene,width,height,resources,back=false){
  const w=width+12,h=height+12,x=w/2,y=h/2,r=Math.max(4,Math.min(10,height*.017));
  const outline=new THREE.Shape();
  // Subpixel edge wander and unequal corner radii avoid a die-cut rectangle.
@@ -144,17 +172,36 @@ function openWornBoard(scene,width,height,resources){
  geometry.translate(0,0,-2);
  const positions=geometry.getAttribute('position'),uv=geometry.getAttribute('uv');
  for(let i=0;i<positions.count;i++)uv.setXY(i,(positions.getX(i)+x)/w,(positions.getY(i)+y)/h);
- const material=new THREE.MeshStandardMaterial({map:boardCloth(),color:0xffffff,roughness:1,metalness:0});
+ const material=new THREE.MeshStandardMaterial({map:boardCloth(back),color:0xffffff,roughness:1,metalness:0});
  resources.push(geometry,material);const mesh=new THREE.Mesh(geometry,material);
  mesh.position.set(0,-6,-16);mesh.castShadow=true;scene.add(mesh);
 }
-let bodyResources=[];
-function drawBody(){if(!bodyRenderer)return;bodyResources.forEach(x=>x.dispose());bodyResources=[];const width=book.clientWidth,height=book.clientHeight,pad=48;bodyRenderer.setSize(width+pad*2,height+pad*2);const scene=new THREE.Scene(),camera=new THREE.OrthographicCamera(-(width+pad*2)/2,(width+pad*2)/2,(height+pad*2)/2,-(height+pad*2)/2,1,4000);camera.position.set(0,0,2000);camera.lookAt(0,0,0);scene.add(new THREE.AmbientLight(0xf4f1e7,1.8));const light=new THREE.DirectionalLight(0xffe7c4,1.6);light.position.set(-width*.6,height*.8,1200);light.castShadow=true;light.shadow.mapSize.set(1024,1024);Object.assign(light.shadow.camera,{left:-width,right:width,top:height,bottom:-height,near:1,far:3000});light.shadow.normalBias=.3;scene.add(light);
+let bodyResources=[],paperTurnOpening=null;
+function drawBody(view={}){if(!bodyRenderer)return;bodyResources.forEach(x=>x.dispose());bodyResources=[];const width=view.width??book.clientWidth,height=view.height??book.clientHeight,pad=48;bodyRenderer.setSize(width+pad*2,height+pad*2);const scene=new THREE.Scene(),camera=new THREE.OrthographicCamera(-(width+pad*2)/2,(width+pad*2)/2,(height+pad*2)/2,-(height+pad*2)/2,1,4000);camera.position.set(0,0,2000);camera.lookAt(0,0,0);scene.add(new THREE.AmbientLight(0xf4f1e7,1.8));const light=new THREE.DirectionalLight(0xffe7c4,1.6);light.position.set(-width*.6,height*.8,1200);light.castShadow=true;light.shadow.mapSize.set(1024,1024);Object.assign(light.shadow.camera,{left:-width,right:width,top:height,bottom:-height,near:1,far:3000});light.shadow.normalBias=.3;scene.add(light);
  const board=new THREE.MeshStandardMaterial({roughness:1,color:0x344559}),paper=new THREE.MeshStandardMaterial({color:0xe8dcc6,roughness:1});bodyResources.push(board,paper);
  function box(w,h,d,x,y,z,material){const geometry=new THREE.BoxGeometry(w,h,d);bodyResources.push(geometry);const mesh=new THREE.Mesh(geometry,material);mesh.position.set(x,y,z);scene.add(mesh);return mesh;}
- if(book.classList.contains('cover-mode'))box(width+12,height+12,4,0,-6,-16,board);else openWornBoard(scene,width,height,bodyResources);
- const cover=book.classList.contains('cover-mode');if(cover){box(width-4,height-4,6,2,-3,-7,paper);}else{for(const side of [-1,1])for(let j=0;j<3;j++)box(width/2-2,height-2,1.5,side*width/4,-j*1.6,-j*2-2,paper);}
+ const lining=view.lining??(view.opening?'front':null)??paperTurnOpening??(book.classList.contains('opening-proof')?'front':book.classList.contains('closing-proof')?'back':null);
+ const cover=view.cover??book.classList.contains('cover-mode');
+ if(cover)box(width+12,height+12,4,0,-6,-16,board);else openWornBoard(scene,width,height,bodyResources,lining==='back');
+
+ if(cover){box(width-4,height-4,6,2,-3,-7,paper);}else{for(const side of (lining==='front'?[1]:lining==='back'?[-1]:[-1,1]))for(let j=0;j<3;j++)box(width/2-2,height-2,1.5,side*width/4,-j*1.6,-j*2-2,paper);}
  const floorGeometry=new THREE.PlaneGeometry(width+pad*2,height+pad*2),floorMaterial=new THREE.ShadowMaterial({opacity:.12});bodyResources.push(floorGeometry,floorMaterial);const floor=new THREE.Mesh(floorGeometry,floorMaterial);floor.position.z=-25;floor.receiveShadow=true;scene.add(floor);bodyRenderer.render(scene,camera);}
+// Split one rendered support at the hinge. The left board travels with its reverse;
+// the right support stays beneath the flyleaf. Both match the resting body pixels.
+window.FeltOpeningBacking={paperTurn(opening){if(paperTurnOpening===opening)return;paperTurnOpening=opening;drawBody();},attach(sheet,inner,width,height,front=true){
+ if(!bodyRenderer)return null;
+ drawBody({width,height,cover:false,lining:front?'front':'back'});
+ const canvas=bodyRenderer.domElement,pad=48,ratio=canvas.width/(width+pad*2);
+ const moving=document.createElement('canvas');moving.className='opening-board-support';
+ moving.width=Math.round((width/2+pad)*ratio);moving.height=canvas.height;
+ const sourceX=front?0:Math.round((width/2+pad)*ratio);
+ moving.getContext('2d').drawImage(canvas,sourceX,0,moving.width,moving.height,0,0,moving.width,moving.height);
+ Object.assign(moving.style,{left:(front?-pad:0)+'px',top:-pad+'px',width:(width/2+pad)+'px',height:(height+pad*2)+'px'});
+ inner.classList.add('opening-board-reverse');inner.prepend(moving);
+ canvas.style.clipPath=front?'inset(0 0 0 50%)':'inset(0 50% 0 0)';sheet.prepend(canvas);
+ let restored=false;
+ return ()=>{if(restored)return;restored=true;book.prepend(canvas);canvas.style.clipPath='';moving.remove();};
+}};
 new ResizeObserver(drawBody).observe(book);new MutationObserver(drawBody).observe(document.querySelector('#position'),{childList:true,subtree:true,characterData:true});drawBody();
 
 // Warm the two neighbouring leaves so a drag uses the same print texture as button navigation.
