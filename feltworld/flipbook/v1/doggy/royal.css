@@ -35,3 +35,10 @@ body{overflow-x:clip;min-height:100%;height:auto}
 
 /* Rotate only the existing galaxy groups; keep the original static sky as fallback. */
 @media(prefers-reduced-motion:no-preference){html[data-reader-effects="on"]:has(#effects-settings[aria-pressed="true"]:not(:disabled)){--reader-cosmos-image:url(cosmos-galaxy-motion.svg?v=01ff3df34f8e99)}}
+
+/* Compact the brand/options row above the top rule to 75 percent. */
+.reader-header>.site-header{min-height:55.5px;padding:7.5px 0 10.5px;gap:6px 13.5px}
+.reader-header>.site-header>.fw-brand img.fw-logo{width:165px!important}
+.reader-header>.site-header>.reader-tools>summary svg{width:15px;height:15px}
+@media(max-width:700px){.reader-header>.site-header>.fw-brand img.fw-logo{width:123.75px!important}}
+@media(max-width:650px){.reader-header>.site-header{min-height:51px;padding:4.5px 0 7.5px;gap:1.5px 9px}}
