@@ -75,7 +75,7 @@ img.wide-art{object-fit:contain!important;background:#17191c;}
 <link rel="icon" href="https://axelmurillo.github.io/feltworld/icons/v1/book-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="https://axelmurillo.github.io/feltworld/icons/v1/book.svg" type="image/svg+xml" sizes="any">
 <link rel="apple-touch-icon" href="https://axelmurillo.github.io/feltworld/icons/v1/book-180.png" sizes="180x180">
-<link rel="stylesheet" href="../../../brand/logo.css"><link rel="preload" as="image" crossorigin="anonymous" fetchpriority="high" href="covers/front-cover-volume-i-v1.png?v=dfeb381fd1ac3b"><link rel="stylesheet" href="polish.css?v=f48fcd5c3a0892"><script src="divider.js?v=9cc5b26d8a9726" defer></script><script src="reader-ui.js?v=restored-ui-20261026" defer></script><link rel="stylesheet" href="board-preview.css?v=restored-ui-20261026"><link rel="stylesheet" href="reader-refinement.css?v=restored-ui-20261026"><script src="reader-refinement.js?v=restored-ui-20261026" defer></script><style>/* Private opening proof uses the ordinary spread footprint; no separate binding layer. */
+<link rel="stylesheet" href="../../../brand/logo.css"><link rel="preload" as="image" crossorigin="anonymous" fetchpriority="high" href="covers/front-cover-volume-i-v1.png?v=dfeb381fd1ac3b"><link rel="stylesheet" href="polish.css?v=f48fcd5c3a0892"><script src="divider.js?v=ac6713092a1eda" defer></script><script src="reader-ui.js?v=restored-ui-20261026" defer></script><link rel="stylesheet" href="board-preview.css?v=restored-ui-20261026"><link rel="stylesheet" href="reader-refinement.css?v=restored-ui-20261026"><script src="reader-refinement.js?v=restored-ui-20261026" defer></script><style>/* Private opening proof uses the ordinary spread footprint; no separate binding layer. */
 .reader-story-title{margin:6px 0 0;font:400 20px/1.3 var(--serif);color:var(--muted)}.reader-story-title em{color:var(--gold)}
 .book.opening-proof{background:transparent}
 .book.closing-proof,.book.closing-proof .spread{background:transparent}
@@ -267,7 +267,7 @@ function begin(direction,target=index+direction,grasp=pointer){
  const paper=FeltPaperTurn.create({host:book,direction,anchorY:grasp?.anchorY??.5,underlay,stationary,front:page(index,direction===1?'right':'left'),back:page(target,direction===1?'left':'right')});
  turn={direction,target,paper,leaf:paper.leaf,stationary:paper.stationary,progress:0};const lining=liningSide(index)||liningSide(target);if(lining)window.FeltOpeningBacking?.paperTurn(lining);spread.style.opacity='0';book.classList.add('turning');setProgress(0);return true;
 }
-function setProgress(value){if(!turn)return;turn.progress=Math.max(0,Math.min(1,value));window.dispatchEvent(new CustomEvent("felt-turn",{detail:{progress:turn.progress,direction:turn.direction,start:!turn.dustStarted,boundary:!!turn.boundary}}));turn.dustStarted=true;if(turn.boundary){
+function setProgress(value){if(!turn)return;turn.progress=Math.max(0,Math.min(1,value));window.dispatchEvent(new CustomEvent("felt-turn",{detail:{progress:turn.progress,direction:turn.direction,start:!turn.dustStarted,boundary:!!turn.boundary,fromIndex:index,toIndex:turn.target,count:scenes.length}}));turn.dustStarted=true;if(turn.boundary){
  const p=turn.progress;
  if(turn.panels){turn.panels[0].style.opacity=1-p;turn.panels[1].style.opacity=p;turn.panels[0].style.transform=`rotateY(${-turn.direction*25*p}deg)`;turn.panels[1].style.transform=`rotateY(${turn.direction*25*(1-p)}deg)`;return;}
  const q=turn.opening?p:1-p,s=1;
@@ -285,7 +285,7 @@ function setProgress(value){if(!turn)return;turn.progress=Math.max(0,Math.min(1,
  turn.leaf.style.setProperty('--shade',Math.sin(q*Math.PI)*.65);return;
  }turn.paper.progress(turn.progress,{pullY:pointer?.pullY??turn.pullY??0});}
 function finish(commit){
- if(!turn)return;window.dispatchEvent(new CustomEvent("felt-turn-end"));cancelAnimationFrame(frameId);frameId=0;
+ if(!turn)return;window.dispatchEvent(new CustomEvent("felt-turn-end",{detail:{fromIndex:index,toIndex:turn.target,count:scenes.length,committed:commit}}));cancelAnimationFrame(frameId);frameId=0;
  if(commit)index=turn.target;if(turn.boundary){turn.restoreBacking?.();turn.layer.remove();}else turn.paper.remove();
  turn=null;animating=false;book.classList.remove('dragging','turning','boundary-turn');book.removeAttribute('aria-busy');render();window.FeltOpeningBacking?.paperTurn(null);if(commit)announce();
 }
