@@ -4,6 +4,20 @@ import { setupAtmosphere } from './atmosphere.js?v=restored-ui-20261026';
 const book=document.querySelector('#book'),stage=document.querySelector('.stage'),depth=document.querySelector('#depth-settings'),motion=document.querySelector('#motion-settings'),reduced=matchMedia('(prefers-reduced-motion:reduce)');
 const magic=setupAtmosphere();
 setupInterfaceDust();
+const readingCopy=document.querySelector('.reading-copy');
+const readingSummary=readingCopy.querySelector('summary');
+const captionViewport=matchMedia('(max-width:600px) and (orientation:portrait)');
+let wasPhone=false,desktopReadingOpen=readingCopy.open,phoneReadingChoice=null;
+readingSummary.addEventListener('click',()=>{
+ if(captionViewport.matches)phoneReadingChoice=!readingCopy.open;
+});
+function syncCaptionPresentation(hasWords){
+ const phone=captionViewport.matches;
+ if(phone&&!wasPhone)desktopReadingOpen=readingCopy.open;
+ if(phone)readingCopy.open=phoneReadingChoice??hasWords;
+ else if(wasPhone)readingCopy.open=desktopReadingOpen;
+ wasPhone=phone;
+}
 function sync(){
  const title=document.querySelector('#scene').textContent;
  const words=[...document.querySelectorAll('#spread .story-copy')].map(x=>x.getAttribute('aria-label')||x.textContent).filter(Boolean).join('\n\n');
@@ -12,9 +26,11 @@ function sync(){
  document.querySelector('#story-words-heading').hidden=!hasWords;
  document.querySelector('#reading-summary-label').textContent=hasWords?'Read the story':'About the picture';
  document.querySelector('#picture-description').textContent=document.querySelector('#spread img')?.alt||title;
+ syncCaptionPresentation(hasWords);
  magic.scene(title);
 }
 new MutationObserver(sync).observe(document.querySelector('#spread'),{childList:true,subtree:true,characterData:true});sync();
+captionViewport.addEventListener('change',sync);
 let depthOff=false;try{depthOff=localStorage.getItem('felt-reader-depth-v2')==='off';}catch{}
 let frame=0,x=0,y=0,tx=0,ty=0,inside=false;
 function enabled(){return !depthOff&&!reduced.matches&&motion.getAttribute('aria-pressed')==='true';}

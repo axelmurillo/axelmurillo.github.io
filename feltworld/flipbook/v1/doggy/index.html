@@ -75,7 +75,7 @@ img.wide-art{object-fit:contain!important;background:#17191c;}
 <link rel="icon" href="https://axelmurillo.github.io/feltworld/icons/v1/book-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="https://axelmurillo.github.io/feltworld/icons/v1/book.svg" type="image/svg+xml" sizes="any">
 <link rel="apple-touch-icon" href="https://axelmurillo.github.io/feltworld/icons/v1/book-180.png" sizes="180x180">
-<link rel="stylesheet" href="../../../brand/logo.css"><link rel="preload" as="image" crossorigin="anonymous" fetchpriority="high" href="covers/front-cover-f-flourish-v1.png?v=f-thread-20261027"><link rel="stylesheet" href="polish.css?v=restored-ui-20261026"><script src="divider.js?v=9cc5b26d8a9726" defer></script><script src="reader-ui.js?v=restored-ui-20261026" defer></script><link rel="stylesheet" href="board-preview.css?v=restored-ui-20261026"><link rel="stylesheet" href="reader-refinement.css?v=restored-ui-20261026"><script src="reader-refinement.js?v=restored-ui-20261026" defer></script><style>/* Private opening proof uses the ordinary spread footprint; no separate binding layer. */
+<link rel="stylesheet" href="../../../brand/logo.css"><link rel="preload" as="image" crossorigin="anonymous" fetchpriority="high" href="covers/front-cover-f-flourish-v1.png?v=f-thread-20261027"><link rel="stylesheet" href="polish.css?v=f48fcd5c3a0892"><script src="divider.js?v=9cc5b26d8a9726" defer></script><script src="reader-ui.js?v=restored-ui-20261026" defer></script><link rel="stylesheet" href="board-preview.css?v=restored-ui-20261026"><link rel="stylesheet" href="reader-refinement.css?v=restored-ui-20261026"><script src="reader-refinement.js?v=restored-ui-20261026" defer></script><style>/* Private opening proof uses the ordinary spread footprint; no separate binding layer. */
 .book.opening-proof{background:transparent}
 .book.closing-proof,.book.closing-proof .spread{background:transparent}
 .closing-proof #spread>.page[data-side="right"]:after{box-shadow:inset 0 2px 3px #fff2}
@@ -174,7 +174,8 @@ function page(i,side){
  const copy=copyFor(i,side);
  if(copy.text.trim()){
   const text=document.createElement('div');text.className='story-copy '+copy.style;text.setAttribute('aria-label',copy.text);text.setAttribute('role','group');text.style.setProperty('--copy-top',copy.top+'%');text.style.setProperty('--tape-opacity',copy.tapeOpacity);
-  const width=geometry(false).w,font=Math.max(11,Math.min(34,width*copy.size/100)),available=width*.5*.84-font*2.4;
+  const portrait=matchMedia('(max-width:600px) and (orientation:portrait)').matches;
+  const width=geometry(false).w,font=Math.max(portrait?13:11,Math.min(34,width*copy.size/100)),available=width*.5*.84-font*(portrait?1.3:2.4);
   text.style.fontSize=font+'px';
   measure.font=(copy.style==='tape-hand'?"500 "+font+"px 'Bradley Hand','Segoe Print','Comic Sans MS',cursive":font+"px Georgia,'Times New Roman',serif");
   const lines=[];
@@ -202,7 +203,7 @@ function page(i,side){
    if(overlaps.has(n)){strip.classList.add('overlap');strip.style.setProperty('--tuck',(3+random()*2).toFixed(2)+'px');}
    strip.setAttribute('aria-hidden','true');text.append(strip);
   });
-  const expectedHeight=lines.length*font*2.52+Math.max(0,lines.length-1)*font*.36-overlaps.size*(font*.36+4);
+  const expectedHeight=lines.length*font*(portrait?2:2.52)+Math.max(0,lines.length-1)*font*.36-overlaps.size*(font*.36+4);
   const maxHeight=width/1.5*Math.min(.8,2*Math.min(copy.top,100-copy.top)/100-.04);
   const fit=Math.min(1,maxHeight/Math.max(1,expectedHeight));
   text.style.transform='translateY(-50%) scale('+fit+')';e.append(text);
@@ -383,7 +384,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)interruptTu
 async function openBook(){
  let timeout;try{await Promise.race([loadArt(coverPath(0)),new Promise(resolve=>timeout=setTimeout(resolve,12000))]);}finally{clearTimeout(timeout)}
  if(!canTurn(0)){document.querySelector('#opening-label').textContent='The cover is taking a little longer.';document.querySelector('#opening-progress').removeAttribute('value');const retry=document.createElement('button');retry.textContent='Try again';retry.onclick=()=>{retry.remove();openBook()};document.querySelector('#opening-loader').append(retry);return;}
- document.querySelector('#opening-progress').value=2;render();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));document.body.classList.remove('reader-loading');document.querySelector('#opening-loader').hidden=true;import('./main.js?v=ff2f033b2f3768').catch(error=>console.warn('Optional atmosphere unavailable',error));
+ document.querySelector('#opening-progress').value=2;render();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));document.body.classList.remove('reader-loading');document.querySelector('#opening-loader').hidden=true;import('./main.js?v=c5341f0c61ab1e').catch(error=>console.warn('Optional atmosphere unavailable',error));
 }
 openBook();
 </script>

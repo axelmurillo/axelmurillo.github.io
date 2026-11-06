@@ -31,3 +31,23 @@ html:not(.three-book-ready) .stage:has(.book:not(.cover-mode)){padding-bottom:16
 @media(max-width:650px){.site-header{grid-template-columns:minmax(0,1fr) 44px;gap:2px 12px;padding:6px 0 10px}.site-header .fw-brand{grid-column:1;grid-row:1;justify-self:start}.site-header .reader-tools{grid-column:2;grid-row:1}.site-header nav{grid-column:1/-1;grid-row:2;justify-content:center;width:100%;margin:0}.site-header nav a{font-size:14px;min-height:44px}.reader-tools .tool-menu{position:fixed;top:78px;bottom:auto;left:18px;right:18px;width:auto;max-width:none;max-height:calc(100dvh - 96px)}}
 @media(max-height:550px){.reader-tools .tool-menu{position:fixed;top:12px;bottom:auto;left:18px;right:18px;max-height:calc(100dvh - 24px)}}
 @media(forced-colors:active){.reader-tools>summary{border:1px solid CanvasText}}
+
+/* Portrait phones keep the complete spread and give its lettering more room. */
+@media (max-width:600px) and (orientation:portrait){
+ main{padding-inline:12px}
+ .reader-intro{padding-top:14px}
+ .reader-intro h1{font-size:32px}
+ .stage{height:calc((100vw - 24px)*.666667 + 40px);padding:18px 0 12px}
+ .story-copy .tape-line{padding:.3em .65em}
+ .reading-copy summary{font-size:15px}
+}
+
+/* Phone story words reflow at a comfortable size outside the illustrated pages. */
+@media (max-width:600px) and (orientation:portrait){
+ html{font-size:100%}
+ .reading-panel{font-size:calc(1.25rem * var(--reading-scale,1));line-height:1.6;padding:8px 4px 16px}
+ .reading-panel select{font-size:16px;min-height:44px;height:44px}
+ .reading-panel label{font-size:14px}
+ #story-words-heading{font-size:.7em;margin:1em 0 .5em}
+ #plain-words{max-width:100%;user-select:text;-webkit-user-select:text}
+}
