@@ -259,4 +259,3 @@ document.addEventListener('keydown', event => {
 });
 
 readHash();
-
