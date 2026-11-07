@@ -192,9 +192,6 @@ function showView(index, updateHash = true) {
   byId('view-count').setAttribute('aria-label', `Image ${currentIndex + 1} of ${viewCount}`);
   byId('dialog-title').textContent = view.label;
   byId('enlarge-button').setAttribute('aria-label', `Enlarge ${view.label.toLowerCase()} view of ${characterName}`);
-  byId('original-link').href = src;
-  byId('download-link').href = src;
-  byId('download-link').download = `${jackCasual ? "jack-casual-" : isJack ? "jack-bagless-" : nomieCasting ? "nomie-rainbow-magic-" : isRainbowMagic ? "lumi-rainbow-magic-" : nomieHat ? "nomie-natural-hat-" : isNomie ? "nomie-natural-" : isDressed ? "lumi-hat-scarf-" : isOriginal ? "lumi-original-" : isLumi ? "lumi-plain-" : ""}${view.id}.png`;
   byId('image-status').textContent = '';
 
   loadMain(view);
@@ -227,7 +224,7 @@ mainImage.addEventListener('load', () => { byId('image-status').textContent = ''
 
 byId('enlarge-button').addEventListener('click', () => {
   if (typeof dialog.showModal !== 'function') {
-    window.open(imageURL(views[currentIndex]), '_blank', 'noopener');
+    byId('image-status').textContent = 'This browser cannot open the enlarged view.';
     return;
   }
   setZoom(false);
@@ -263,4 +260,3 @@ document.addEventListener('keydown', event => {
 
 readHash();
 
-if (placeholderCharacter) { byId('original-link').hidden = true; byId('download-link').hidden = true; }
