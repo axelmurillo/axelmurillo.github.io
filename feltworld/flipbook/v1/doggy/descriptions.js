@@ -6,7 +6,7 @@ window.FeltPictureDescriptions={
   "06-tree-fortress-sanctuary": "Inside their warm tree home, blue felt Lumi and black cat Kitty sit together on a cushioned sofa with an open book. A fire glows nearby, and snow and northern lights are visible through the window.",
   "05-tree-fortress-exterior": "Lumi and Kitty sit outside their enormous snow-covered tree home. Warm light shines from its windows, and a glowing star floats above Lumi beneath the colourful evening sky.",
   "08-jack-search": "Jack stands in the snow, holding a curved wooden bow and raising his other hand beside his open mouth. A golden-yellow pendant glows on his chest; a wooden bridge lies behind him beneath dark clouds.",
-  "09-nomie-search-mansion": "Nomie stands on a small bridge beside her brightly lit teapot-shaped home, holding a glowing lantern. Snow covers the blue-flowered buildings and steps, and water cascades beneath the bridge.",
+  "09-nomie-search-mansion": "Nomie cups a hand to call from a snowy stone bridge, holding a glowing lantern. A blue ribbon winds below the bridge, and her teapot-shaped home glows behind her.",
   "07-doggy-alone": "Doggy, a cream-coloured puppy with floppy ears and a green collar, sits alone in the snow beside a broad tree stump. Snowy hills and distant mountains lie beneath a cloudy pink and blue sky.",
   "12-first-small-kindness": "Lumi sits low in the snow facing Doggy, with Kitty close beside him. Doggy stands a short distance away, looking towards Lumi beneath the pink evening sky.",
   "13-lumi-awakening": "Bright light shines between Lumi’s paws, and rainbow-coloured threads curl around his blue wool body. His knitted hat floats above his head beside a glowing golden wireframe crystal, with a snowy valley and sunset behind him.",
