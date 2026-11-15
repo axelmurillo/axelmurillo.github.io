@@ -8,7 +8,6 @@
     "character-book/"
   ],
   "legacy_redirects": {
-    "index.html": "game-2d/",
     "flipbook/index.html": "flipbook/v1/doggy/",
     "character-review/index.html": "character-book/",
     "picture-book.html": "game-2d/picture-book.html",
